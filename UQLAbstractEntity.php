@@ -6,8 +6,14 @@ class UQLAbstractEntity {
 	private $fields;
 	private $fields_count;
 
-	public function __construct($entity_name, $database_handle) {
+	public function __construct() {
 
+		$this -> entity_name = null;
+		$this -> fields = null;
+		$this -> fields_count = 0;
+	}
+
+	public function setEntityName($entity_name, $database_handle) {
 		if (($database_handle instanceof UQLConnection)) {
 			$this -> entity_name = $entity_name;
 			$local_string_query = sprintf("SHOW COLUMNS FROM `%s`", $this -> entity_name);
@@ -25,15 +31,36 @@ class UQLAbstractEntity {
 					$this -> fields[$local_field -> name] = $local_field;
 					$local_i++;
 				}
+
+				@mysql_free_result($local_fields_list);
+			} else {
+				die(mysql_error($database_handle -> getDatabaseHandle()));
 			}
-			else{
-				die(mysql_error($database_handle->getDatabaseHandle()));
-			}
-		} else {
-			$this -> entity_name = null;
-			$this -> fields = null;
-			$this -> fields_count = 0;
 		}
+	}
+
+	public function getEntityName() {
+		return $this -> entity_name;
+	}
+
+	public function getFieldObject($name) {
+		if (($this -> fields != null) && (array_key_exists($name, $this -> fields)))
+			return $this -> fields[$name];
+		return null;
+	}
+
+	public function getAllFieldsObject() {
+		return $this -> fields;
+	}
+
+	public function getFieldsCount() {
+		return $this -> fields_count;
+	}
+
+	public function __destruct() {
+		$this -> entity_name = null;
+		$this -> fields = null;
+		$this -> fields_count = 0;
 	}
 
 }
