@@ -43,13 +43,18 @@ class UQLAbstractEntity {
 		return $this -> entity_name;
 	}
 
+    public function isFieldExist($name)
+	{
+		return (($this -> fields != null) && (array_key_exists($name, $this -> fields)));
+	}
+	
 	public function getFieldObject($name) {
-		if (($this -> fields != null) && (array_key_exists($name, $this -> fields)))
+		if ($this->isFieldExist($name))
 			return $this -> fields[$name];
 		return null;
 	}
 
-	public function getAllFieldsObject() {
+	public function getAllFields() {
 		return $this -> fields;
 	}
 
