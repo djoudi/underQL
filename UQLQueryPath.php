@@ -10,6 +10,9 @@ class UQLQueryPath{
 
 
 /*
+ 
+
+$_->template->.. 
 $_('pages_list','pages');
 $_->query('xyz','....');
 $_->output->pages_list;

@@ -37,15 +37,15 @@ class UQLQuery {
 	public function getCurrentQueryFields() {
 		if (!$this -> query_result)
 			return null;
-		
-		$local_fields_count = @mysql_num_fields($this->query_result);
-		if($local_fields_count == 0)
-		    return null;
-		
-		for($local_i = 0; $local_i < $local_fields_count; $local_i++)
-		    $this->current_query_fields[$local_i] = mysql_field_name($this->query_result,$local_i);
-		
-		return $this->current_query_fields; 
+
+		$local_fields_count = @mysql_num_fields($this -> query_result);
+		if ($local_fields_count == 0)
+			return null;
+
+		for ($local_i = 0; $local_i < $local_fields_count; $local_i++)
+			$this -> current_query_fields[$local_i] = mysql_field_name($this -> query_result, $local_i);
+
+		return $this -> current_query_fields;
 	}
 
 	public function fetchRow() {
@@ -69,36 +69,33 @@ class UQLQuery {
 	}
 
 	public function getAffectedRows() {
-		if (($this -> database_handle instanceof UQLConnection) && ($this->query_result))
+		if (($this -> database_handle instanceof UQLConnection) && ($this -> query_result))
 			return mysql_affected_rows($this -> database_handle);
 
 		return 0;
 	}
-	
-	public function getLastInsertedID()
-	{
-		if (($this -> database_handle instanceof UQLConnection) && ($this->query_result))
+
+	public function getLastInsertedID() {
+		if (($this -> database_handle instanceof UQLConnection) && ($this -> query_result))
 			return mysql_insert_id($this -> database_handle);
-		
+
 		return 0;
 	}
-	
-	public function freeResult()
-	{
-		if($this->query_result)
-		@mysql_free_result($this->query_result);
-		
-		$this->current_row_object = null;
-		$this->query_result = null;
-		$this->current_query_fields = array();
+
+	public function freeResult() {
+		if ($this -> query_result)
+			@mysql_free_result($this -> query_result);
+
+		$this -> current_row_object = null;
+		$this -> query_result = null;
+		$this -> current_query_fields = array();
 	}
-	
-	public function __destruct()
-	{
-		$this->query_result = null;
-		$this->current_query_fields = null;
-		$this->current_row_object = null;
-		$this->database_handle = null;
+
+	public function __destruct() {
+		$this -> query_result = null;
+		$this -> current_query_fields = null;
+		$this -> current_row_object = null;
+		$this -> database_handle = null;
 	}
 
 }
