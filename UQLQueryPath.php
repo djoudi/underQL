@@ -9,7 +9,7 @@ class UQLQueryPath{
 }
 
 
-
+/*
 $_('pages_list','pages');
 $_->query('xyz','....');
 $_->output->pages_list;
@@ -33,5 +33,5 @@ $_->input;
 $_->output;
 $_->trash;
 
-$_->query('SELECT COUNT(id) AS cid FROM `student`');
+$_->query('SELECT COUNT(id) AS cid FROM `student`');*/
 ?>
