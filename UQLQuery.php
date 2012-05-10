@@ -56,6 +56,14 @@ class UQLQuery {
 
 		return false;
 	}
+	
+	public function resetResult()
+	{
+		if($this->query_result)
+		 return mysql_data_seek($this->query_result,0);
+		
+		return false;
+	}
 
 	public function getCurrentRow() {
 		return $this -> current_row_object;

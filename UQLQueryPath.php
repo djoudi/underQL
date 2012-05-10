@@ -1,40 +1,21 @@
 <?php
 
 class UQLQueryPath{
-	
-	public $query_result;
-	public $current_result_object;
-	public $cureent_query_fields;
-	
+
+ private $abstract_entity;
+ private $query;
+ private $columns_buffer;
 }
 
+$_('student','student');
 
-/*
- 
+$sinfo = $_->path->student;
 
-$_->template->.. 
-$_('pages_list','pages');
-$_->query('xyz','....');
-$_->output->pages_list;
+$sinfo->id;
+$sinfo->name;
 
-$row = $_->input->newTo('student');
-$row->id = 10;
-$row->name = "Abdullah";
-$row->saveIt();
+ UQLQueryPath $path = new UQLQueryPath('student',$db_handle);
 
-$row = $_->input->modifyThe('pages');
-$row->id = 10;
-$row->name = "Ali";
-$row->whereID(10);
-$row->modifyIt();
+ $path->
 
-$_->trash->deleteAll('student');
-$_->trash->deleteById('student',10,'sid');
-$_->trash->deleteWhere('student','WHERE HERE');
-
-$_->input;
-$_->output;
-$_->trash;
-
-$_->query('SELECT COUNT(id) AS cid FROM `student`');*/
 ?>
