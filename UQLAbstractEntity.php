@@ -13,7 +13,7 @@ class UQLAbstractEntity {
 		$this -> fields_count = 0;
 	}
 
-	public function setEntityName($entity_name, $database_handle) {
+	public function setEntityName($entity_name, &$database_handle) {
 		if (($database_handle instanceof UQLConnection)) {
 			$this -> entity_name = $entity_name;
 			$local_string_query = sprintf("SHOW COLUMNS FROM `%s`", $this -> entity_name);
