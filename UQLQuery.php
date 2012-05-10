@@ -7,7 +7,7 @@ class UQLQuery {
 	private $current_row_object;
 	private $current_query_fields;
 
-	public function __construct($database_handle) {
+	public function __construct(&$database_handle) {
 		$this -> database_handle = (($database_handle instanceof UQLConnection) ? $database_handle : null);
 		$this -> query_result = null;
 		$this -> current_row_object = null;

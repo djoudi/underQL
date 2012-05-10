@@ -2,20 +2,10 @@
 
 class UQLQueryPath{
 
- private $abstract_entity;
+ private $abstract_entity;// reference to the abstract table's data
  private $query;
- private $columns_buffer;
+ private $columns_buffer; // used by __get to save undefined attributes.
+ 
 }
-
-$_('student','student');
-
-$sinfo = $_->path->student;
-
-$sinfo->id;
-$sinfo->name;
-
- UQLQueryPath $path = new UQLQueryPath('student',$db_handle);
-
- $path->
 
 ?>
