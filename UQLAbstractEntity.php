@@ -6,11 +6,13 @@ class UQLAbstractEntity {
 	private $fields;
 	private $fields_count;
 
-	public function __construct() {
+	public function __construct($entity_name,&$database_handle) {
 
 		$this -> entity_name = null;
 		$this -> fields = null;
 		$this -> fields_count = 0;
+		
+		$this->setEntityName($entity_name, $database_handle);
 	}
 
 	public function setEntityName($entity_name, &$database_handle) {
