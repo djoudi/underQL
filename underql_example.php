@@ -11,15 +11,7 @@ $a = new UQLAbstractEntity('demo',$c);
 
 $path = new UQLQueryPath($c,$a);
 
-$path("cms.files.toXML");
+$path->plugin->toXML()
 
-
-$path->executeQuery('SELECT * FROM `demo`');
-
-echo $path->id;
-echo '<br />';
-echo $path->text;
-
-$path->getNext();
 
 ?>
