@@ -14,6 +14,7 @@ class UQLQueryPath {
 
 		$this -> query_object = new UQLQuery($database_handle);
 		//$this -> columns_buffer = new UQLMap();
+		//$this -> plugin = new UQLPlugin($this);
 	}
 
 	public function executeQuery($query) {
@@ -33,10 +34,20 @@ class UQLQueryPath {
 		return $this->query_object->getCount();
 	}
 
+    public function getQueryObject()
+	{
+		return $this->query_object;
+	}
+	
+	public function getAbstractEntity()
+	{
+		return $this->abstract_entity;
+	}
+	
 	public function __get($key) {
 		
 		if (!$this -> abstract_entity -> isFieldExist($key))
-			return "Unknown";
+			return "Unknown field [$key]";
 
 		$local_current_query_fields = $this -> query_object -> getCurrentQueryFields();
 		if ($local_current_query_fields == null)
@@ -59,6 +70,7 @@ class UQLQueryPath {
 	{
 		$this->abstract_entity = null;
 		$this->query_object = null;
+		//$this->plugin = null;
 	}
 
 }

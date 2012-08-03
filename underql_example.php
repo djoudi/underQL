@@ -13,5 +13,9 @@ $path = new UQLQueryPath($c,$a);
 
 $path->plugin->toXML()
 
-
+function UQLPlugin_toXML(/*UQLQueryPath*/object)
+{
+	
+}
+//UQLEnvironment // to link all data that releated to different classes // singlton
 ?>
