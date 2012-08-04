@@ -11,9 +11,9 @@ $a = new UQLAbstractEntity('demo',$c);
 
 $path = new UQLQueryPath($c,$a);
 
-$path->plugin->toXML()
+$path->plugin->toXML();
 
-function UQLPlugin_toXML(/*UQLQueryPath*/object)
+function UQLPlugin_toXML(/*UQLQueryPath*/$object)
 {
 	
 }
