@@ -3,15 +3,6 @@
 define('UQL_FILTER_IN', 0xA);
 define('UQL_FILTER_OUT',0xB);
 
-
-function uql_filter_sql_injection($name,$value,$params = null,&$result = null) {}
-
-//$the_students_filter = new UQLFilter("students");
-//$the_students_filter->name(UQL_FILTER_IN,"sql_injection");
-//$the_students_filter->name(UQL_FILTER_IN | UQL_FILTER_OUT,"xss");
-//$the_students_filter->name(UQL_FILTER_OUT,"read_data","%s.php");
-
-
 class UQLFilter{
 	
 	private $entity_name;
@@ -62,6 +53,14 @@ class UQLFilter{
 		$this->filters_map = null;
 	}
 }
+
+
+//function uql_filter_sql_injection($name,$value,$params = null,&$result = null) {}
+
+//$the_students_filter = new UQLFilter("students");
+//$the_students_filter->name(UQL_FILTER_IN,"sql_injection");
+//$the_students_filter->name(UQL_FILTER_IN | UQL_FILTER_OUT,"xss");
+//$the_students_filter->name(UQL_FILTER_OUT,"read_data","%s.php");
 
 
 ?>
