@@ -31,6 +31,11 @@ class UQLRule{
 			$this->rules_map->addElement($field, $local_rule);
 	}
 	
+	public function getRulesByFieldName($field_name)
+	{
+		return $this->rules_map->findElement($field_name);
+	}
+	
 	public function addAlias($key, $value)
 	{
 		$this->alises_map->addElement($key, $value);
