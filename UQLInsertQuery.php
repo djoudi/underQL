@@ -13,7 +13,7 @@ class UQLInsertQuery{
 		
 			$this->query = new UQLQuery($database_handle);
 			$this->abstract_entity = $abstract_entity;
-			$this->fields_map = new UQLMap();
+			$this->values_map = new UQLMap();
 			
 	}
 	
