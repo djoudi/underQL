@@ -30,6 +30,11 @@ class UQLMap {
 
 		return false;
 	}
+	
+	public function getCount()
+	{
+		return count($this->map_list);
+	}
 
 	public function removeElement($key) {
 
