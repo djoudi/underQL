@@ -24,11 +24,18 @@ $users = new UQLEntity('users');
 
 $users->id =10;
 $users->name = "Eid Almehmadi";
+
 $users->save();
 $users->modify(10);
+
+
+$users->modifyWhere();
 $users('*','id = 10');
-$users->select('*','WHERE id = 10');
+$users->select('*',10);
+$users->selectWhere('*',);
+$users->query();
 $users->remove(1);
+$users->removeWhere();
 
 
 
