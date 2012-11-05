@@ -8,6 +8,7 @@ require_once('UQLMap.php');
 require_once('UQLInsertQuery.php');
 require_once('UQLUpdateQuery.php');
 
+
 $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();
 $a = new UQLAbstractEntity('users',$c);
