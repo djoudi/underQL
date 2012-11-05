@@ -43,7 +43,7 @@ class UQLInsertQuery{
 	  if($values_count == 0)
 	   return "";
 	   
-	   $insert_query = 'INSERT ';
+	   $insert_query = 'INSERT INTO `'.$this->abstract_entity->getEntityName().'` (';
 	   
 	   $fields = '';
 	   $values = 'VALUES(';
@@ -54,7 +54,7 @@ class UQLInsertQuery{
 	   foreach($all_values as $key => $value)
 	   {
 	     $fields .= "`$key`";
-	     $filed_object = $this->abstract_entitiy->getFieldObject($key);
+	     $field_object = $this->abstract_entity->getFieldObject($key);
 	     if($field_object->numeric)
 	      $values .= $value;
 	     else // string quote
@@ -62,7 +62,7 @@ class UQLInsertQuery{
 	     
 	     $comma++;
 	     
-	     if((comma + 1) < $this->values_count)
+	     if(($comma) < $values_count)
 	      {
 	        $fields .= ',';
 	        $values .= ',';
@@ -70,11 +70,12 @@ class UQLInsertQuery{
 	   }
 	   
 	   $values .= ')';
+	   
+	   $insert_query .= $fields.') '.$values;
+	   print('<pre>'.$insert_query.'</pre>');
+	return $insert_query;
 	}
 	
-	$insert_query .= $fields.' INTO `'.$this->abstract_entity->getEntityName().'` '.$values;
-	return $insert_query;
-}
 
 public function insert($clear_values = true)
 {
@@ -90,5 +91,5 @@ public function insert($clear_values = true)
    return $this->query->executeQuery($query);
 }
 
-
+}
 ?>

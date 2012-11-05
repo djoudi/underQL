@@ -28,6 +28,8 @@ class UQLConnection {
 			return false;
 		}
 
+        $this->setDatabaseName($this->database_name);
+        
 		$local_charset_query = sprintf("SET NAMES '%s'", $this -> operations_charset);
 		mysql_query($local_charset_query);
 		return $this -> connection_handle;

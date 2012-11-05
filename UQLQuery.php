@@ -24,7 +24,7 @@ class UQLQuery {
 
 	public function executeQuery($query) {
 		if ($this -> database_handle instanceof UQLConnection) {
-			$this -> query_result = mysql_query($query, $this -> database_handle);
+			$this -> query_result = mysql_query($query /*,$this -> database_handle*/);
 			if (!$this -> query_result)
 				return false;
 

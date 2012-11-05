@@ -19,7 +19,7 @@ class UQLAbstractEntity {
 		if (($database_handle instanceof UQLConnection)) {
 			$this -> entity_name = $entity_name;
 			$local_string_query = sprintf("SHOW COLUMNS FROM `%s`", $this -> entity_name);
-			$local_query_result = mysql_query($local_string_query, $database_handle -> getDatabaseHandle());
+			$local_query_result = mysql_query($local_string_query/*, $database_handle -> getConnectionHandle()*/);
 			if ($local_query_result) {
 				$this -> fields_count = mysql_num_rows($local_query_result);
 				@mysql_free_result($local_query_result);
@@ -36,7 +36,7 @@ class UQLAbstractEntity {
 
 				@mysql_free_result($local_fields_list);
 			} else {
-				die(mysql_error($database_handle -> getDatabaseHandle()));
+				die(mysql_error(/*$database_handle -> getConnectionHandle()*/));
 			}
 		}
 	}
