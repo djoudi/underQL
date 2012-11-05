@@ -10,7 +10,7 @@ require_once('UQLInsertQuery.php');
 $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();
 $a = new UQLAbstractEntity('users',$c);
-
+$path = new UQLQueryPath($c,$a);
 $add = new UQLInsertQuery($c,$a);
 
 $add->id = 500;
@@ -18,13 +18,19 @@ $add->name = 'underQL';
 $add->password = 'LQrednu';
 $add->email = 'abdullaheid@underql.com';
 
-echo $add->insert();
+//echo $add->insert();
 
-echo '<pre>';
-var_dump($a);
-echo '</pre>';
+$path->executeQuery('SELECT * FROM `users`');
 
-//$path = new UQLQueryPath($c,$a);
+echo $path->email;
+
+$path->getNext();
+echo '<br />';
+
+echo $path->email;
+
+
+
 
 //$path->plugin->toXML();
 
