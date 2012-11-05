@@ -5,6 +5,7 @@ define('UQL_FILTER_OUT',0xC);
 
 //%s represents the table name
 define ('UQL_FILTER_OBJECT_SYNTAX','the_%s_filter');
+define ('UQL_FILTER_FUNCTION_NAME','ufilter_%s');
 
 class UQLFilter{
 	
@@ -20,7 +21,8 @@ class UQLFilter{
 	public function __call($function_name,$parameters)
 	{
 		$local_params_count = count($parameters);
-		if($local_params_count < 2 /*filter_type (in | out) and filter_name [AT LEAST]*/) return;
+		if($local_params_count < 2 /*filter_type (in | out) and filter_name [AT LEAST]*/)
+		 die('The filter must have 2 parameters at least');
 		
 		$this->addFilter($function_name, $parameters);
 	}
@@ -59,7 +61,7 @@ class UQLFilter{
 
 
 //$the_students_filter = new UQLFilter("students");
-//$the_students_filter->name(UQL_FILTER_IN,"sql_injection");
+//$the_students_filter->name("sql_injection",UQL_FILTER_IN);
 //$the_students_filter->name(UQL_FILTER_IN | UQL_FILTER_OUT,"xss");
 //$the_students_filter->name(UQL_FILTER_OUT,"php","demo.php");
 
