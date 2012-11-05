@@ -7,8 +7,7 @@ require_once('UQLQueryPath.php');
 require_once('UQLMap.php');
 require_once('UQLFilter.php');
 require_once('UQLFilterEngine.php');
-require_once('UQLInsertQuery.php');
-require_once('UQLUpdateQuery.php');
+require_once('UQLChangeQuery.php');
 require_once('UQLDeleteQuery.php');
 
 

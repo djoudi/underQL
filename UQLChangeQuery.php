@@ -77,7 +77,7 @@ class UQLChangeQuery{
 	}
 	
 
-public function insert()
+public function save()
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
@@ -140,7 +140,7 @@ protected function formatUpdateQuery($extra = '')
 }
 	
 
-public function update($extra ='')
+public function modify($extra ='')
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
@@ -166,7 +166,7 @@ public function update($extra ='')
    return $this->query->executeQuery($query);
 }
 
-public function updateWhereID($id,$id_name = 'id')
+public function modifyWhereID($id,$id_name = 'id')
 {
   return $this->update("WHERE `$id_name` = $id");
 }
