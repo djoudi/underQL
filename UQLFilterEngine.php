@@ -2,13 +2,11 @@
 
 class UQLFilterEngine
 {
-  private $abstract_entity;
   private $filter_object;
   private $values_map; //current inserted | updated $key => $value pairs
   
-  public function __construct(&$abstract_entity,&$filter_object,&$values_map)
+  public function __construct(&$filter_object,&$values_map)
   {
-     $this->abstract_entity = $abstract_entity;
      $this->filter_object = $filter_object;
      $this->values_map = $values_map;
   }
@@ -44,7 +42,16 @@ class UQLFilterEngine
      if(!$this->values_map || $this->values_map->getCount() == 0)
       return null;
       
-    
+      foreach($this->values_map as $name => $value)
+        $this->values_map->addElement($name,$this->applyFilter($value));
+      
+      return $this->values_map;
+  }
+  
+  public function __destruct()
+  {
+    $this->values_map = null;
+    $this->filter_object = null;
   }
 }
 
