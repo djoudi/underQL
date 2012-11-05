@@ -19,7 +19,26 @@ $path = new UQLQueryPath($c,$a);
 $add = new UQLUpdateQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
+$users = new UQLEntity('users');
 
+
+$users->id =10;
+$users->name = "Eid Almehmadi";
+$users->save();
+$users->modify(10);
+$users('*','id = 10');
+$users->select('*','WHERE id = 10');
+$users->remove(1);
+
+
+
+$result = $users->selectWhereID(10);
+$users('*','id = 10');
+
+
+echo $result->name;
+$result->getNext();
+echo $result->name;
 
 $the_users_filter = new UQLFilter($a->getEntityName());
 

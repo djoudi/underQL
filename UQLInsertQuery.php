@@ -77,7 +77,7 @@ class UQLInsertQuery{
 	}
 	
 
-public function insert($clear_values = true)
+public function insert()
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
@@ -98,7 +98,7 @@ public function insert($clear_values = true)
   
   $query = $this->formatInsertQuery();
   	
-  if($clear_values)
+   // clear values
    $this->values_map = new UQLMap();
   
    return $this->query->executeQuery($query);

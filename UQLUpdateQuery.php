@@ -73,7 +73,7 @@ class UQLUpdateQuery{
 }
 	
 
-public function update($extra ='',$clear_values = true)
+public function update($extra ='')
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
@@ -93,7 +93,7 @@ public function update($extra ='',$clear_values = true)
     }
   $query = $this->formatUpdateQuery($extra);
   	
-  if($clear_values)
+   //clear values
    $this->values_map = new UQLMap();
   
    return $this->query->executeQuery($query);
