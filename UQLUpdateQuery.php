@@ -69,7 +69,6 @@ class UQLUpdateQuery{
 	   
 	   $update_query .= $fields.' '.$extra;
 	   
-	   print('<pre>'.$update_query.'</pre>');
 	return $update_query;
 }
 	
@@ -80,6 +79,18 @@ public function update($extra ='',$clear_values = true)
   if($values_count == 0)
 	return false;
 
+  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
+  //echo $filter_object_name;
+  if(isset($GLOBALS[$filter_object_name]))
+   $filter_object = $GLOBALS[$filter_object_name];
+  else
+   $filter_object = null;
+   
+   if($filter_object != null)
+    {
+      $fengine = new UQLFilterEngine($filter_object,$this->values_map);
+      $this->values_map = $fengine->runEngine();
+    }
   $query = $this->formatUpdateQuery($extra);
   	
   if($clear_values)
@@ -87,6 +98,12 @@ public function update($extra ='',$clear_values = true)
   
    return $this->query->executeQuery($query);
 }
+
+public function updateWhereID($id,$id_name = 'id')
+{
+  return $this->update("WHERE `$id_name` = $id");
+}
+
 
 }
 ?>

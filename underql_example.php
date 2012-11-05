@@ -16,7 +16,7 @@ $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();
 $a = new UQLAbstractEntity('users',$c);
 $path = new UQLQueryPath($c,$a);
-$add = new UQLInsertQuery($c,$a);
+$add = new UQLUpdateQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
 
@@ -27,7 +27,7 @@ $the_users_filter->name('xss',UQL_FILTER_IN);
 $the_users_filter->name('zebra',UQL_FILTER_OUT);
 $the_users_filter->email('email',UQL_FILTER_IN);
 
-$add->name = "Welcome";
+$add->name = "7Up";
 $add->email = "cs.abdullah@hotmail.com";
 
 function ufilter_xss($name,$value,$in_out,$params = null)
@@ -44,7 +44,7 @@ function ufilter_email($name,$value,$in_out,$params = null)
   return "(@$value@)";
 }
 
-$add->insert();
+$add->updateWhereID(504);
 
 
 //$path->plugin->toXML();
