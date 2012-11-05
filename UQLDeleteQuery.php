@@ -19,12 +19,10 @@ class UQLDeleteQuery{
 protected function formatDeleteQuery($extra = null)
 {
 
-	   $delete_query = 'DELETE FROM `'.$this->abstract_entity->getEntityName();	
+	   $delete_query = 'DELETE FROM `'.$this->abstract_entity->getEntityName().'`';	
 	   if($extra != null)   
-	     $delete_query .= $fields.' WHERE '.$extra;	    
-	   else
-	     $delete_query .= $fields;
-	     
+	     $delete_query .= ' WHERE '.$extra;	    
+	   
 	   return $delete_query;
 }
 	
@@ -32,12 +30,13 @@ protected function formatDeleteQuery($extra = null)
 public function delete($extra ='')
 {
   $query = $this->formatDeleteQuery($extra);
+  print('<pre>'.$query.'</pre>');
   return $this->query->executeQuery($query);
 }
 
 public function deleteWhereID($id,$id_name = 'id')
 {
-  return $this->delete("WHERE `$id_name` = $id");
+  return $this->delete("`$id_name` = $id");
 }
 
 }
