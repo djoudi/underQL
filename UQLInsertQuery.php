@@ -37,7 +37,7 @@ class UQLInsertQuery{
 	  
 	}
 	
-	private function formatInsertQuery()
+	protected function formatInsertQuery()
 	{
 	  $values_count = $this->values_map->getCount();
 	  if($values_count == 0)
@@ -74,6 +74,20 @@ class UQLInsertQuery{
 	
 	$insert_query .= $fields.' INTO `'.$this->abstract_entity->getEntityName().'` '.$values;
 	return $insert_query;
+}
+
+public function insert($clear_values = true)
+{
+  $values_count = $this->values_map->getCount();
+  if($values_count == 0)
+	return false;
+
+  $query = $this->formatInsertQuery();
+  	
+  if($clear_values)
+   $this->values_map = new UQLMap();
+  
+   return $this->query->executeQuery($query);
 }
 
 
