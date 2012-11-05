@@ -3,6 +3,9 @@
 define('UQL_FILTER_IN', 0xA);
 define('UQL_FILTER_OUT',0xC);
 
+//%s represents the table name
+define ('UQL_FILTER_OBJECT_SYNTAX','the_%s_filter');
+
 class UQLFilter{
 	
 	private $entity_name;

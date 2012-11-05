@@ -26,12 +26,15 @@ $f->name(UQL_FILTER_OUT,'xss');
 $f->email(UQL_FILTER_IN,'is_email');
 $f->password(UQL_FILTER_IN | UQL_FILTER_OUT,'php','<?php echo "WELCOME"; ?>');
 
-echo '<pre>';
-var_dump($f);
-echo '</pre>';
+//echo '<pre>';
+//var_dump($f);
+//echo '</pre>';
 
-//$d->deleteWhereID(500);
+$v = 10;
 
+${sprintf(UQL_FILTER_OBJECT_SYNTAX,'users')} = 10;
+
+echo $the_users_filter;
 //$path->plugin->toXML();
 
 //function UQLPlugin_toXML(/*UQLQueryPath*/$object)
