@@ -21,11 +21,11 @@ $d = new UQLDeleteQuery($c,$a);
 
 
 
-$f = new UQLFilter($a->getEntityName());
+$the_users_filter = new UQLFilter($a->getEntityName());
 
-$f->name('xss',UQL_FILTER_IN);
-$f->name('zebra',UQL_FILTER_OUT);
-$f->email('email',UQL_FILTER_IN);
+$the_users_filter->name('xss',UQL_FILTER_IN);
+$the_users_filter->name('zebra',UQL_FILTER_OUT);
+$the_users_filter->email('email',UQL_FILTER_IN);
 
 $add->name = "Welcome";
 $add->email = "cs.abdullah@hotmail.com";
@@ -44,11 +44,8 @@ function ufilter_email($name,$value,$in_out,$params = null)
   return "(@$value@)";
 }
 
-$e = new UQLFilterEngine($f,$add->values_map);
+$add->insert();
 
-echo '<pre>';
-var_dump($e->runEngine());
-echo '</pre>';
 
 //$path->plugin->toXML();
 
