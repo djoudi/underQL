@@ -37,6 +37,43 @@ class UQLInsertQuery{
 	  
 	}
 	
+	private function formatInsertQuery()
+	{
+	  $values_count = $this->values_map->getCount();
+	  if($values_count == 0)
+	   return "";
+	   
+	   $insert_query = 'INSERT ';
+	   
+	   $fields = '';
+	   $values = 'VALUES(';
+	   
+	   $all_values = $this->values_map->getMap();
+	   $comma = 0; // for last comma in a string
+	   
+	   foreach($all_values as $key => $value)
+	   {
+	     $fields .= "`$key`";
+	     $filed_object = $this->abstract_entitiy->getFieldObject($key);
+	     if($field_object->numeric)
+	      $values .= $value;
+	     else // string quote
+	      $values .= "'$value'";
+	     
+	     $comma++;
+	     
+	     if((comma + 1) < $this->values_count)
+	      {
+	        $fields .= ',';
+	        $values .= ',';
+	      }
+	   }
+	   
+	   $values .= ')';
+	}
+	
+	$insert_query .= $fields.' INTO `'.$this->abstract_entity->getEntityName().'` '.$values;
+	return $insert_query;
 }
 
 

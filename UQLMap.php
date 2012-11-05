@@ -53,6 +53,11 @@ class UQLMap {
 			return array_map($callback, $this -> map_list);
 	}
 
+    public function getMap()
+    {
+       return $this->map_list;
+    }
+    
 	public function __destruct() {
 		
 		$this -> map_list = null;
