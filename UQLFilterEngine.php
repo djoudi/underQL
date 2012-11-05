@@ -14,14 +14,19 @@ class UQLFilterEngine
   protected function applyFilter($field_name,$value)
   {
      $filters = $this->filter_object->getFiltersByFieldName($field_name);
+     
      if($filters == null)
       return $value;
       
       $tmp_value = $value;
       
-      foreach ($filters as $key => $params)
+      foreach ($filters->getMap() as $key => $params)
       {
         $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);
+        
+        if(!function_exists($filter_api_function))
+         return $tmp_value;
+         
         if(@count($params) == 2) // the filter has no parameter(s)
          $tmp_value = $filter_api_function($field_name,$tmp_value,$params[1]);
         else
@@ -42,9 +47,12 @@ class UQLFilterEngine
      if(!$this->values_map || $this->values_map->getCount() == 0)
       return null;
       
-      foreach($this->values_map as $name => $value)
-        $this->values_map->addElement($name,$this->applyFilter($value));
-      
+     
+      foreach($this->values_map->getMap() as $name => $value)
+        {
+         // echo $this->applyFilter($name,$value).'<br />';
+          $this->values_map->addElement($name,$this->applyFilter($name,$value));
+        }
       return $this->values_map;
   }
   

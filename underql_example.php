@@ -6,6 +6,7 @@ require_once('UQLQuery.php');
 require_once('UQLQueryPath.php');
 require_once('UQLMap.php');
 require_once('UQLFilter.php');
+require_once('UQLFilterEngine.php');
 require_once('UQLInsertQuery.php');
 require_once('UQLUpdateQuery.php');
 require_once('UQLDeleteQuery.php');
@@ -15,26 +16,40 @@ $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();
 $a = new UQLAbstractEntity('users',$c);
 $path = new UQLQueryPath($c,$a);
-$add = new UQLUpdateQuery($c,$a);
+$add = new UQLInsertQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
+
 
 
 $f = new UQLFilter($a->getEntityName());
 
-$f->name(UQL_FILTER_IN,'xss');
-$f->name(UQL_FILTER_OUT,'xss');
-$f->email(UQL_FILTER_IN,'is_email');
-$f->password(UQL_FILTER_IN | UQL_FILTER_OUT,'php','<?php echo "WELCOME"; ?>');
+$f->name('xss',UQL_FILTER_IN);
+$f->name('zebra',UQL_FILTER_OUT);
+$f->email('email',UQL_FILTER_IN);
 
-//echo '<pre>';
-//var_dump($f);
-//echo '</pre>';
+$add->name = "Welcome";
+$add->email = "cs.abdullah@hotmail.com";
 
-$v = 10;
+function ufilter_xss($name,$value,$in_out,$params = null)
+{
+  return "[:$value:]";
+}
 
-${sprintf(UQL_FILTER_OBJECT_SYNTAX,'users')} = 10;
+function ufilter_zebra($name,$value,$in_out,$params = null)
+{
+  return "<b>$value</b>";
+}
+function ufilter_email($name,$value,$in_out,$params = null)
+{
+  return "(@$value@)";
+}
 
-echo $the_users_filter;
+$e = new UQLFilterEngine($f,$add->values_map);
+
+echo '<pre>';
+var_dump($e->runEngine());
+echo '</pre>';
+
 //$path->plugin->toXML();
 
 //function UQLPlugin_toXML(/*UQLQueryPath*/$object)

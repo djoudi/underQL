@@ -11,7 +11,7 @@ class UQLMap {
 
 	public function addElement($key, $value) {
 	
-		if($this->findeElement($key) == null)
+		if($this->findElement($key) == null)
 		  $this -> elements_count++;
 		  
 		$this -> map_list[$key] = $value;

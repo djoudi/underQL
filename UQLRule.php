@@ -64,6 +64,9 @@ class UQLRule{
 	}
 }
 
+
+// rules type :  IGNORE | STRICT
+
 //function uql_rule_isemail($name,$value,$alias = null,&$result = null) {}
 //function uql_rule_between($name,$value,$params = null,$alias = null,&$result = null) {}
 
