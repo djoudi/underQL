@@ -37,53 +37,50 @@ class UQLUpdateQuery{
 	  
 	}
 	
-	protected function formatInsertQuery()
+	protected function formatUpdateQuery($extra = '')
 	{
 	  $values_count = $this->values_map->getCount();
 	  if($values_count == 0)
 	   return "";
 	   
-	   $insert_query = 'INSERT INTO `'.$this->abstract_entity->getEntityName().'` (';
+	   $update_query = 'UPDATE `'.$this->abstract_entity->getEntityName().'` SET ';
 	   
 	   $fields = '';
-	   $values = 'VALUES(';
 	   
 	   $all_values = $this->values_map->getMap();
 	   $comma = 0; // for last comma in a string
 	   
 	   foreach($all_values as $key => $value)
 	   {
-	     $fields .= "`$key`";
+	     $fields .= "`$key` = ";
 	     $field_object = $this->abstract_entity->getFieldObject($key);
 	     if($field_object->numeric)
-	      $values .= $value;
+	      $fields .= $value;
 	     else // string quote
-	      $values .= "'$value'";
+	      $fields .= "'$value'";
 	     
 	     $comma++;
 	     
 	     if(($comma) < $values_count)
 	      {
 	        $fields .= ',';
-	        $values .= ',';
 	      }
 	   }
 	   
-	   $values .= ')';
+	   $update_query .= $fields.' '.$extra;
 	   
-	   $insert_query .= $fields.') '.$values;
-	   print('<pre>'.$insert_query.'</pre>');
-	return $insert_query;
-	}
+	   print('<pre>'.$update_query.'</pre>');
+	return $update_query;
+}
 	
 
-public function insert($clear_values = true)
+public function update($extra ='',$clear_values = true)
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
 	return false;
 
-  $query = $this->formatInsertQuery();
+  $query = $this->formatUpdateQuery($extra);
   	
   if($clear_values)
    $this->values_map = new UQLMap();
