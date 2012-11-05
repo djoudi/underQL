@@ -5,6 +5,7 @@ require_once('UQLAbstractEntity.php');
 require_once('UQLQuery.php');
 require_once('UQLQueryPath.php');
 require_once('UQLMap.php');
+require_once('UQLFilter.php');
 require_once('UQLInsertQuery.php');
 require_once('UQLUpdateQuery.php');
 require_once('UQLDeleteQuery.php');
@@ -18,7 +19,18 @@ $add = new UQLUpdateQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
 
-$d->deleteWhereID(500);
+$f = new UQLFilter($a->getEntityName());
+
+$f->name(UQL_FILTER_IN,'xss');
+$f->name(UQL_FILTER_OUT,'xss');
+$f->email(UQL_FILTER_IN,'is_email');
+$f->password(UQL_FILTER_IN | UQL_FILTER_OUT,'php','<?php echo "WELCOME"; ?>');
+
+echo '<pre>';
+var_dump($f);
+echo '</pre>';
+
+//$d->deleteWhereID(500);
 
 //$path->plugin->toXML();
 

@@ -1,7 +1,7 @@
 <?php
 
 define('UQL_FILTER_IN', 0xA);
-define('UQL_FILTER_OUT',0xB);
+define('UQL_FILTER_OUT',0xC);
 
 class UQLFilter{
 	
@@ -55,12 +55,15 @@ class UQLFilter{
 }
 
 
-//function uql_filter_sql_injection($name,$value,$params = null,&$result = null) {}
-
 //$the_students_filter = new UQLFilter("students");
 //$the_students_filter->name(UQL_FILTER_IN,"sql_injection");
 //$the_students_filter->name(UQL_FILTER_IN | UQL_FILTER_OUT,"xss");
-//$the_students_filter->name(UQL_FILTER_OUT,"read_data","%s.php");
+//$the_students_filter->name(UQL_FILTER_OUT,"php","demo.php");
 
+function ufilter_php($name,$value,$in_out,$params = null)
+{
+  $result = $value;
+  return $result;
+}
 
 ?>
