@@ -34,13 +34,11 @@ class UQLFilterEngine
          die($params[0].' is not a valid filter');
          
         if(@count($params) == 2) // the filter has no parameter(s)
-         $tmp_value = $filter_api_function($field_name,$tmp_value,$filter_flag);
+         $tmp_value = $filter_api_function($field_name,$value,$filter_flag);
         else
          {
-           $params = array_shift($params); //delete filter name
-           $params = array_shift($params); // delete in-out flag
-           
-           $tmp_value = $filter_api_function($field_name,$tmp_vaue,$filter_flag,$params);
+           $params = array_slice($params,2);
+           $tmp_value = $filter_api_function($field_name,$value,$filter_flag,$params);
          }
       }
       return $tmp_value;

@@ -29,12 +29,10 @@ $the_users->name = "Abdullah Eid N Almehmadi";
 
 
 
-
 $the_users_filter = new UQLFilter($a->getEntityName());
 $the_users_rule   = new UQLRule($a->getEntityName());
 
-$the_users_filter->name('xss',UQL_FILTER_IN);
-$the_users_filter->name('zebra',UQL_FILTER_OUT);
+$the_users_filter->name('html',UQL_FILTER_OUT,'<h1>','</h2>');
 $the_users_filter->email('email',UQL_FILTER_IN);
 
 $the_users_rule->email('isemail');
@@ -43,6 +41,14 @@ $the_users_rule->points('iseven');
 $add->name = "abdullaheid";
 $add->email = "abdullaheid@abdullaheid.eid";
 $add->points = '24';
+
+
+
+$r = $the_users->select('*');
+
+$r->getNext();
+ echo $r->name;
+
 
 function urule_isemail($name,$value,$alias = null,$params = null)
 {
