@@ -1,12 +1,33 @@
 <?php
 
+require_once('UQL.php');
+require_once('UQLConnection.php');
+require_once('UQLMap.php');
+require_once('UQLAbstractEntity.php');
+require_once('UQLFilter.php');
+require_once('UQLFilterEngine.php');
+require_once('UQLRule.php');
+require_once('UQLRuleEngine.php');
+require_once('UQLQuery.php');
+require_once('UQLQueryPath.php');
+require_once('UQLChangeQuery.php');
+require_once('UQLDeleteQuery.php');
+require_once('UQLEntity.php');
+require_once('UQLPlugin.php');
+
+
 class underQL
 {
   private $database_handle;
   private $entity_list; // load all table names from current database
   private $loaded_entity_list;
   
-  	public function __construct($host, $database_name, $user = 'root', $password = '', $charset = 'utf8') {
+  	public function __construct(
+  	     $host = UQL_DB_HOST,
+  	     $database_name = UQL_DB_NAME,
+  	     $user = UQL_DB_USER,
+  	     $password = UQL_DB_PASSWORD,
+  	     $charset = UQL_DB_CHARSET) {
   	{
   	  $this->database_handle = new UQLConnection($host, $database_name, $user, $password, $charset);
   	  $this->entityListInit();
@@ -57,5 +78,7 @@ class underQL
   	
   	}
 }
+
+$_ = new underQL();
 
 ?>
