@@ -22,6 +22,14 @@ $path = new UQLQueryPath($c,$a);
 $add = new UQLChangeQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
+$the_users = new UQLEntity($ename,$db_handle);
+
+$the_users->id = 10;
+$the_users->name = "Abdullah";
+
+$the_users->save();
+//$the_users->info();
+
 
 $the_users_filter = new UQLFilter($a->getEntityName());
 $the_users_rule   = new UQLRule($a->getEntityName());
@@ -39,6 +47,7 @@ $add->points = '24';
 
 function urule_isemail($name,$value,$alias = null,$params = null)
 {
+   $GLOBALS['the_user'] = new UQLMap();
    if(!filter_var($value,FILTER_VALIDATE_EMAIL))
     return "$value is not a valid email";
     
@@ -71,17 +80,14 @@ function ufilter_email($name,$value,$in_out,$params = null)
 
 $r = $add->modifyWhereID(510);
 
+
+
 if(!$r)
  {
   echo '<pre>';
-  var_dump($add->getMessagesList());
+  var_dump($the_user);
   echo '</pre>';
  }
-//$path->plugin->toXML();
 
-//function UQLPlugin_toXML(/*UQLQueryPath*/$object)
-//{
-	
-//}
 //UQLEnvironment // to link all data that releated to different classes // singlton
 ?>

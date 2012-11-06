@@ -204,7 +204,7 @@ public function modifyWhereID($id,$id_name = 'id')
   return $this->modify("WHERE `$id_name` = $id");
 }
 
-function public __destruct()
+public function __destruct()
 {
  	$this->uql_the_query = null;
 	$this->uql_the_abstract_entity = null;
