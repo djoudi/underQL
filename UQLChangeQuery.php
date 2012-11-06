@@ -83,13 +83,30 @@ public function save()
   if($values_count == 0)
 	return false;
 
+  $result = true; //used for rules list if there is any problem
+
+  $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
   $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
-  //echo $filter_object_name;
+   
+  if(isset($GLOBALS[$rule_object_name]))
+   $rule_object = $GLOBALS[$rule_object_name];
+  else
+   $rule_object = null;
+   
   if(isset($GLOBALS[$filter_object_name]))
    $filter_object = $GLOBALS[$filter_object_name];
   else
    $filter_object = null;
    
+   if($rule_object != null)
+    {
+      $rengine = new UQLRuleEngine($rule_object,$this->values_map);
+      $result = $rengine->runEngine();
+      
+      if(!$rengine->areRulesPassed())
+       return $result;
+    }
+    
    if($filter_object != null)
     {
       $fengine = new UQLFilterEngine($filter_object,$this->values_map);

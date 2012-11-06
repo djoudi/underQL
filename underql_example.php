@@ -9,55 +9,42 @@ require_once('UQLFilter.php');
 require_once('UQLFilterEngine.php');
 require_once('UQLChangeQuery.php');
 require_once('UQLDeleteQuery.php');
+require_once('UQLRule.php');
+require_once('UQLRuleEngine.php');
+
 
 
 $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();
 $a = new UQLAbstractEntity('users',$c);
 $path = new UQLQueryPath($c,$a);
-$add = new UQLUpdateQuery($c,$a);
+$add = new UQLChangeQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
-$users = new UQLEntity('users');
-
-
-$users->id =10;
-$users->name = "Eid Almehmadi";
-
-$users->save();
-$users->modify();
-
-
-$users->modifyWhere();
-$users('*','id = 10');
-$users->select('*',10);
-$users->selectWhere('*',);
-$users->query();
-$users->remove(1);
-$users->removeWhere();
-
-
-
-$result = $users->selectWhereID(10);
-$users('*','id = 10');
-
-
-echo $result->name;
-$result->getNext();
-echo $result->name;
 
 $the_users_filter = new UQLFilter($a->getEntityName());
+$the_users_rule   = new UQLRule($a->getEntityName());
 
 $the_users_filter->name('xss',UQL_FILTER_IN);
 $the_users_filter->name('zebra',UQL_FILTER_OUT);
 $the_users_filter->email('email',UQL_FILTER_IN);
 
+$the_users_rule->email('isemail');
+
 $add->name = "7Up";
-$add->email = "cs.abdullah@hotmail.com";
+$add->email = "www.abdullaheidgoogle.com";
+
+function urule_isemail($name,$value,$alias = null,$params = null)
+{
+   if(!filter_var($value,FILTER_VALIDATE_EMAIL))
+    return "$value is not a valid email";
+    
+    return true;
+}
 
 function ufilter_xss($name,$value,$in_out,$params = null)
 {
-  return "[:$value:]";
+  return "www.$value.net";
 }
 
 function ufilter_zebra($name,$value,$in_out,$params = null)
@@ -69,9 +56,15 @@ function ufilter_email($name,$value,$in_out,$params = null)
   return "(@$value@)";
 }
 
-$add->updateWhereID(504);
 
+$r = $add->save();
 
+if(is_array($r))
+ {
+  echo '<pre>';
+  var_dump($r);
+  echo '</pre>';
+ }
 //$path->plugin->toXML();
 
 //function UQLPlugin_toXML(/*UQLQueryPath*/$object)
