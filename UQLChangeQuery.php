@@ -111,20 +111,7 @@ protected function saveOrModify($is_save = true,$extra = '')
   if($values_count == 0)
 	return false;
 
-  $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,
-                              $this->uql_the_abstract_entity->getEntityName());
-  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,
-                              $this->uql_the_abstract_entity->getEntityName());
-   
-  if(isset($GLOBALS[$rule_object_name]))
-   $rule_object = $GLOBALS[$rule_object_name];
-  else
-   $rule_object = null;
-   
-  if(isset($GLOBALS[$filter_object_name]))
-   $filter_object = $GLOBALS[$filter_object_name];
-  else
-   $filter_object = null;
+   $rule_object = UQLRule::findRuleObject($this->uql_the_abstract_entity->getEntityName()); 
    
    if($rule_object != null)
     {
@@ -135,10 +122,12 @@ protected function saveOrModify($is_save = true,$extra = '')
       if(!$this->uql_the_rule_engine->areRulesPassed())
        return false;
     }
-    
+   
+   $filter_object = UQLFilter::findFilterObject($this->uql_the_abstract_entity->getEntityName()); 
+   
    if($filter_object != null)
     {
-      $fengine = new UQLFilterEngine($filter_object,$this->uql_the_values_map);
+      $fengine = new UQLFilterEngine($filter_object,$this->uql_the_values_map,UQL_FILTER_IN);
       $this->uql_the_values_map = $fengine->runEngine();
     }
   

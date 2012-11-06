@@ -62,6 +62,19 @@ class UQLRule{
 		return $this->alises_map;
 	}
 	
+	public static function findRuleObject($entity)
+	{
+	  $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$entity);
+   
+      if(isset($GLOBALS[$rule_object_name]))
+       $rule_object = $GLOBALS[$rule_object_name];
+      else
+       $rule_object = null;
+        
+      return $rule_object;
+   
+	}
+	
 	public function __destruct()
 	{
 		$this->entity_name = null;

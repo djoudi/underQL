@@ -45,6 +45,17 @@ class UQLFilter{
 		return $this->entity_name;
 	}
 	
+	public static function findFilterObject($entity)
+	{
+	  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$entity);
+      if(isset($GLOBALS[$filter_object_name]))
+       $filter_object = $GLOBALS[$filter_object_name];
+      else
+       $filter_object = null;
+       
+       return $filter_object;
+	}
+	
 	public function __destruct()
 	{
 		$this->entity_name = null;

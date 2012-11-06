@@ -13,7 +13,7 @@ require_once('UQLDeleteQuery.php');
 require_once('UQLRule.php');
 require_once('UQLRuleEngine.php');
 require_once('UQLEntity.php');
-
+require_once(UQL_DIR_FILTER.'uql_filter_html.php');
 
 $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $c->startConnection();

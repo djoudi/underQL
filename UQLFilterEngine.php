@@ -4,14 +4,16 @@ class UQLFilterEngine
 {
   private $filter_object;
   private $values_map; //current inserted | updated $key => $value pairs
+  private $in_out_flag; // specify if the engine for input or output
   
-  public function __construct(&$filter_object,&$values_map)
+  public function __construct(&$filter_object,&$values_map,$in_out_flag)
   {
      $this->filter_object = $filter_object;
      $this->values_map = $values_map;
+     $this->in_out_flag = $in_out_flag;
   }
   
-  protected function applyFilter($field_name,$value)
+  public function applyFilter($field_name,$value)
   {
      $filters = $this->filter_object->getFiltersByFieldName($field_name);
      
@@ -23,7 +25,7 @@ class UQLFilterEngine
       foreach ($filters->getMap() as $key => $params)
       {
         $filter_flag = $params[1];
-        if($filter_flag != UQL_FILTER_IN)
+        if($filter_flag != $this->in_out_flag)
          continue;
          
         $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);

@@ -5,16 +5,17 @@ class UQLQueryPath {
 	public $abstract_entity;
 	// reference to the abstract table's data
 	public $query_object;
+	public $filter_engine;
 	
 	public function __construct(&$database_handle, &$abstract_entity) {
 		if ($abstract_entity instanceof UQLAbstractEntity)
 			$this -> abstract_entity = $abstract_entity;
 		else
-			$this -> abstract_entity = null;
+			die('You must provide a appropriate value for abstract_entity');
 
 		$this -> query_object = new UQLQuery($database_handle);
-		//$this -> columns_buffer = new UQLMap();
-		//$this -> plugin = new UQLPlugin($this);
+		$filter_object = UQLFilter::findFilterObject($this->abstract_entity->getEntityName());
+		$this -> filter_engine = new UQLFilterEngine($filter_object,null,UQL_FILTER_OUT);
 	}
 
 	public function executeQuery($query) {
@@ -64,7 +65,9 @@ class UQLQueryPath {
 				if ($local_current_row == null)
 					return "Unknown";
 				else
-					return $local_current_row -> $key;
+					{
+					 return $local_current_row -> $key;
+					}
 			}
 		}
 
