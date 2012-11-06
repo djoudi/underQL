@@ -127,7 +127,8 @@ protected function saveOrModify($is_save = true,$extra = '')
    
    if($filter_object != null)
     {
-      $fengine = new UQLFilterEngine($filter_object,$this->uql_the_values_map,UQL_FILTER_IN);
+      $fengine = new UQLFilterEngine($filter_object,UQL_FILTER_IN);
+      $fengine->setValuesMap($this->uql_the_values_map);
       $this->uql_the_values_map = $fengine->runEngine();
     }
   

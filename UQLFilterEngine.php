@@ -6,11 +6,16 @@ class UQLFilterEngine
   private $values_map; //current inserted | updated $key => $value pairs
   private $in_out_flag; // specify if the engine for input or output
   
-  public function __construct(&$filter_object,&$values_map,$in_out_flag)
+  public function __construct(&$filter_object,$in_out_flag)
   {
      $this->filter_object = $filter_object;
-     $this->values_map = $values_map;
+     $this->values_map = null;
      $this->in_out_flag = $in_out_flag;
+  }
+  
+  public function setValuesMap(&$values_map)
+  {
+    $this->values_map = $values_map;
   }
   
   public function applyFilter($field_name,$value)

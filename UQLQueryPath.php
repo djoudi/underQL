@@ -15,7 +15,7 @@ class UQLQueryPath {
 
 		$this -> query_object = new UQLQuery($database_handle);
 		$filter_object = UQLFilter::findFilterObject($this->abstract_entity->getEntityName());
-		$this -> filter_engine = new UQLFilterEngine($filter_object,new UQLMap(),UQL_FILTER_OUT);
+		$this -> filter_engine = new UQLFilterEngine($filter_object,UQL_FILTER_OUT);
 	}
 
 	public function executeQuery($query) {

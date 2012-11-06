@@ -22,9 +22,13 @@ $the_users = new UQLEntity('users',$db);
 //$the_users_filter->name('html',UQL_FILTER_OUT,'<h1><b>','</b></h1>');
 
 
-$result = $the_users->select('*');
-$result->getNext();
-echo $result->name;
+$the_users->id = 5007;
+$the_users->name = 'شبكة عبدالله عيد التعليمية';
+$the_users->email = "cs.abdullah@hotmail.com";
+$the_users->description = "مبرمج ومحب للخير";
+
+$the_users->save();
+
 
 
 //UQLEnvironment // to link all data that releated to different classes // singlton
