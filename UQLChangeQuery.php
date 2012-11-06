@@ -93,14 +93,11 @@ class UQLChangeQuery{
 	return $insert_query;
 	}
 	
-
-public function save()
+protected function saveOrModify($is_save = true,$extra = '')
 {
   $values_count = $this->values_map->getCount();
   if($values_count == 0)
 	return false;
-
-  $result = true; //used for rules list if there is any problem
 
   $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
   $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
@@ -130,12 +127,20 @@ public function save()
       $this->values_map = $fengine->runEngine();
     }
   
-  $query = $this->formatInsertQuery();
+  if($is_save)
+   $query = $this->formatInsertQuery();
+  else
+   $query = $this->formatUpdateQuery($extra);
   	
    // clear values
    $this->values_map = new UQLMap();
   
    return $this->query->executeQuery($query);
+}
+
+public function save()
+{
+  return $this->saveOrModify();
 }
 
 protected function formatUpdateQuery($extra = '')
@@ -176,33 +181,12 @@ protected function formatUpdateQuery($extra = '')
 
 public function modify($extra ='')
 {
-  $values_count = $this->values_map->getCount();
-  if($values_count == 0)
-	return false;
-
-  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
-  //echo $filter_object_name;
-  if(isset($GLOBALS[$filter_object_name]))
-   $filter_object = $GLOBALS[$filter_object_name];
-  else
-   $filter_object = null;
-   
-   if($filter_object != null)
-    {
-      $fengine = new UQLFilterEngine($filter_object,$this->values_map);
-      $this->values_map = $fengine->runEngine();
-    }
-  $query = $this->formatUpdateQuery($extra);
-  	
-   //clear values
-   $this->values_map = new UQLMap();
-  
-   return $this->query->executeQuery($query);
+  $this->saveOrModify(false,$extra);
 }
 
 public function modifyWhereID($id,$id_name = 'id')
 {
-  return $this->update("WHERE `$id_name` = $id");
+  return $this->modify("WHERE `$id_name` = $id");
 }
 
 }

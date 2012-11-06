@@ -31,8 +31,8 @@ $the_users_filter->email('email',UQL_FILTER_IN);
 
 $the_users_rule->email('isemail');
 
-$add->name = "Saleh";
-$add->email = "saleh@saleh.cc";
+$add->name = "Talal";
+$add->email = "t@ta.sa";
 
 function urule_isemail($name,$value,$alias = null,$params = null)
 {
@@ -57,7 +57,7 @@ function ufilter_email($name,$value,$in_out,$params = null)
 }
 
 
-$r = $add->save();
+$r = $add->modifyWhereID(510);
 
 if(!$r)
  {
