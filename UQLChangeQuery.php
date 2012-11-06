@@ -101,7 +101,6 @@ class UQLChangeQuery{
 	   $values .= ')';
 	   
 	   $insert_query .= $fields.') '.$values;
-	   print('<pre>'.$insert_query.'</pre>');
 	return $insert_query;
 	}
 	
