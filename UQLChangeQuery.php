@@ -2,12 +2,12 @@
 
 class UQLChangeQuery{
 	
-	private $query;
-	private $abstract_entity;
+	private $uql_the_query;
+	private $uql_the_abstract_entity;
 	//used to save list of [field_name = value] that are comming from current insertion query
-	private $values_map;
-	private $rule_engine;
-	private $rule_engine_results;
+	private $uql_the_values_map;
+	private $uql_the_rule_engine;
+	private $uql_the_rule_engine_results;
 
 	
 	public function __construct(&$database_handle,&$abstract_entity)
@@ -15,63 +15,63 @@ class UQLChangeQuery{
 		if((!$database_handle instanceof UQLConnection) || (!$abstract_entity instanceof UQLAbstractEntity))
 		  die('Bad database handle');
 		
-			$this->query = new UQLQuery($database_handle);
-			$this->abstract_entity = $abstract_entity;
-			$this->values_map = new UQLMap();
-			$this->rule_engine = null;
-			$this->rule_engine_results = null;
+			$this->uql_the_query = new UQLQuery($database_handle);
+			$this->uql_the_abstract_entity = $abstract_entity;
+			$this->uql_the_values_map = new UQLMap();
+			$this->uql_the_rule_engine = null;
+			$this->uql_the_rule_engine_results = null;
 	}
 	
 	public function __set($name,$value)
 	{
-	   if(!$this->abstract_entity->isFieldExist($name))
+	   if(!$this->uql_the_abstract_entity->isFieldExist($name))
 	    die($name.' is not a valid column name');
 	    
-	    $this->values_map->addElement($name,$value);
+	    $this->uql_the_values_map->addElement($name,$value);
 	}
 	
 	public function __get($name)
 	{
-   	  if(!$this->abstract_entity->isFieldExist($name))
+   	  if(!$this->uql_the_abstract_entity->isFieldExist($name))
 	    die($name.' is not a valid column name');
 	  
-	  if(!$this->values_map->isElementExist($name))
+	  if(!$this->uql_the_values_map->isElementExist($name))
 	   return null;
 	 else
-	   return $this->values_map->findElement($name);  
+	   return $this->uql_the_values_map->findElement($name);  
 	  
 	}
 	
 	public function areRulesPassed()
 	{
-	  if($this->rules_engine != null)
+	  if($this->uql_the_rules_engine != null)
 	   return $this->areRulesPassed();
 	}
 	
 	public function getMessagesList()
 	{
-	  return $this->rule_engine_results;
+	  return $this->uql_the_rule_engine_results;
 	   
 	}
 	
 	protected function formatInsertQuery()
 	{
-	  $values_count = $this->values_map->getCount();
+	  $values_count = $this->uql_the_values_map->getCount();
 	  if($values_count == 0)
 	   return "";
 	   
-	   $insert_query = 'INSERT INTO `'.$this->abstract_entity->getEntityName().'` (';
+	   $insert_query = 'INSERT INTO `'.$this->uql_the_abstract_entity->getEntityName().'` (';
 	   
 	   $fields = '';
 	   $values = 'VALUES(';
 	   
-	   $all_values = $this->values_map->getMap();
+	   $all_values = $this->uql_the_values_map->getMap();
 	   $comma = 0; // for last comma in a string
 	   
 	   foreach($all_values as $key => $value)
 	   {
 	     $fields .= "`$key`";
-	     $field_object = $this->abstract_entity->getFieldObject($key);
+	     $field_object = $this->uql_the_abstract_entity->getFieldObject($key);
 	     if($field_object->numeric)
 	      $values .= $value;
 	     else // string quote
@@ -95,12 +95,12 @@ class UQLChangeQuery{
 	
 protected function saveOrModify($is_save = true,$extra = '')
 {
-  $values_count = $this->values_map->getCount();
+  $values_count = $this->uql_the_values_map->getCount();
   if($values_count == 0)
 	return false;
 
-  $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
-  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->abstract_entity->getEntityName());
+  $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$this->uql_the_abstract_entity->getEntityName());
+  $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$this->uql_the_abstract_entity->getEntityName());
    
   if(isset($GLOBALS[$rule_object_name]))
    $rule_object = $GLOBALS[$rule_object_name];
@@ -114,17 +114,17 @@ protected function saveOrModify($is_save = true,$extra = '')
    
    if($rule_object != null)
     {
-      $this->rule_engine = new UQLRuleEngine($rule_object,$this->values_map);
-      $this->rule_engine_results = $this->rule_engine->runEngine();
+      $this->uql_the_rule_engine = new UQLRuleEngine($rule_object,$this->uql_the_values_map);
+      $this->uql_the_rule_engine_results = $this->uql_the_rule_engine->runEngine();
       
-      if(!$this->rule_engine->areRulesPassed())
+      if(!$this->uql_the_rule_engine->areRulesPassed())
        return false;
     }
     
    if($filter_object != null)
     {
-      $fengine = new UQLFilterEngine($filter_object,$this->values_map);
-      $this->values_map = $fengine->runEngine();
+      $fengine = new UQLFilterEngine($filter_object,$this->uql_the_values_map);
+      $this->uql_the_values_map = $fengine->runEngine();
     }
   
   if($is_save)
@@ -133,9 +133,9 @@ protected function saveOrModify($is_save = true,$extra = '')
    $query = $this->formatUpdateQuery($extra);
   	
    // clear values
-   $this->values_map = new UQLMap();
+   $this->uql_the_values_map = new UQLMap();
   
-   return $this->query->executeQuery($query);
+   return $this->uql_the_query->executeQuery($query);
 }
 
 public function save()
@@ -145,21 +145,21 @@ public function save()
 
 protected function formatUpdateQuery($extra = '')
 	{
-	  $values_count = $this->values_map->getCount();
+	  $values_count = $this->uql_the_values_map->getCount();
 	  if($values_count == 0)
 	   return "";
 	   
-	   $update_query = 'UPDATE `'.$this->abstract_entity->getEntityName().'` SET ';
+	   $update_query = 'UPDATE `'.$this->uql_the_abstract_entity->getEntityName().'` SET ';
 	   
 	   $fields = '';
 	   
-	   $all_values = $this->values_map->getMap();
+	   $all_values = $this->uql_the_values_map->getMap();
 	   $comma = 0; // for last comma in a string
 	   
 	   foreach($all_values as $key => $value)
 	   {
 	     $fields .= "`$key` = ";
-	     $field_object = $this->abstract_entity->getFieldObject($key);
+	     $field_object = $this->uql_the_abstract_entity->getFieldObject($key);
 	     if($field_object->numeric)
 	      $fields .= $value;
 	     else // string quote
@@ -187,6 +187,15 @@ public function modify($extra ='')
 public function modifyWhereID($id,$id_name = 'id')
 {
   return $this->modify("WHERE `$id_name` = $id");
+}
+
+function public __destruct()
+{
+ 	$this->uql_the_query = null;
+	$this->uql_the_abstract_entity = null;
+	$this->uql_the_values_map = null;
+	$this->uql_the_rule_engine = null;
+	$this->uql_the_rule_engine_results = null;
 }
 
 }
