@@ -83,18 +83,4 @@ class UQLRule{
 	}
 }
 
-
-// rules type :  IGNORE | STRICT
-
-//function urule_isemail($name,$value,$alias = null,&$result = null) {}
-//function urule_between($name,$value,$params = null,$alias = null,&$result = null) {}
-
-//$the_students_rules = new UQLRule("studnets");
-
-//$the_students_rules->id('number');
-//$the_students_rules->name('length',50);
-//$the_students_rules->email('email');
-//$the_students_rules->name('between',10,50);
-
-
 ?>

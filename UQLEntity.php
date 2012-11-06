@@ -43,7 +43,7 @@ class UQLEntity
     return $this->uql_change->modifyWhereID($id,$id_name);
    }
    
-   public function delete($extra)
+   public function delete($extra = '')
    {
      return $this->uql_delete->delete($extra);
    }

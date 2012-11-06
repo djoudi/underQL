@@ -18,8 +18,8 @@ require_once(UQL_DIR_FILTER.'uql_filter_html.php');
 $db = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
 $the_users = new UQLEntity('users',$db);
 
-//$the_users_filter = new UQLFilter('users');
-//$the_users_filter->name('html',UQL_FILTER_OUT,'<h1><b>','</b></h1>');
+$the_users_filter = new UQLFilter('users');
+$the_users_filter->name('html',UQL_FILTER_OUT,'<h1><b>','</b></h1>');
 
 
 $the_users->id = 5007;

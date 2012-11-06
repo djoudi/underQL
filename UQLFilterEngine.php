@@ -25,6 +25,9 @@ class UQLFilterEngine
      else
       return $value;
       
+     if($filters == null)
+      return $value;
+      
       $tmp_value = $value;
       
       foreach ($filters->getMap() as $key => $params)
