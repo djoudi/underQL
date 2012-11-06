@@ -19,6 +19,7 @@ class UQLConnection {
 		$this -> operations_charset = $charset;
 		$this -> connection_handle = null;
 		$this -> error_message = null;
+		$this->startConnection();
 	}
 
 	public function startConnection() {

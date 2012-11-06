@@ -15,9 +15,9 @@ class UQLFilterEngine
   
   public function applyFilter($field_name,$value)
   {
-     $filters = $this->filter_object->getFiltersByFieldName($field_name);
-     
-     if($filters == null)
+     if($this->filter_object != null)
+      $filters = $this->filter_object->getFiltersByFieldName($field_name);
+     else
       return $value;
       
       $tmp_value = $value;
