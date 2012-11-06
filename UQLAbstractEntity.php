@@ -1,8 +1,5 @@
 <?php
 
-//%s represents the table name
-define ('UQL_ABSTRACT_E_OBJECT_SYNTAX','the_%s_abstract');
-
 class UQLAbstractEntity {
 
 	private $entity_name;
