@@ -33,8 +33,8 @@ $the_users_filter->email('email',UQL_FILTER_IN);
 $the_users_rule->email('isemail');
 $the_users_rule->points('iseven');
 
-$add->name = "Talal";
-$add->email = "t@ta.sa";
+$add->name = "abdullaheid";
+$add->email = "abdullaheid@abdullaheid.eid";
 $add->points = '24';
 
 function urule_isemail($name,$value,$alias = null,$params = null)
