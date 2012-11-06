@@ -31,15 +31,15 @@ $the_users_filter->email('email',UQL_FILTER_IN);
 
 $the_users_rule->email('isemail');
 
-$add->name = "7Up";
-$add->email = "www.abdullaheidgoogle.com";
+$add->name = "Saleh";
+$add->email = "saleh@saleh.cc";
 
 function urule_isemail($name,$value,$alias = null,$params = null)
 {
    if(!filter_var($value,FILTER_VALIDATE_EMAIL))
     return "$value is not a valid email";
     
-    return true;
+    return UQL_RULE_SUCCESS;
 }
 
 function ufilter_xss($name,$value,$in_out,$params = null)
@@ -59,10 +59,10 @@ function ufilter_email($name,$value,$in_out,$params = null)
 
 $r = $add->save();
 
-if(is_array($r))
+if(!$r)
  {
   echo '<pre>';
-  var_dump($r);
+  var_dump($add->getMessagesList());
   echo '</pre>';
  }
 //$path->plugin->toXML();

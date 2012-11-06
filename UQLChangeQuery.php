@@ -6,6 +6,9 @@ class UQLChangeQuery{
 	private $abstract_entity;
 	//used to save list of [field_name = value] that are comming from current insertion query
 	private $values_map;
+	private $rule_engine;
+	private $rule_engine_results;
+
 	
 	public function __construct(&$database_handle,&$abstract_entity)
 	{
@@ -15,6 +18,8 @@ class UQLChangeQuery{
 			$this->query = new UQLQuery($database_handle);
 			$this->abstract_entity = $abstract_entity;
 			$this->values_map = new UQLMap();
+			$this->rule_engine = null;
+			$this->rule_engine_results = null;
 	}
 	
 	public function __set($name,$value)
@@ -35,6 +40,18 @@ class UQLChangeQuery{
 	 else
 	   return $this->values_map->findElement($name);  
 	  
+	}
+	
+	public function areRulesPassed()
+	{
+	  if($this->rules_engine != null)
+	   return $this->areRulesPassed();
+	}
+	
+	public function getMessagesList()
+	{
+	  return $this->rule_engine_results;
+	   
 	}
 	
 	protected function formatInsertQuery()
@@ -100,11 +117,11 @@ public function save()
    
    if($rule_object != null)
     {
-      $rengine = new UQLRuleEngine($rule_object,$this->values_map);
-      $result = $rengine->runEngine();
+      $this->rule_engine = new UQLRuleEngine($rule_object,$this->values_map);
+      $this->rule_engine_results = $this->rule_engine->runEngine();
       
-      if(!$rengine->areRulesPassed())
-       return $result;
+      if(!$this->rule_engine->areRulesPassed())
+       return false;
     }
     
    if($filter_object != null)
