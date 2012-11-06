@@ -1,11 +1,5 @@
 <?php
 
-//%s represents the table name
-define ('UQL_RULE_OBJECT_SYNTAX','the_%s_rule');
-define ('UQL_RULE_FUNCTION_NAME','urule_%s');
-
-define ('UQL_RULE_SUCCESS',0x0D);
-
 class UQLRule{
 	
 	private $entity_name;

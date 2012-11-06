@@ -31,9 +31,11 @@ $the_users_filter->name('zebra',UQL_FILTER_OUT);
 $the_users_filter->email('email',UQL_FILTER_IN);
 
 $the_users_rule->email('isemail');
+$the_users_rule->points('iseven');
 
 $add->name = "Talal";
 $add->email = "t@ta.sa";
+$add->points = '24';
 
 function urule_isemail($name,$value,$alias = null,$params = null)
 {
@@ -42,6 +44,15 @@ function urule_isemail($name,$value,$alias = null,$params = null)
     
     return UQL_RULE_SUCCESS;
 }
+
+function urule_iseven($name,$value,$alias = null,$params = null)
+{
+   if(!is_int($value) || (($value % 2) != 0))
+    return "$value is not even";
+    
+    return UQL_RULE_SUCCESS;
+}
+
 
 function ufilter_xss($name,$value,$in_out,$params = null)
 {

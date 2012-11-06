@@ -1,12 +1,5 @@
 <?php
 
-define('UQL_FILTER_IN', 0xA);
-define('UQL_FILTER_OUT',0xC);
-
-//%s represents the table name
-define ('UQL_FILTER_OBJECT_SYNTAX','the_%s_filter');
-define ('UQL_FILTER_FUNCTION_NAME','ufilter_%s');
-
 class UQLFilter{
 	
 	private $entity_name;
