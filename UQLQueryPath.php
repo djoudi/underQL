@@ -20,8 +20,13 @@ class UQLQueryPath {
 	public function executeQuery($query) {
 		if ($this -> query_object -> executeQuery($query)) {
 			if ($this -> query_object -> getCount() > 0)
-				$this -> getNext();
+				{
+				  $this -> getNext();
+				  return true;
+				}
 		}
+		
+		 return false;
 
 	}
 

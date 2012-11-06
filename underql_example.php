@@ -12,7 +12,7 @@ require_once('UQLChangeQuery.php');
 require_once('UQLDeleteQuery.php');
 require_once('UQLRule.php');
 require_once('UQLRuleEngine.php');
-
+require_once('UQLEntity.php');
 
 
 $c = new UQLConnection('localhost','abdullaheid_db','root','root','utf8');
@@ -22,13 +22,12 @@ $path = new UQLQueryPath($c,$a);
 $add = new UQLChangeQuery($c,$a);
 $d = new UQLDeleteQuery($c,$a);
 
-$the_users = new UQLEntity($ename,$db_handle);
+$the_users = new UQLEntity('users',$c);
 
-$the_users->id = 10;
-$the_users->name = "Abdullah";
+$the_users->id = 1000;
+$the_users->name = "Abdullah Eid N Almehmadi";
 
-$the_users->save();
-//$the_users->info();
+
 
 
 $the_users_filter = new UQLFilter($a->getEntityName());
@@ -77,17 +76,13 @@ function ufilter_email($name,$value,$in_out,$params = null)
   return "(@$value@)";
 }
 
+$the_users->save();
+//$the_users->info();
 
-$r = $add->modifyWhereID(510);
 
-
-
-if(!$r)
- {
   echo '<pre>';
-  var_dump($the_user);
+  var_dump($the_users);
   echo '</pre>';
- }
 
 //UQLEnvironment // to link all data that releated to different classes // singlton
 ?>

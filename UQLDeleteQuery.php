@@ -30,7 +30,6 @@ protected function formatDeleteQuery($extra = null)
 public function delete($extra ='')
 {
   $query = $this->formatDeleteQuery($extra);
-  print('<pre>'.$query.'</pre>');
   return $this->query->executeQuery($query);
 }
 
