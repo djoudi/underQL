@@ -25,4 +25,11 @@ define ('UQL_RULE_FUNCTION_NAME','urule_%s');
 
 define ('UQL_RULE_SUCCESS',0x0D);
 
+define ('UQL_ENTITY_OBJECT_SYNTAX','the_%s');
+
+define ('UQL_DB_HOST','localhost');
+define ('UQL_DB_USER','root');
+define ('UQL_DB_PASSWORD','root');
+define ('UQL_DB_NAME','abdullaheid_db');
+define ('UQL_DB_CHARSET','utf8');
 ?>
