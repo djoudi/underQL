@@ -25,7 +25,7 @@ $users->id =10;
 $users->name = "Eid Almehmadi";
 
 $users->save();
-$users->modify(10);
+$users->modify();
 
 
 $users->modifyWhere();

@@ -25,7 +25,7 @@ class UQLFilterEngine
         $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);
         
         if(!function_exists($filter_api_function))
-         return $tmp_value;
+         die($params[0].' is not a valid filter');
          
         if(@count($params) == 2) // the filter has no parameter(s)
          $tmp_value = $filter_api_function($field_name,$tmp_value,$params[1]);

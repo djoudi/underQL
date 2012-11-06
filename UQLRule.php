@@ -1,5 +1,9 @@
 <?php
 
+//%s represents the table name
+define ('UQL_RULE_OBJECT_SYNTAX','the_%s_rule');
+define ('UQL_RULE_FUNCTION_NAME','urule_%s');
+
 class UQLRule{
 	
 	private $entity_name;
@@ -27,7 +31,8 @@ class UQLRule{
 		 	$this->rules_map->addElement($field, new UQLMap());
 		
 		    $local_rule = $this->rules_map->findElement($field);
-			$local_rule->addElement($local_rule->getCount(),$rule);
+			$local_rule->addElement($rule[0]/*rule name*/,$rule);
+			 
 			$this->rules_map->addElement($field, $local_rule);
 	}
 	
@@ -40,6 +45,11 @@ class UQLRule{
 	{
 		$this->alises_map->addElement($key, $value);
 	} 
+	
+	public function getAlias($key)
+	{  
+	   return $this->alises_map->findElement($key);
+	}
 	
 	public function getRules()
 	{
@@ -67,8 +77,8 @@ class UQLRule{
 
 // rules type :  IGNORE | STRICT
 
-//function uql_rule_isemail($name,$value,$alias = null,&$result = null) {}
-//function uql_rule_between($name,$value,$params = null,$alias = null,&$result = null) {}
+//function urule_isemail($name,$value,$alias = null,&$result = null) {}
+//function urule_between($name,$value,$params = null,$alias = null,&$result = null) {}
 
 //$the_students_rules = new UQLRule("studnets");
 

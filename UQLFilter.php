@@ -62,8 +62,6 @@ class UQLFilter{
 
 //$the_students_filter = new UQLFilter("students");
 //$the_students_filter->name("sql_injection",UQL_FILTER_IN);
-//$the_students_filter->name(UQL_FILTER_IN | UQL_FILTER_OUT,"xss");
-//$the_students_filter->name(UQL_FILTER_OUT,"php","demo.php");
 
 function ufilter_php($name,$value,$in_out,$params = null)
 {
