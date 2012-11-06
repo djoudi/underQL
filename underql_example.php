@@ -9,7 +9,7 @@ $the_users->name = "underQL";
 $the_users->email = "un@der.ql";
 $the_users->save();
 
-$result = $the_users->select('*');
+//$result = $the_users->select('*');
 
 
 ?>
