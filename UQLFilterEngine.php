@@ -22,17 +22,19 @@ class UQLFilterEngine
       
       foreach ($filters->getMap() as $key => $params)
       {
+        $filter_flag = $params[1];
+        if($filter_flag != UQL_FILTER_IN)
+         continue;
+         
         $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);
         
         if(!function_exists($filter_api_function))
          die($params[0].' is not a valid filter');
          
         if(@count($params) == 2) // the filter has no parameter(s)
-         $tmp_value = $filter_api_function($field_name,$tmp_value,$params[1]);
+         $tmp_value = $filter_api_function($field_name,$tmp_value,$filter_flag);
         else
          {
-           $filter_flag = $params[1];
-
            $params = array_shift($params); //delete filter name
            $params = array_shift($params); // delete in-out flag
            

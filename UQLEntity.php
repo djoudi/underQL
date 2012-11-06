@@ -76,6 +76,15 @@ class UQLEntity
       return $this->select($fields,"WHERE `$id_name` = $id"); 
    }
    
+   public function __destruct()
+   {
+      $this->uql_abstract_entity = null;
+      $this->uql_database_handle = null;
+      $this->uql_path = null;
+      $this->uql_change = null;
+      $this->uql_delete = null;
+   }
+   
 }
 
 ?>
