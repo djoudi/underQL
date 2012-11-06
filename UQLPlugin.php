@@ -6,9 +6,14 @@ class UQLPlugin{
 	
 	private $path;
 	
-	private function __construct($path_object)
+	private function __construct()
 	{
-		$this->path = $path_object;
+		$this->path = null;
+	}
+	
+	public function setPathObject($pobject)
+	{
+	  $this->path = $pobject;
 	}
 	public function __call($function_name,$parameters)
 	{

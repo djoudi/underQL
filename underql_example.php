@@ -10,6 +10,7 @@ $users->email = "un@der.ql";
 $users->save();
 
 //$result = $the_users->select('*');
+$result->plugin('toXML');
 
 
 ?>
