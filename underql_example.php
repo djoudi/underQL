@@ -8,4 +8,7 @@ $r = $users->select('*');
 
 echo $r->name;
 
+$r->freeResources();
+$_->freeResources();
+
 ?>

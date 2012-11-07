@@ -1,6 +1,6 @@
 <?php
 
-class UQLDeleteQuery {
+class UQLDeleteQuery extends UQLBase{
 
     private $uql_query;
     private $uql_abstract_entity;

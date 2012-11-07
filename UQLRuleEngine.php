@@ -1,6 +1,6 @@
 <?php
 
-class UQLRuleEngine {
+class UQLRuleEngine extends UQLBase{
     
     private $uql_rule_object;
     private $uql_values_map; //current inserted | updated $key => $value pairs
@@ -86,7 +86,7 @@ class UQLRuleEngine {
         $this->uql_fail_rules_list->freeResources();
     }
     public function __destruct() {
-        
+        $this->freeResources();
         $this->uql_values_map = null;
         $this->uql_rule_object = null;
     }

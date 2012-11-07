@@ -1,6 +1,6 @@
 <?php
 
-class UQLQuery {
+class UQLQuery extends UQLBase{
 
     private $uql_database_handle;
     private $uql_query_result;
@@ -107,7 +107,7 @@ class UQLQuery {
     }
 
     public function __destruct() {
-        $this->freeResult();
+        $this->freeResources();
         $this ->uql_query_result = null;
         $this ->uql_current_query_fields = null;
         $this ->uql_current_row_object = null;

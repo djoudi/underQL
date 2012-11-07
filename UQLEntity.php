@@ -1,6 +1,6 @@
 <?php
 
-class UQLEntity {
+class UQLEntity extends UQLBase{
     
     private $uql_abstract_entity;
     private $uql_database_handle;

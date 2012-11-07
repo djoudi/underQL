@@ -1,6 +1,6 @@
 <?php
 
-class UQLChangeQuery {
+class UQLChangeQuery extends UQLBase{
 
     private $uql_the_query;
     private $uql_the_abstract_entity;
@@ -187,6 +187,7 @@ class UQLChangeQuery {
     }
 
     public function __destruct() {
+        $this->freeResources();
         $this->uql_the_query = null;
         $this->uql_the_abstract_entity = null;
         $this->uql_the_values_map = null;

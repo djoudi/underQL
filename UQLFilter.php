@@ -1,6 +1,6 @@
 <?php
 
-class UQLFilter {
+class UQLFilter extends UQLBase{
 
     private $uql_entity_name;
     private $uql_filters_map;
@@ -56,6 +56,7 @@ class UQLFilter {
     }
 
     public function __destruct() {
+         $this->freeResources();
         $this->uql_entity_name = null;
         $this->uql_filters_map = null;
     }

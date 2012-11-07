@@ -1,6 +1,6 @@
 <?php
 
-class UQLConnection {
+class UQLConnection extends UQLBase{
 
     private $uql_connection_handle;
     private $uql_database_host;

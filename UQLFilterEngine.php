@@ -1,6 +1,6 @@
 <?php
 
-class UQLFilterEngine{
+class UQLFilterEngine extends UQLBase{
     
     private $uql_filter_object;
     private $uql_values_map; //current inserted | updated $key => $value pairs
@@ -66,6 +66,7 @@ class UQLFilterEngine{
         unset($this->uql_in_out_flag);
     }
     public function __destruct() {
+         $this->freeResources();
         $this->uql_values_map = null;
         $this->uql_filter_object = null;
     }

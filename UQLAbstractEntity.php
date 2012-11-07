@@ -1,6 +1,6 @@
 <?php
 
-class UQLAbstractEntity {
+class UQLAbstractEntity extends UQLBase{
 
     private $uql_entity_name;
     private $uql_fields;
@@ -70,6 +70,7 @@ class UQLAbstractEntity {
         unset($this->uql_fields_count);
     }
     public function __destruct() {
+         $this->freeResources();
         $this ->uql_entity_name = null;
         $this ->uql_fields = null;
         $this ->uql_fields_count = 0;

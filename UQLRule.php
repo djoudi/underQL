@@ -1,6 +1,6 @@
 <?php
 
-class UQLRule {
+class UQLRule extends UQLBase{
 
     private $uql_entity_name;
     private $uql_alises_map;
@@ -80,7 +80,7 @@ class UQLRule {
     }
 
     public function __destruct() {
-        
+         $this->freeResources();
         $this->uql_entity_name = null;
         $this->uql_rules_map = null;
         $this->uql_alises_map = null;

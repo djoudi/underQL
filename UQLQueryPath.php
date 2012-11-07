@@ -1,6 +1,6 @@
 <?php
 
-class UQLQueryPath {
+class UQLQueryPath extends UQLBase{
 
     public $uql_abstract_entity;
     // reference to the abstract table's data
@@ -80,7 +80,8 @@ class UQLQueryPath {
         unset($this ->uql_filter_engine);
     }
     public function __destruct() {
-        
+
+        $this->freeResources();
         $this->uql_abstract_entity = null;
         $this->uql_query_object = null;
         //$this->plugin = null;

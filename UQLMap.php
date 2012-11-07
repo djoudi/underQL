@@ -1,6 +1,6 @@
 <?php
 
-class UQLMap {
+class UQLMap extends UQLBase{
 
     private $uql_map_list;
     private $uql_elements_count;
@@ -66,7 +66,8 @@ class UQLMap {
         unset($this ->uql_elements_count);
     }
     public function __destruct() {
-
+        
+         $this->freeResources();
         $this -> uql_map_list = null;
         $this -> uql_elements_count = 0;
     }
