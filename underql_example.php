@@ -9,7 +9,7 @@ $a['name'] = 'Salem Ba-Hamden';
 $a['email'] = 'salem@gmail.com';
 
 $users->saveFromArray($a);
-//$users->updateFromArray($array);
+//$users->modifyFromArray($array);
 
 
 ?>

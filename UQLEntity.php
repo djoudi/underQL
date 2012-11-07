@@ -45,7 +45,7 @@ class UQLEntity
      $this->save();
    }
    
-   public function modify($extra)
+   public function modify($extra = '')
    {
     return $this->uql_change->modify($extra);
    }
