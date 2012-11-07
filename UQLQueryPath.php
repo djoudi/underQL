@@ -8,6 +8,7 @@ class UQLQueryPath {
     public $uql_filter_engine;
 
     public function __construct(&$database_handle, &$abstract_entity) {
+        
         if ($abstract_entity instanceof UQLAbstractEntity)
             $this ->uql_abstract_entity = $abstract_entity;
         else
@@ -19,6 +20,7 @@ class UQLQueryPath {
     }
 
     public function executeQuery($query) {
+        
         if ($this ->uql_query_object -> executeQuery($query)) {
             if ($this ->uql_query_object -> getCount() > 0) {
                 $this -> getNext();
@@ -70,6 +72,7 @@ class UQLQueryPath {
     }
 
     public function __destruct() {
+        
         $this->uql_abstract_entity = null;
         $this->uql_query_object = null;
         //$this->plugin = null;

@@ -7,12 +7,14 @@ class UQLRule {
     private $uql_rules_map;
 
     public function __construct($entity_name) {
+
         $this->uql_entity_name = $entity_name;
         $this->uql_alises_map  = new UQLMap();
         $this->uql_rules_map   = new UQLMap();
     }
 
     public function __call($function_name,$parameters) {
+
         $local_params_count = count($parameters);
         if($local_params_count == 0) return;
 
@@ -20,6 +22,7 @@ class UQLRule {
     }
 
     protected function addRule($field,$rule) {
+
         if(!$this->uql_rules_map->isElementExist($field))
             $this->uql_rules_map->addElement($field, new UQLMap());
 
@@ -30,14 +33,17 @@ class UQLRule {
     }
 
     public function getRulesByFieldName($field_name) {
+
         return $this->uql_rules_map->findElement($field_name);
     }
 
     public function addAlias($key, $value) {
+
         $this->uql_alises_map->addElement($key, $value);
     }
 
     public function getAlias($key) {
+
         return $this->uql_alises_map->findElement($key);
     }
 
@@ -54,6 +60,7 @@ class UQLRule {
     }
 
     public static function findRuleObject($entity) {
+        
         $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$entity);
 
         if(isset($GLOBALS[$rule_object_name]))
@@ -66,6 +73,7 @@ class UQLRule {
     }
 
     public function __destruct() {
+        
         $this->uql_entity_name = null;
         $this->uql_rules_map = null;
         $this->uql_alises_map = null;

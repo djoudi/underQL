@@ -8,6 +8,7 @@ class UQLRuleEngine {
     private $uql_fail_rules_list; // list of error messages about each field that fail in one or more rules
 
     public function __construct(&$rule_object,&$values_map) {
+        
         $this->uql_rule_object = $rule_object;
         $this->uql_values_map = $values_map;
         $this->uql_false_rule_flag = false;
@@ -15,6 +16,7 @@ class UQLRuleEngine {
     }
 
     protected function applyRule($field_name,$value) {
+
         $rules = $this->uql_rule_object->getRulesByFieldName($field_name);
 
         $the_results = array();
@@ -54,6 +56,7 @@ class UQLRuleEngine {
     }
 
     public function runEngine() {
+        
         if(!$this->uql_values_map || $this->uql_values_map->getCount() == 0)
             return null;
 
@@ -77,6 +80,7 @@ class UQLRuleEngine {
 
 
     public function __destruct() {
+        
         $this->uql_values_map = null;
         $this->uql_rule_object = null;
     }
