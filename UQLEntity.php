@@ -1,6 +1,7 @@
 <?php
 
 class UQLEntity {
+    
     private $uql_abstract_entity;
     private $uql_database_handle;
     private $uql_path;
@@ -24,11 +25,11 @@ class UQLEntity {
         return $this->uql_change->$name;
     }
 
-    public function save() {
-        return $this->uql_change->save();
+    public function insert() {
+        return $this->uql_change->insert();
     }
 
-    public function saveOrModifyFromArray($the_array,$extra = '',$is_save = true) {
+    public function insertOrUpdateFromArray($the_array,$extra = '',$is_save = true) {
         //$array_count = @count($the_array);
         foreach($the_array as $key => $value) {
             if($this->uql_abstract_entity->isFieldExist($key))
@@ -36,29 +37,29 @@ class UQLEntity {
         }
 
         if($is_save)
-            return $this->save();
+            return $this->insert();
         else
-            return $this->modify($extra);
+            return $this->update($extra);
     }
 
-    public function saveFromArray($the_array) {
-        return $this->saveOrModifyFromArray($the_array,null);
+    public function insertFromArray($the_array) {
+        return $this->insertOrUpdateFromArray($the_array,null);
     }
 
-    public function modifyFromArray($the_array,$extra ='') {
-        return $this->saveOrModifyFromArray($the_array,$extra,false);
+    public function updateFromArray($the_array,$extra ='') {
+        return $this->insertOrUpdateFromArray($the_array,$extra,false);
     }
 
-    public function modifyFromArrayWhereID($the_array,$id,$id_name = 'id') {
-        return $this->saveOrModifyFromArray($the_array,"WHERE `$id_name` = $id",false);
+    public function updateFromArrayWhereID($the_array,$id,$id_name = 'id') {
+        return $this->insertOrUpdateFromArray($the_array,"WHERE `$id_name` = $id",false);
     }
 
-    public function modify($extra = '') {
-        return $this->uql_change->modify($extra);
+    public function update($extra = '') {
+        return $this->uql_change->update($extra);
     }
 
-    public function modifyWhereID($id,$id_name = 'id') {
-        return $this->uql_change->modifyWhereID($id,$id_name);
+    public function updateWhereID($id,$id_name = 'id') {
+        return $this->uql_change->updateWhereID($id,$id_name);
     }
 
     public function delete($extra = '') {

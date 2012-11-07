@@ -8,9 +8,10 @@ function ufilter_html($name,$value,$in_out,$params = null)
    return $value;
 }
 
-function ufilter_mj($name,$value,$in_out,$params = null)
+
+function ufilter_uname($name,$value,$in_out,$params = null)
 {
-    if($in_out == UQL_FILTER_IN)
+    if($in_out == UQL_FILTER_OUT)
     {
         return md5($value);
     }

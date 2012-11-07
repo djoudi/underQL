@@ -1,5 +1,6 @@
 <?php
 
+require_once('UQL.php');
 require_once('UQLConnection.php');
 require_once('UQLAbstractEntity.php');
 require_once('UQLFilter.php');

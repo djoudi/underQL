@@ -97,7 +97,7 @@ class UQLChangeQuery {
         return $insert_query;
     }
 
-    protected function saveOrModify($is_save = true,$extra = '') {
+    protected function insertOrUpdate($is_save = true,$extra = '') {
         $values_count = $this->uql_the_values_map->getCount();
         if($values_count == 0)
             return false;
@@ -132,8 +132,8 @@ class UQLChangeQuery {
         return $this->uql_the_query->executeQuery($query);
     }
 
-    public function save() {
-        return $this->saveOrModify();
+    public function insert() {
+        return $this->insertOrUpdate();
     }
 
     protected function formatUpdateQuery($extra = '') {
@@ -169,12 +169,12 @@ class UQLChangeQuery {
     }
 
 
-    public function modify($extra ='') {
-        return $this->saveOrModify(false,$extra);
+    public function update($extra ='') {
+        return $this->insertOrUpdate(false,$extra);
     }
 
-    public function modifyWhereID($id,$id_name = 'id') {
-        return $this->modify("WHERE `$id_name` = $id");
+    public function updateWhereID($id,$id_name = 'id') {
+        return $this->update("WHERE `$id_name` = $id");
     }
 
     public function __destruct() {
