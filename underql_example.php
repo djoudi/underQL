@@ -2,11 +2,11 @@
 
 require_once('underQL.php');
 
-$_->loadEntity('users');
+$_('users');
 
 
-$a['name'] = 'Salem Ba-Hamden';
-$a['email'] = 'salem@gmail.com';
+$a['name'] = 'Jameel Ba-Hamden';
+$a['email'] = 'seven@gmail.com';
 
 $users->saveFromArray($a);
 //$users->modifyFromArray($array);
