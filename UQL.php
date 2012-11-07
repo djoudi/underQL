@@ -32,4 +32,6 @@ define ('UQL_DB_USER','root');
 define ('UQL_DB_PASSWORD','root');
 define ('UQL_DB_NAME','abdullaheid_db');
 define ('UQL_DB_CHARSET','utf8');
+
+define ('UQL_CONFIG_USE_INVOKE_CALL',true); // to use __invoke magic method
 ?>

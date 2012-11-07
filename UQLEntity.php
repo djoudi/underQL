@@ -33,7 +33,7 @@ class UQLEntity
     return $this->uql_change->save();
    }
    
-   public function saveFromArray($the_array)
+   public function saveOrModifyFromArray($the_array,$extra = '',$is_save = true)
    {
      //$array_count = @count($the_array);
      foreach($the_array as $key => $value)
@@ -42,7 +42,25 @@ class UQLEntity
         $this->$key = $value;
      }
      
-     $this->save();
+     if($is_save)
+      return $this->save();
+     else
+      return $this->modify($extra);
+   }
+   
+   public function saveFromArray($the_array)
+   {
+     return $this->saveOrModifyFromArray($the_array,null);
+   }
+     
+   public function modifyFromArray($the_array,$extra ='')
+   {
+     return $this->saveOrModifyFromArray($the_array,$extra,false);
+   }
+   
+   public function modifyFromArrayWhereID($the_array,$id,$id_name = 'id')
+   {
+     return $this->saveOrModifyFromArray($the_array,"WHERE `$id_name` = $id",false);
    }
    
    public function modify($extra = '')

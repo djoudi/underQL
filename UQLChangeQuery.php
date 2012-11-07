@@ -178,6 +178,7 @@ protected function formatUpdateQuery($extra = '')
 	   }
 	   
 	   $update_query .= $fields.' '.$extra;
+	   print('<pre>'.$update_query.'</pre>');
 	   
 	return $update_query;
 }
@@ -185,7 +186,7 @@ protected function formatUpdateQuery($extra = '')
 
 public function modify($extra ='')
 {
-  $this->saveOrModify(false,$extra);
+ return $this->saveOrModify(false,$extra);
 }
 
 public function modifyWhereID($id,$id_name = 'id')
