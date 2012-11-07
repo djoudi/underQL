@@ -35,19 +35,19 @@ class UQLMap {
     }
 
     public function getCount() {
-        return count($this->map_list);
+        return count($this->uql_map_list);
     }
 
     public function removeElement($key) {
 
         if ($this -> isElementExist($key)) {
-            unset($this -> map_list[$key]);
-            $this -> elements_count--;
+            unset($this -> uql_map_list[$key]);
+            $this -> uql_elements_count--;
         }
     }
 
     public function isEmpty() {
-        return $this -> elements_count == 0;
+        return $this -> uql_elements_count == 0;
     }
 
     public function mapCallback($callback) {
@@ -56,13 +56,13 @@ class UQLMap {
     }
 
     public function getMap() {
-        return $this->map_list;
+        return $this->uql_map_list;
     }
 
     public function __destruct() {
 
-        $this -> map_list = null;
-        $this -> elements_count = 0;
+        $this -> uql_map_list = null;
+        $this -> uql_elements_count = 0;
     }
 
 }

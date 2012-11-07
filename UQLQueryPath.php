@@ -15,7 +15,7 @@ class UQLQueryPath {
             die('You must provide a appropriate value for abstract_entity');
 
         $this ->uql_query_object = new UQLQuery($database_handle);
-        $filter_object = UQLFilter::findFilterObject($this->abstract_entity->getEntityName());
+        $filter_object = UQLFilter::findFilterObject($this->uql_abstract_entity->getEntityName());
         $this ->uql_filter_engine = new UQLFilterEngine($filter_object,UQL_FILTER_OUT);
     }
 

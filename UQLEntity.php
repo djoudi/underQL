@@ -74,7 +74,7 @@ class UQLEntity {
         $this->uql_path = new UQLQueryPath($this->uql_database_handle,$this->uql_abstract_entity);
         if($this->uql_path->executeQuery($query))
             return $this->uql_path;
-
+ 
         return false;
     }
 

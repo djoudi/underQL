@@ -31,6 +31,7 @@ class UQLChangeQuery {
             die($name.' is not a valid column name');
 
         $this->uql_the_values_map->addElement($name,$value);
+       // echo '<pre>'; var_dump($this->uql_the_values_map); echo '</pre>';
     }
 
     public function __get($name) {
