@@ -178,7 +178,6 @@ protected function formatUpdateQuery($extra = '')
 	   }
 	   
 	   $update_query .= $fields.' '.$extra;
-	   print('<pre>'.$update_query.'</pre>');
 	   
 	return $update_query;
 }

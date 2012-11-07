@@ -1,17 +1,25 @@
 <?php
 
-require_once('underQL.php');
+//mysql_error_messages and error messages in general
+//enable disable filter engine rule engine
 
+require_once('underQL.php');
+function urule_length($name,$value,$alias,$params = null)
+{
+ 
+}
 $_('users');
 
+$users->id = 700;
+$users->name = "Saad";
+$users->email = "saad@saudi.com";
+$users->description = "Programmer";
 
-$a['name'] = 'Zeba Ba-Hamden';
-$a['email'] = 'Meba@gmail.com';
+$users->save();
 
-echo '<pre>';
-//var_dump($users);
-echo '</pre>';
-$users->modifyFromArrayWhereID($a,5028);
 
+$result = $users->select('*');
+
+echo $result->email;
 
 ?>

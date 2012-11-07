@@ -39,7 +39,7 @@ class UQLRuleEngine
         else
          {
            $params = array_shift($params); // delete rule name
-           $result = $rule_api_function($field_name,$vaue,$alias,$params);
+           $result = $rule_api_function($field_name,$value,$alias,$params);
          }
          
          if($result != UQL_RULE_SUCCESS)
