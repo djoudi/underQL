@@ -2,14 +2,14 @@
 
 class UQLRule {
 
-    private $entity_name;
-    private $alises_map;
-    private $rules_map;
+    private $uql_entity_name;
+    private $uql_alises_map;
+    private $uql_rules_map;
 
     public function __construct($entity_name) {
-        $this->entity_name = $entity_name;
-        $this->alises_map  = new UQLMap();
-        $this->rules_map   = new UQLMap();
+        $this->uql_entity_name = $entity_name;
+        $this->uql_alises_map  = new UQLMap();
+        $this->uql_rules_map   = new UQLMap();
     }
 
     public function __call($function_name,$parameters) {
@@ -20,37 +20,37 @@ class UQLRule {
     }
 
     protected function addRule($field,$rule) {
-        if(!$this->rules_map->isElementExist($field))
-            $this->rules_map->addElement($field, new UQLMap());
+        if(!$this->uql_rules_map->isElementExist($field))
+            $this->uql_rules_map->addElement($field, new UQLMap());
 
-        $local_rule = $this->rules_map->findElement($field);
+        $local_rule = $this->uql_rules_map->findElement($field);
         $local_rule->addElement($rule[0]/*rule name*/,$rule);
 
-        $this->rules_map->addElement($field, $local_rule);
+        $this->uql_rules_map->addElement($field, $local_rule);
     }
 
     public function getRulesByFieldName($field_name) {
-        return $this->rules_map->findElement($field_name);
+        return $this->uql_rules_map->findElement($field_name);
     }
 
     public function addAlias($key, $value) {
-        $this->alises_map->addElement($key, $value);
+        $this->uql_alises_map->addElement($key, $value);
     }
 
     public function getAlias($key) {
-        return $this->alises_map->findElement($key);
+        return $this->uql_alises_map->findElement($key);
     }
 
     public function getRules() {
-        return $this->alises_map;
+        return $this->uql_alises_map;
     }
 
     public function getEntityName() {
-        return $this->entity_name;
+        return $this->uql_entity_name;
     }
 
     public function getAliases() {
-        return $this->alises_map;
+        return $this->uql_alises_map;
     }
 
     public static function findRuleObject($entity) {
@@ -66,9 +66,9 @@ class UQLRule {
     }
 
     public function __destruct() {
-        $this->entity_name = null;
-        $this->rules_map = null;
-        $this->alises_map = null;
+        $this->uql_entity_name = null;
+        $this->uql_rules_map = null;
+        $this->uql_alises_map = null;
     }
 }
 

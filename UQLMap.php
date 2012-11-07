@@ -1,34 +1,34 @@
 <?php
 class UQLMap {
 
-    private $map_list;
-    private $elements_count;
+    private $uql_map_list;
+    private $uql_elements_count;
 
     public function __construct() {
-        $this -> map_list = array();
-        $this -> elements_count = 0;
+        $this ->uql_map_list = array();
+        $this ->uql_elements_count = 0;
     }
 
     public function addElement($key, $value) {
 
         if($this->findElement($key) == null)
-            $this -> elements_count++;
+            $this ->uql_elements_count++;
 
-        $this -> map_list[$key] = $value;
+        $this ->uql_map_list[$key] = $value;
     }
 
     public function findElement($key) {
         if ($this -> isElementExist($key))
-            return $this -> map_list[$key];
+            return $this ->uql_map_list[$key];
 
         return null;
     }
 
     public function isElementExist($key) {
-        if ($this -> elements_count <= 0)
+        if ($this ->uql_elements_count <= 0)
             return false;
 
-        if (@array_key_exists($key, $this -> map_list))
+        if (@array_key_exists($key, $this ->uql_map_list))
             return true;
 
         return false;
