@@ -13,7 +13,7 @@ function ufilter_uname($name,$value,$in_out,$params = null)
 {
     if($in_out == UQL_FILTER_OUT)
     {
-        return md5($value);
+        return ufilter_html($value);
     }
     else
         return $value;

@@ -98,6 +98,15 @@ class UQLEntity {
         return $this->uql_change->getMessageList();
     }
 
+    public function freeResources()
+    {
+        $this->uql_abstract_entity->freeResources();
+        unset($this->uql_database_handle);
+        if($this->uql_path != null)
+                $this->uql_path->freeReources();
+        $this->uql_change->freeResources();
+        $this->uql_delete->freeResources();
+    }
     public function __destruct() {
         $this->uql_abstract_entity = null;
         $this->uql_database_handle = null;

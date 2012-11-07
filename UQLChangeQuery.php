@@ -177,6 +177,15 @@ class UQLChangeQuery {
         return $this->update("WHERE `$id_name` = $id");
     }
 
+    public function freeResources()
+    {
+        $this->uql_the_query->freeResources();
+        unset($this->uql_the_abstract_entity);
+        $this->uql_the_values_map->freeResources();
+        unset($this->uql_the_rule_engine);
+        unset($this->uql_the_rule_engine_results);
+    }
+
     public function __destruct() {
         $this->uql_the_query = null;
         $this->uql_the_abstract_entity = null;

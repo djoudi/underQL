@@ -71,6 +71,14 @@ class UQLQueryPath {
         return "Unknown";
     }
 
+    public function freeResources()
+    {
+        unset($this ->uql_abstract_entity);
+        
+        $this ->uql_query_object->freeResources();
+        unset($filter_object);
+        unset($this ->uql_filter_engine);
+    }
     public function __destruct() {
         
         $this->uql_abstract_entity = null;

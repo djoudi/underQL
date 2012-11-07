@@ -2,7 +2,10 @@
 
 require_once('underQL.php');
 
-$_('users');
+$_('*');
 
+$r = $users->select('*');
+
+echo $r->name;
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 class UQLMap {
 
     private $uql_map_list;
@@ -59,6 +60,11 @@ class UQLMap {
         return $this->uql_map_list;
     }
 
+    public function freeResources()
+    {
+        unset($this ->uql_map_list);
+        unset($this ->uql_elements_count);
+    }
     public function __destruct() {
 
         $this -> uql_map_list = null;

@@ -49,19 +49,16 @@ class UQLFilter {
         return $filter_object;
     }
 
+    public function freeResources()
+    {
+        unset($this->uql_entity_name);
+        $this->uql_filters_map->freeResources();
+    }
+
     public function __destruct() {
         $this->uql_entity_name = null;
         $this->uql_filters_map = null;
     }
-}
-
-
-//$the_students_filter = new UQLFilter("students");
-//$the_students_filter->name("sql_injection",UQL_FILTER_IN);
-
-function ufilter_php($name,$value,$in_out,$params = null) {
-    $result = $value;
-    return $result;
 }
 
 ?>

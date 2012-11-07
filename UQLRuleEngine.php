@@ -78,7 +78,13 @@ class UQLRuleEngine {
         return $this->uql_fail_rules_list->getMap();
     }
 
-
+    public function freeResources()
+    {
+        unset($this->uql_rule_object);
+        unset($this->uql_values_map);
+        unset($this->uql_false_rule_flag);
+        $this->uql_fail_rules_list->freeResources();
+    }
     public function __destruct() {
         
         $this->uql_values_map = null;

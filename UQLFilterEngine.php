@@ -1,6 +1,7 @@
 <?php
 
-class UQLFilterEngine {
+class UQLFilterEngine{
+    
     private $uql_filter_object;
     private $uql_values_map; //current inserted | updated $key => $value pairs
     private $uql_in_out_flag; // specify if the engine for input or output
@@ -58,6 +59,12 @@ class UQLFilterEngine {
         return $this->uql_values_map;
     }
 
+    public function freeResources()
+    {
+        unset($this->uql_filter_object);
+        unset($this->uql_values_map);
+        unset($this->uql_in_out_flag);
+    }
     public function __destruct() {
         $this->uql_values_map = null;
         $this->uql_filter_object = null;
