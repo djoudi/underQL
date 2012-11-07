@@ -2,12 +2,12 @@
 
 class UQLFilter {
 
-    private $entity_name;
-    private $filters_map;
+    private $uql_entity_name;
+    private $uql_filters_map;
 
     public function __construct($entity_name) {
-        $this->entity_name = $entity_name;
-        $this->filters_map   = new UQLMap();
+        $this->uql_entity_name = $entity_name;
+        $this->uql_filters_map   = new UQLMap();
     }
 
     public function __call($function_name,$parameters) {
@@ -19,24 +19,24 @@ class UQLFilter {
     }
 
     protected function addFilter($field,$filter) {
-        if(!$this->filters_map->isElementExist($field))
-            $this->filters_map->addElement($field, new UQLMap());
+        if(!$this->uql_filters_map->isElementExist($field))
+            $this->uql_filters_map->addElement($field, new UQLMap());
 
-        $local_filter = $this->filters_map->findElement($field);
+        $local_filter = $this->uql_filters_map->findElement($field);
         $local_filter->addElement($local_filter->getCount(),$filter);
-        $this->filters_map->addElement($field, $local_filter);
+        $this->uql_filters_map->addElement($field, $local_filter);
     }
 
     public function getFiltersByFieldName($field_name) {
-        return $this->filters_map->findElement($field_name);
+        return $this->uql_filters_map->findElement($field_name);
     }
 
     public function getFilters() {
-        return $this->filters_map;
+        return $this->uql_filters_map;
     }
 
     public function getEntityName() {
-        return $this->entity_name;
+        return $this->uql_entity_name;
     }
 
     public static function findFilterObject($entity) {
@@ -50,8 +50,8 @@ class UQLFilter {
     }
 
     public function __destruct() {
-        $this->entity_name = null;
-        $this->filters_map = null;
+        $this->uql_entity_name = null;
+        $this->uql_filters_map = null;
     }
 }
 
