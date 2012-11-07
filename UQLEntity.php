@@ -33,6 +33,18 @@ class UQLEntity
     return $this->uql_change->save();
    }
    
+   public function saveFromArray($the_array)
+   {
+     //$array_count = @count($the_array);
+     foreach($the_array as $key => $value)
+     {
+       if($this->uql_abstract_entity->isFieldExist($key))
+        $this->$key = $value;
+     }
+     
+     $this->save();
+   }
+   
    public function modify($extra)
    {
     return $this->uql_change->modify($extra);
@@ -81,11 +93,11 @@ class UQLEntity
 	   return $this->uql_change->areRulesPassed();
 	}
 	
-	public function getMessagesList()
+   public function getMessagesList()
 	{
 	 return $this->uql_change->getMessageList();  
 	}
-	
+   
    public function __destruct()
    {
       $this->uql_abstract_entity = null;

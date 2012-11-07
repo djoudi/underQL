@@ -5,12 +5,11 @@ require_once('underQL.php');
 $_->loadEntity('users');
 
 
-$users->name = "underQL";
-$users->email = "un@der.ql";
-$users->save();
+$a['name'] = 'Salem Ba-Hamden';
+$a['email'] = 'salem@gmail.com';
 
-//$result = $the_users->select('*');
-//$result->plugin('toXML');
+$users->saveFromArray($a);
+//$users->updateFromArray($array);
 
 
 ?>
