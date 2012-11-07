@@ -4,10 +4,7 @@
 //enable disable filter engine rule engine
 
 require_once('underQL.php');
-function urule_length($name,$value,$alias,$params = null)
-{
- 
-}
+
 $_('users');
 
 $users->id = 700;
