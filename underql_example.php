@@ -21,7 +21,6 @@ $users_filter->name('stripTags',UQL_FILTER_IN);
 $users_rule = new UQLRule('users');
 $users_rule->name('devaz');
 
-//$users->id = 772;
 $users->name = "abdullaheid";
 
 $r = $users->insert();
