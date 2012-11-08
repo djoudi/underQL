@@ -107,6 +107,7 @@ class UQLChangeQuery extends UQLBase{
         if($rule_object != null) {
             $this->uql_the_rule_engine = new UQLRuleEngine($rule_object,
                     $this->uql_the_values_map);
+
             $this->uql_the_rule_engine_results = $this->uql_the_rule_engine->runEngine();
 
             if(!$this->uql_the_rule_engine->areRulesPassed())

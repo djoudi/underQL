@@ -108,6 +108,7 @@ class UQLEntity extends UQLBase{
         $this->uql_delete->freeResources();
     }
     public function __destruct() {
+        $this->freeResources();
         $this->uql_abstract_entity = null;
         $this->uql_database_handle = null;
         $this->uql_path = null;

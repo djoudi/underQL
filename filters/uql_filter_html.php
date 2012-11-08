@@ -1,19 +1,18 @@
 <?php
 
-function ufilter_html($name,$value,$in_out,$params = null)
+function ufilter_SQLi($name,$value,$in_out,$params = null)
 {
-  if($in_out == UQL_FILTER_OUT)
-   return $params[0].$value.$params[1];
-   
-   return $value;
+    if($in_out == UQL_FILTER_IN)
+        return mysql_real_escape_string($value);
+    else
+        return $value;
 }
 
-
-function ufilter_uname($name,$value,$in_out,$params = null)
+function ufilter_stripTags($name,$value,$in_out,$params = null)
 {
-    if($in_out == UQL_FILTER_OUT)
+    if($in_out == UQL_FILTER_IN)
     {
-        return ufilter_html($value);
+            return strip_tags($value);
     }
     else
         return $value;

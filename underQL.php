@@ -69,16 +69,19 @@ class underQL extends UQLBase{
         {
           $this->loadAllEntities();
           return;
-        }
+        } 
 
         if(!in_array($entity_name,$this->uql_entity_list))
             die($entity_name.' is not a valid table name');
 
+       // echo '<pre>'; var_dump($this->uql_entity_list); echo '</pre>';
         if(in_array($entity_name,$this->uql_loaded_entity_list))
             return; // no action NOP
 
+        sprintf(UQL_ENTITY_OBJECT_SYNTAX,$entity_name);
         $GLOBALS[sprintf(UQL_ENTITY_OBJECT_SYNTAX,$entity_name)]=
                         new UQLEntity($entity_name,$this->uql_database_handle);
+        
     }
 
     public function loadAllEntities()

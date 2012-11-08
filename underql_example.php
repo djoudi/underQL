@@ -1,14 +1,20 @@
 <?php
 
 require_once('underQL.php');
+require_once('filters/uql_filter_html.php');
 
-$_('*');
+$_('users');
 
-$r = $users->select('*');
+$users_filter = new UQLFilter('users');
+$users_filter->name('stripTags',UQL_FILTER_IN);
+$users_filter->name('SQLi',UQL_FILTER_IN);
 
-echo $r->name;
+//$users->id = 772;
+$users->name = "<h1>abdullaheid</h2>";
 
-$r->freeResources();
-$_->freeResources();
-
+$r = $users->insert();
+//echo '<pre>';
+//var_dump($r);
+//echo '</pre>';
+//echo mysql_error();
 ?>
