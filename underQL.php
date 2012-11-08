@@ -20,7 +20,7 @@ require_once('UQLPlugin.php');
 class underQL extends UQLBase{
     
     private $uql_database_handle;
-    private $uql_entity_list; // load all table names from current database
+    private $uql_entity_list; // load all tables' names from current database
     private $uql_loaded_entity_list;
 
     public function __construct(
@@ -30,11 +30,13 @@ class underQL extends UQLBase{
             $password = UQL_DB_PASSWORD,
             $charset = UQL_DB_CHARSET) {
 
+        /* check if we could use __invoke method syntax with underQL object or not */
         if(UQL_CONFIG_USE_INVOKE_CALL) {
             $php_ver = floatval(PHP_VERSION);
             if($php_ver < 5.3)
                 die('underQL work at least on PHP 5.3 with invoke attribute. Go to UQL.php and change UQL_CONFIG_USE_INVOKE_CALL to false and use loadEntity method rather thatn $_(\'table\') method');
         }
+        
         $this->uql_database_handle = new UQLConnection($host, $database_name, $user, $password, $charset);
         $this->entityListInit();
         $this->uql_loaded_entity_list = array();
@@ -45,6 +47,7 @@ class underQL extends UQLBase{
         return $this->uql_database_handle;
     }
 
+    /* read all tables(entities) from current database and store them into array */
     protected function entityListInit() {
         
         $local_string_query = sprintf("SHOW TABLES FROM `%s`", $this ->uql_database_handle->getDatabaseName());
@@ -63,6 +66,8 @@ class underQL extends UQLBase{
         }
     }
 
+    /* create UQLEntity object and load all information about
+       $entity_name table within it */
     public function loadEntity($entity_name) {
 
         if(strcmp($entity_name,'*') == 0)
@@ -74,16 +79,21 @@ class underQL extends UQLBase{
         if(!in_array($entity_name,$this->uql_entity_list))
             die($entity_name.' is not a valid table name');
 
-       // echo '<pre>'; var_dump($this->uql_entity_list); echo '</pre>';
         if(in_array($entity_name,$this->uql_loaded_entity_list))
-            return; // no action NOP
+            return; // no action
 
+        /* Create a global entity object. This part helps underQL to know
+           the entity's object name for any loaded entity(table), therefore, underQL 
+           could automatically use it in its own operations. */
+           
         sprintf(UQL_ENTITY_OBJECT_SYNTAX,$entity_name);
         $GLOBALS[sprintf(UQL_ENTITY_OBJECT_SYNTAX,$entity_name)]=
                         new UQLEntity($entity_name,$this->uql_database_handle);
         
     }
 
+    /* You can load all tables as objects at once by use * symbol. This function
+       used to do that. */
     public function loadAllEntities()
     {
         $entity_count = @count ($this->uql_entity_list);
@@ -91,6 +101,8 @@ class underQL extends UQLBase{
          $this->loadEntity($this->uql_entity_list[$i]);
     }
 
+    /* Helps underQL to use (object as function) syntax. However, this method used
+       only with PHP 5.3.x and over */
     public function __invoke($entity_name) {
         $this->loadEntity($entity_name);
     }
@@ -102,6 +114,11 @@ class underQL extends UQLBase{
     }
 }
 
+ /* Create underQL (this object called 'under'). This is the default object, but
+    you can create another instance if you would like to deal with another database
+    by specifying the parameters for that database. However, you can change the name
+    of the ($_) 'under' object but it is unpreferable(might be for future purposes).
+ */
 $_ = new underQL();
 
 ?>
