@@ -15,6 +15,7 @@ class UQLEntity extends UQLBase{
         $this->uql_path = null;
         $this->uql_change = new UQLChangeQuery($database_handle,$this->uql_abstract_entity);
         $this->uql_delete = new UQLDeleteQuery($database_handle,$this->uql_abstract_entity);
+        //echo '<pre>'; var_dump($this->uql_abstract_entity); echo '</pre>';
     }
 
     public function __set($name,$value) {
