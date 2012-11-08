@@ -12,11 +12,8 @@ $users_filter->name('stripTags',UQL_FILTER_IN);
 
 
 //$users->id = 772;
-$users->name = "<h1>abdullaheid</h2>";
+$users->name = "<h1>abdullaheid--</h2>";
 
 $r = $users->insert();
-//echo '<pre>';
-//var_dump($r);
-//echo '</pre>';
-//echo mysql_error();
+
 ?>

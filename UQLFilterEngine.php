@@ -59,14 +59,7 @@ class UQLFilterEngine extends UQLBase{
         return $this->uql_values_map;
     }
 
-    public function freeResources()
-    {
-        unset($this->uql_filter_object);
-        unset($this->uql_values_map);
-        unset($this->uql_in_out_flag);
-    }
     public function __destruct() {
-         $this->freeResources();
         $this->uql_values_map = null;
         $this->uql_filter_object = null;
     }

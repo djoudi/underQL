@@ -31,10 +31,11 @@ class UQLChangeQuery extends UQLBase{
             die($name.' is not a valid column name');
 
         $this->uql_the_values_map->addElement($name,$value);
-       // echo '<pre>'; var_dump($this->uql_the_values_map); echo '</pre>';
+       //echo '<pre>'; var_dump($this->uql_the_values_map); echo '</pre>';
     }
 
-    public function __get($name) {
+    public function __get($name) { //echo $name;
+    //echo '<pre>'; var_dump($this->uql_the_abstract_entity); echo '</pre>';
         if(!$this->uql_the_abstract_entity->isFieldExist($name))
             die($name.' is not a valid column name');
 
@@ -178,17 +179,7 @@ class UQLChangeQuery extends UQLBase{
         return $this->update("WHERE `$id_name` = $id");
     }
 
-    public function freeResources()
-    {
-        $this->uql_the_query->freeResources();
-        unset($this->uql_the_abstract_entity);
-        $this->uql_the_values_map->freeResources();
-        unset($this->uql_the_rule_engine);
-        unset($this->uql_the_rule_engine_results);
-    }
-
     public function __destruct() {
-        $this->freeResources();
         $this->uql_the_query = null;
         $this->uql_the_abstract_entity = null;
         $this->uql_the_values_map = null;

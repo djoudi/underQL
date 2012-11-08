@@ -71,17 +71,8 @@ class UQLQueryPath extends UQLBase{
         return "Unknown";
     }
 
-    public function freeResources()
-    {
-        unset($this ->uql_abstract_entity);
-        
-        $this ->uql_query_object->freeResources();
-        unset($filter_object);
-        unset($this ->uql_filter_engine);
-    }
     public function __destruct() {
 
-        $this->freeResources();
         $this->uql_abstract_entity = null;
         $this->uql_query_object = null;
         //$this->plugin = null;

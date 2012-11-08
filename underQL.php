@@ -95,16 +95,7 @@ class underQL extends UQLBase{
         $this->loadEntity($entity_name);
     }
 
-    public function freeResources()
-    {
-      $this->uql_database_handle->freeResources();
-      unset($this->uql_entity_list);
-      unset($this->uql_loaded_entity_list);
-    }
-
     public function __destruct() {
-         $this->freeResources();
-        //$this->uql_database_handle->closeConnection();
         $this->uql_database_handle = null;
         $this->uql_entity_list = null;
         $this->uql_loaded_entity_list = null;

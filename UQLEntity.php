@@ -14,6 +14,7 @@ class UQLEntity extends UQLBase{
         $this->uql_database_handle = $database_handle;
         $this->uql_path = null;
         $this->uql_change = new UQLChangeQuery($database_handle,$this->uql_abstract_entity);
+        //echo '<pre>'; var_dump($this->uql_change); echo '</pre>';
         $this->uql_delete = new UQLDeleteQuery($database_handle,$this->uql_abstract_entity);
         //echo '<pre>'; var_dump($this->uql_abstract_entity); echo '</pre>';
     }
@@ -99,17 +100,7 @@ class UQLEntity extends UQLBase{
         return $this->uql_change->getMessageList();
     }
 
-    public function freeResources()
-    {
-        $this->uql_abstract_entity->freeResources();
-        unset($this->uql_database_handle);
-        if($this->uql_path != null)
-                $this->uql_path->freeReources();
-        $this->uql_change->freeResources();
-        $this->uql_delete->freeResources();
-    }
     public function __destruct() {
-        $this->freeResources();
         $this->uql_abstract_entity = null;
         $this->uql_database_handle = null;
         $this->uql_path = null;

@@ -59,15 +59,9 @@ class UQLMap extends UQLBase{
     public function getMap() {
         return $this->uql_map_list;
     }
-
-    public function freeResources()
-    {
-        unset($this ->uql_map_list);
-        unset($this ->uql_elements_count);
-    }
+    
     public function __destruct() {
         
-         $this->freeResources();
         $this -> uql_map_list = null;
         $this -> uql_elements_count = 0;
     }

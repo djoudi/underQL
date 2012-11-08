@@ -63,14 +63,7 @@ class UQLAbstractEntity extends UQLBase{
         return $this ->uql_fields_count;
     }
 
-    public function freeResources()
-    {
-        unset($this->uql_entity_name);
-        unset($this->uql_fields);
-        unset($this->uql_fields_count);
-    }
     public function __destruct() {
-         $this->freeResources();
         $this ->uql_entity_name = null;
         $this ->uql_fields = null;
         $this ->uql_fields_count = 0;

@@ -72,15 +72,8 @@ class UQLRule extends UQLBase{
 
     }
 
-    public function freeResources()
-    {
-        unset($this->uql_entity_name);
-        $this->uql_alises_map->freeResources();
-        $this->uql_rules_map->freeResources();
-    }
-
     public function __destruct() {
-         $this->freeResources();
+    
         $this->uql_entity_name = null;
         $this->uql_rules_map = null;
         $this->uql_alises_map = null;

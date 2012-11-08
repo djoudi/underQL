@@ -98,16 +98,8 @@ class UQLQuery extends UQLBase{
         $this ->uql_current_query_fields = array();
     }
 
-    public function freeResources()
-    {
-        $this->freeResult();
-        unset($this ->uql_current_row_object);
-        unset($this ->uql_query_result);
-        unset($this ->uql_current_query_fields);
-    }
-
     public function __destruct() {
-        $this->freeResources();
+
         $this ->uql_query_result = null;
         $this ->uql_current_query_fields = null;
         $this ->uql_current_row_object = null;

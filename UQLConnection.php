@@ -115,21 +115,9 @@ class UQLConnection extends UQLBase{
         $this ->uql_connection_handle = false;
     }
 
-    public function freeResources()
-    {
-        $this -> closeConnection();
-        unset($this ->uql_database_host);
-        unset($this ->uql_database_name);
-        unset($this ->uql_database_user_name);
-        unset($this ->uql_database_password);
-        unset($this ->uql_operations_charset);
-        unset($this ->uql_connection_handle);
-        unset($this ->uql_error_message);
-    }
-
     public function __destruct() {
         //Clean up
-        $this -> closeConnection();
+//        $this -> closeConnection();
         $this ->uql_database_host = null;
         $this ->uql_database_name = null;
         $this ->uql_database_user_name = null;
