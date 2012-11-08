@@ -47,14 +47,14 @@ class UQLChangeQuery extends UQLBase{
     }
 
     public function areRulesPassed() {
-        if($this->uql_the_rules_engine != null)
-            return $this->areRulesPassed();
+        if($this->uql_the_rule_engine != null)
+            return $this->uql_the_rule_engine->areRulesPassed();
 
         return true;
     }
 
     public function getMessagesList() {
-        if(($this->uql_the_rules_engine != null)
+        if(($this->uql_the_rule_engine != null)
                 ||
                 ($this->uql_the_rule_engine_results == true))
             return $this->uql_the_rule_engine_results;

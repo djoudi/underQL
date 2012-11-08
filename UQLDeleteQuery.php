@@ -44,12 +44,6 @@ class UQLDeleteQuery extends UQLBase{
         return $result;
     }*/
 
-    public function freeResources()
-    {
-        $this->uql_query->freeResources();
-        unset($this->uql_abstract_entity);
-    }
-
     public function __destruct()
     {
         $this->uql_query = null;

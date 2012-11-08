@@ -45,7 +45,7 @@ class UQLRuleEngine extends UQLBase{
                 $this->uql_false_rule_flag = true;
             }
             else
-                $the_results[$rule_name] = UQL_RULE_SUCCESS; // OK
+                $the_results[$rule_name] = $result; // OK
         }
 
         return $the_results;

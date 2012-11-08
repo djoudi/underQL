@@ -97,7 +97,7 @@ class UQLEntity extends UQLBase{
     }
 
     public function getMessagesList() {
-        return $this->uql_change->getMessageList();
+        return $this->uql_change->getMessagesList();
     }
 
     public function __destruct() {
