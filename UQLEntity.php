@@ -100,6 +100,11 @@ class UQLEntity extends UQLBase{
         return $this->uql_change->getMessagesList();
     }
 
+    public function getAbstractEntity()
+    {
+      return $this->uql_abstract_entity;
+    }
+    
     public function __destruct() {
         $this->uql_abstract_entity = null;
         $this->uql_database_handle = null;
