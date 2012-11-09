@@ -1,6 +1,6 @@
 <?php
 
-require_once('rules_api/uql_rule_isemail.php');
+include_rules('isemail');
 
 $users_rule = new UQLRule('users');
 $users_rule->email('isemail');

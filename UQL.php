@@ -7,6 +7,9 @@ define('UQL_VERSION_ID',20120512);
 //define('UQL_VERSION_CODE_NAME','Eid');
 define('UQL_DIR_FILTER','filters/');
 define('UQL_DIR_FILTER_API','filters_api/');
+
+define('UQL_DIR_RULE','rules/');
+define('UQL_DIR_RULE_API','rules_api/');
 //%s represents the table name
 //define ('UQL_ABSTRACT_E_OBJECT_SYNTAX','the_%s_abstract');
 
