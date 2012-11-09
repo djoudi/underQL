@@ -53,7 +53,6 @@ class UQLFilterEngine extends UQLBase{
 
 
         foreach($this->uql_values_map->getMap() as $name => $value) {
-            // echo $this->applyFilter($name,$value).'<br />';
             $this->uql_values_map->addElement($name,$this->applyFilter($name,$value));
         }
         return $this->uql_values_map;
