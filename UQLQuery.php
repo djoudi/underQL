@@ -99,7 +99,7 @@ class UQLQuery extends UQLBase{
     }
 
     public function __destruct() {
-
+        $this->freeResult();
         $this ->uql_query_result = null;
         $this ->uql_current_query_fields = null;
         $this ->uql_current_row_object = null;
