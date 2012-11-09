@@ -115,7 +115,7 @@ class underQL extends UQLBase{
  /* Create underQL (this object called 'under') object. This is the default object, but
     you can create another instance if you would like to deal with another database
     by specifying the parameters for that database. However, you can change the name
-    of the ($_) 'under' object but it is unpreferable(might be for future purposes).
+    of the ($_) 'under' object but, it is unpreferable(might be for future purposes).
  */
 $_ = new underQL();
 
