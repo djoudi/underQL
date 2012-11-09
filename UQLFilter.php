@@ -13,7 +13,7 @@ class UQLFilter extends UQLBase{
     public function __call($function_name,$parameters) {
         $local_params_count = count($parameters);
         if($local_params_count < 2 /*filter_type (in | out) and filter_name [AT LEAST]*/)
-            die('The filter must have 2 parameters at least');
+            $this->error($function_name.' filter must have 2 parameters at least');
 
         $this->addFilter($function_name, $parameters);
     }

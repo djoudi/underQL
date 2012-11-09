@@ -32,7 +32,7 @@ class underQL extends UQLBase{
         if(UQL_CONFIG_USE_INVOKE_CALL) {
             $php_ver = floatval(PHP_VERSION);
             if($php_ver < 5.3)
-                die('underQL work at least on PHP 5.3 with invoke attribute. Go to UQL.php and change UQL_CONFIG_USE_INVOKE_CALL to false and use loadEntity method rather thatn $_(\'table\') method');
+                $this->error('underQL work at least on PHP 5.3 to run invoke magic method. Go to UQL.php and change UQL_CONFIG_USE_INVOKE_CALL to false, after that, use loadEntity method rather thatn $_(\'table\') method');
         }
         
         $this->uql_database_handle = new UQLConnection($host, $database_name, $user, $password, $charset);
@@ -60,7 +60,7 @@ class underQL extends UQLBase{
             @mysql_free_result($local_query_result);
 
         } else {
-            die(mysql_error(/*$this->uql_database_handle -> getConnectionHandle()*/));
+            $this->error(mysql_error(/*$this->uql_database_handle -> getConnectionHandle()*/));
         }
     }
 
@@ -75,7 +75,7 @@ class underQL extends UQLBase{
         } 
 
         if(!in_array($entity_name,$this->uql_entity_list))
-            die($entity_name.' is not a valid table name');
+            $this->error($entity_name.' is not a valid table name');
 
         if(in_array($entity_name,$this->uql_loaded_entity_list))
             return; // no action

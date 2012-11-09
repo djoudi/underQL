@@ -7,7 +7,7 @@ class UQLDeleteQuery extends UQLBase{
 
     public function __construct(&$database_handle,&$abstract_entity) {
         if((!$database_handle instanceof UQLConnection) || (!$abstract_entity instanceof UQLAbstractEntity))
-            die('Bad database handle');
+            $this->error('Bad database handle');
 
         $this->uql_query = new UQLQuery($database_handle);
         $this->uql_abstract_entity = $abstract_entity;
@@ -30,19 +30,6 @@ class UQLDeleteQuery extends UQLBase{
     public function deleteWhereID($id,$id_name = 'id') {
         return $this->delete("`$id_name` = $id");
     }
-
-    /*public function deleteFromArray($array_ids)
-    {
-        $acount = @count($array_ids);
-
-        $result = true;
-        for($i = 0; $i < $acount; $i++)
-        {
-            $result &= $this->deleteWhereID($array_ids[$i]);
-        }
-
-        return $result;
-    }*/
 
     public function __destruct()
     {

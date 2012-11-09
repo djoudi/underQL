@@ -17,7 +17,7 @@ class UQLChangeQuery extends UQLBase{
         if((!$database_handle instanceof UQLConnection)
                 ||
                 (!$abstract_entity instanceof UQLAbstractEntity))
-            die('Bad database handle');
+            $this->error('Bad database handle');
 
         $this->uql_the_query = new UQLQuery($database_handle);
         $this->uql_the_abstract_entity = $abstract_entity;
@@ -28,7 +28,7 @@ class UQLChangeQuery extends UQLBase{
 
     public function __set($name,$value) { 
         if(!$this->uql_the_abstract_entity->isFieldExist($name))
-            die($name.' is not a valid column name');
+            $this->error($name.' is not a valid column name');
 
         $this->uql_the_values_map->addElement($name,$value);
        //echo '<pre>'; var_dump($this->uql_the_values_map); echo '</pre>';
@@ -37,7 +37,7 @@ class UQLChangeQuery extends UQLBase{
     public function __get($name) { //echo $name;
     //echo '<pre>'; var_dump($this->uql_the_abstract_entity); echo '</pre>';
         if(!$this->uql_the_abstract_entity->isFieldExist($name))
-            die($name.' is not a valid column name');
+            $this->error($name.' is not a valid column name');
 
         if(!$this->uql_the_values_map->isElementExist($name))
             return null;

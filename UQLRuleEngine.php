@@ -29,7 +29,7 @@ class UQLRuleEngine extends UQLBase{
             $rule_api_function = sprintf(UQL_RULE_FUNCTION_NAME,$rule_name);
 
             if(!function_exists($rule_api_function))
-                die($params[0].' is not a valid rule');
+                $this->error($params[0].' is not a valid rule');
 
             $alias = $this->uql_rule_object->getAlias($field_name);
 

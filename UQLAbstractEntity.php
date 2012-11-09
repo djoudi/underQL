@@ -36,7 +36,7 @@ class UQLAbstractEntity extends UQLBase{
 
                 @mysql_free_result($local_fields_list);
             } else {
-                die(mysql_error(/*$database_handle -> getConnectionHandle()*/));
+                $this->error(mysql_error(/*$database_handle -> getConnectionHandle()*/));
             }
         }
     }

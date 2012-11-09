@@ -25,9 +25,13 @@ class UQLQuery extends UQLBase{
     public function executeQuery($query) {
         if ($this ->uql_database_handle instanceof UQLConnection) {
             $this ->uql_query_result = mysql_query($query /*,$this -> database_handle*/);
+            
+            if(mysql_errno() != 0)
+               $this->error(mysql_error());
+                 
             if (!$this ->uql_query_result)
                 return false;
-
+                
             return true;
         }
 
