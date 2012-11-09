@@ -33,7 +33,7 @@ class UQLFilterEngine extends UQLBase{
                 continue;
 
             $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);
-
+            
             if(!function_exists($filter_api_function))
                 die($params[0].' is not a valid filter');
 
