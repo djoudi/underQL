@@ -26,9 +26,8 @@ class UQLQuery extends UQLBase{
         if ($this ->uql_database_handle instanceof UQLConnection) {
             $this ->uql_query_result = mysql_query($query /*,$this -> database_handle*/);
             
-            if(mysql_errno() != 0)
-               $this->error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());
-                 
+            $this->isThereAnyError();
+            
             if (!$this ->uql_query_result)
                 return false;
                 
@@ -100,6 +99,12 @@ class UQLQuery extends UQLBase{
         $this ->uql_current_row_object = null;
         $this ->uql_query_result = null;
         $this ->uql_current_query_fields = array();
+    }
+    
+    public function isThereAnyError()
+    {
+      if(mysql_errno() != 0)
+         $this->error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());      
     }
 
     public function __destruct() {

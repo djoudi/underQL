@@ -4,6 +4,8 @@
 define('UQL_VERSION','1.0.0');
 define('UQL_VERSION_ID',20120512);
 
+//define('UQL_VERSION_CODE_NAME','Eid');
+
 define('UQL_DIR_FILTER','filters/');
 
 //$uql_plugin_loaded_list = array();
@@ -27,6 +29,7 @@ define ('UQL_RULE_SUCCESS',0x0D);
 
 define ('UQL_ENTITY_OBJECT_SYNTAX','%s');
 
+/* Database connection information */
 define ('UQL_DB_HOST','localhost');
 define ('UQL_DB_USER','root');
 define ('UQL_DB_PASSWORD','root');
