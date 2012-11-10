@@ -14,7 +14,7 @@ require_once('UQLQueryPath.php');
 require_once('UQLChangeQuery.php');
 require_once('UQLDeleteQuery.php');
 require_once('UQLEntity.php');
-
+require_once('utilities.php');
 
 class underQL extends UQLBase{
     
