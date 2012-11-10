@@ -44,14 +44,29 @@ class UQLFilter extends UQLBase{
         $this->uql_filters_map->addElement($field_name, $local_filter);
     }
 
-    public function startFilter($field_name,$filter_name)
+    public function startFilters($field_name,$filter_name)
     {
         $this->setFilterActivation($field_name,$filter_name,true);
     }
 
-    public function stopFilter($field_name,$filter_name)
+    public function stopFilters(/*$field_name,$filter_name*/)
     {
-        $this->setFilterActivation($field_name,$filter_name,false);
+        $params_count = func_num_args();
+        if($params_count < 2)
+            $this->error('stopFilter needs 2 parameters at least');
+
+        $filters_counts = $params_count - 1; // remove field name
+        $parameters = func_get_args();
+        if($filters_counts == 1)
+        {
+             $this->setFilterActivation($parameters[0],$parameters[1],false);
+             return;
+        }
+        else
+        {   
+            for($i = 0; $i < $filters_counts - 1; $i++)
+                $this->setFilterActivation($parameters[0],$parameters[$i + 1],false);
+        }
     }
 
     public function getFiltersByFieldName($field_name) {
