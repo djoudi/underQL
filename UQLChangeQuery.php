@@ -12,7 +12,6 @@ class UQLChangeQuery extends UQLBase{
     private $uql_the_rule_engine;
     private $uql_the_rule_engine_results;
 
-
     public function __construct(&$database_handle,&$abstract_entity) {
         if((!$database_handle instanceof UQLConnection)
                 ||
@@ -25,7 +24,7 @@ class UQLChangeQuery extends UQLBase{
         $this->uql_the_rule_engine = null;
         $this->uql_the_rule_engine_results = null;
     }
-
+     
     public function __set($name,$value) { 
         if(!$this->uql_the_abstract_entity->isFieldExist($name))
             $this->error($name.' is not a valid column name');
