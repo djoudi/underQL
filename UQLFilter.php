@@ -23,13 +23,15 @@ class UQLFilter extends UQLBase{
             $this->uql_filters_map->addElement($field, new UQLMap());
 
         $local_filter = $this->uql_filters_map->findElement($field);
-        $local_filter->addElement($filter,array('is_active'=>true));
+        // remove filter name from array because it's stored as a key
+       // $filter = array_slice($filter,1);
+        $local_filter->addElement($filter[0],array('filter'=> $filter, 'is_active'=>true));
         $this->uql_filters_map->addElement($field, $local_filter);
     }
 
     public function setFilterActivation($field_name,$filter_name,$activation)
     {
-        $local_filter = $this->uql_filters_map->findElement($field);
+        $local_filter = $this->uql_filters_map->findElement($field_name);
         if(!$local_filter)
             $this->error('You can not stop a filter for unknown field ('.$field_name.')');
 
@@ -37,19 +39,19 @@ class UQLFilter extends UQLBase{
         if(!$target_filter)
             $this->error('You can not stop unknown filter ('.$filter_name.')');
 
-
-        $local_filter->addElement($filter_name,array('is_active'=> $activiation));
-        $this->uql_filters_map->addElement($field, $local_filter);
+      
+        $local_filter->addElement($filter_name,array('filter'=>$target_filter['filter'],'is_active'=> $activation));
+        $this->uql_filters_map->addElement($field_name, $local_filter);
     }
 
     public function startFilter($field_name,$filter_name)
     {
-        $this->setFilterActivitation($filed_name,$filter_name,true);
+        $this->setFilterActivation($field_name,$filter_name,true);
     }
 
     public function stopFilter($field_name,$filter_name)
     {
-        $this->setFilterActivitation($filed_name,$filter_name,false);
+        $this->setFilterActivation($field_name,$filter_name,false);
     }
 
     public function getFiltersByFieldName($field_name) {

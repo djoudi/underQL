@@ -27,20 +27,20 @@ class UQLFilterEngine extends UQLBase{
 
         $tmp_value = $value;
 
-        foreach ($filters->getMap() as $key => $params) {
-            $filter_flag = $params[1];
-            if($filter_flag != $this->uql_in_out_flag)
+        foreach ($filters->getMap() as $filter_name => $filter_value) {
+            $filter_flag = $filter_value['filter'][1];
+            if($filter_flag != $this->uql_in_out_flag || !$filter_value['is_active'])
                 continue;
 
-            $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$params[0]);
+            $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$filter_name);
             
             if(!function_exists($filter_api_function))
-                die($params[0].' is not a valid filter');
-
-            if(@count($params) == 2) // the filter has no parameter(s)
+                die($filter_name.' is not a valid filter');
+            
+            if(@count($filter_value['filter']) == 2) // the filter has no parameter(s)
                 $tmp_value = $filter_api_function($field_name,$value,$filter_flag);
             else {
-                $params = array_slice($params,2);
+                $params = array_slice($filter_value['filter'],2);
                 $tmp_value = $filter_api_function($field_name,$value,$filter_flag,$params);
             }
         }
