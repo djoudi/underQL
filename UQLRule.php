@@ -35,16 +35,17 @@ class UQLRule extends UQLBase{
     protected function setRuleActivation($field_name,$rule_name,$activation)
     {
          $local_rule = $this->uql_rules_map->findElement($field_name);
-        if(!$local_filter)
+         
+        if(!$local_rule)
             $this->error('You can not stop a rule for unknown field ('.$field_name.')');
 
-        $target_rule = $local_filter->findElement($field_name);
+        $target_rule = $local_rule->findElement($rule_name);
         if(!$target_rule)
             $this->error('You can not stop unknown rule ('.$rule_name.')');
 
 
         $local_rule->addElement($rule_name,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
-        $this->uql_rule_map->addElement($field_name, $local_rule);
+        $this->uql_rules_map->addElement($field_name, $local_rule);
     }
 
     public function startRules(/*$field_name,$rule_name*/)
@@ -55,7 +56,7 @@ class UQLRule extends UQLBase{
 
         $rules_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
-        if($filters_counts == 1)
+        if($rules_counts == 1)
         {
              $this->setRuleActivation($parameters[0],$parameters[1],true);
              return;
@@ -75,7 +76,7 @@ class UQLRule extends UQLBase{
 
         $rules_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
-        if($filters_counts == 1)
+        if($rules_counts == 1)
         {
              $this->setRuleActivation($parameters[0],$parameters[1],false);
              return;
