@@ -6,7 +6,6 @@ class UQLRuleEngine extends UQLBase{
     private $uql_values_map; //current inserted | updated $key => $value pairs
     private $uql_false_rule_flag; // true if there is at least one rule failed.
     private $uql_fail_rules_list; // list of error messages about each field that fail in one or more rules
-    //private $uql_stopped_rules; // list of all suspended rules
     
     public function __construct(&$rule_object,&$values_map) {
         
@@ -65,9 +64,7 @@ class UQLRuleEngine extends UQLBase{
             return null;
 
         $result = true;
-        /*if($this->fail_rules_list->getCount() != 0)
-      $this->fail_rules_list = new UQLMap();*/
-
+        
         foreach($this->uql_values_map->getMap() as $name => $value) {
 
             $result = $this->applyRule($name,$value);
