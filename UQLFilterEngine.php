@@ -29,7 +29,8 @@ class UQLFilterEngine extends UQLBase{
 
         foreach ($filters->getMap() as $filter_name => $filter_value) {
             $filter_flag = $filter_value['filter'][1];
-            if($filter_flag != $this->uql_in_out_flag || !$filter_value['is_active'])
+               if((!$filter_value['is_active'])
+                ||(($filter_flag != $this->uql_in_out_flag) &&($filter_flag != UQL_FILTER_IN|UQL_FILTER_OUT)))
                 continue;
 
             $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$filter_name);
