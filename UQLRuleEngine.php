@@ -25,19 +25,22 @@ class UQLRuleEngine extends UQLBase{
         if($rules == null)
             return true;
 
-        foreach ($rules->getMap() as $key => $params) {
-            $rule_name = $params[0];
+        foreach ($rules->getMap() as $rule_name => $rule_value) {
+
+            if(!$rule_value['is_active'])
+                continue;
+            
             $rule_api_function = sprintf(UQL_RULE_FUNCTION_NAME,$rule_name);
 
             if(!function_exists($rule_api_function))
-                $this->error($params[0].' is not a valid rule');
+                $this->error($rule_name.' is not a valid rule');
 
             $alias = $this->uql_rule_object->getAlias($field_name);
 
-            if(@count($params) == 1) // the rule has no parameter(s)
+            if(@count($rule_value['rule']) == 1) // the rule has no parameter(s)
                 $result = $rule_api_function($field_name,$value,$alias);
             else {
-                $params = array_shift($params); // delete rule name
+                $params = array_alice($rule_value['rule']); // remove rule name
                 $result = $rule_api_function($field_name,$value,$alias,$params);
             }
 

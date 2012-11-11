@@ -27,9 +27,64 @@ class UQLRule extends UQLBase{
             $this->uql_rules_map->addElement($field, new UQLMap());
 
         $local_rule = $this->uql_rules_map->findElement($field);
-        $local_rule->addElement($rule[0]/*rule name*/,$rule);
+        $local_rule->addElement($rule[0]/*rule name*/,array('rule'=> $rule, 'is_active' => true));
 
         $this->uql_rules_map->addElement($field, $local_rule);
+    }
+
+    protected function setRuleActivation($field_name,$rule_name,$activation)
+    {
+         $local_rule = $this->uql_rules_map->findElement($field_name);
+        if(!$local_filter)
+            $this->error('You can not stop a rule for unknown field ('.$field_name.')');
+
+        $target_rule = $local_filter->findElement($field_name);
+        if(!$target_rule)
+            $this->error('You can not stop unknown rule ('.$rule_name.')');
+
+
+        $local_rule->addElement($rule_name,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
+        $this->uql_rule_map->addElement($field_name, $local_rule);
+    }
+
+    public function startRules(/*$field_name,$rule_name*/)
+    {
+        $params_count = func_num_args();
+        if($params_count < 2)
+            $this->error('startRules needs 2 parameters at least');
+
+        $rules_counts = $params_count - 1; // remove field name
+        $parameters = func_get_args();
+        if($filters_counts == 1)
+        {
+             $this->setRuleActivation($parameters[0],$parameters[1],true);
+             return;
+        }
+        else
+        {
+            for($i = 0; $i < $rules_counts - 1; $i++)
+                $this->setRuleActivation($parameters[0],$parameters[$i + 1],true);
+        }
+    }
+
+    public function stopRules(/*$field_name,$rule_name*/)
+    {
+        $params_count = func_num_args();
+        if($params_count < 2)
+            $this->error('stopRules needs 2 parameters at least');
+
+        $rules_counts = $params_count - 1; // remove field name
+        $parameters = func_get_args();
+        if($filters_counts == 1)
+        {
+             $this->setRuleActivation($parameters[0],$parameters[1],false);
+             return;
+        }
+        else
+        {
+            for($i = 0; $i < $rules_counts - 1; $i++)
+                $this->setRuleActivation($parameters[0],$parameters[$i + 1],false);
+        }
     }
 
     public function getRulesByFieldName($field_name) {
