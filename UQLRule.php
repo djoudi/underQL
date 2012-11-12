@@ -19,6 +19,7 @@ class UQLRule extends UQLBase{
         if($local_params_count == 0) return;
 
         $this->addRule($function_name, $parameters);
+        return $this;
     }
 
     protected function addRule($field,$rule) {

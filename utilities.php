@@ -25,6 +25,12 @@ function include_rules()
 function _f($entity_name)
 {
     $GLOBALS[sprintf(UQL_FILTER_OBJECT_SYNTAX,$entity_name)] = new UQLFilter($entity_name);
+    return $GLOBALS[sprintf(UQL_FILTER_OBJECT_SYNTAX,$entity_name)];
 }
 
+function _r($entity_name)
+{
+    $GLOBALS[sprintf(UQL_RULE_OBJECT_SYNTAX,$entity_name)] = new UQLRule($entity_name);
+    return $GLOBALS[sprintf(UQL_RULE_OBJECT_SYNTAX,$entity_name)];
+}
 ?>

@@ -28,7 +28,10 @@ class UQLRuleEngine extends UQLBase{
 
             if(!$rule_value['is_active'])
                 continue;
-            
+
+            $include_rule_api = 'include_rules';
+            $include_rule_api($rule_name);
+
             $rule_api_function = sprintf(UQL_RULE_FUNCTION_NAME,$rule_name);
 
             if(!function_exists($rule_api_function))

@@ -41,13 +41,15 @@ class UQLFilterEngine extends UQLBase{
                 ||(($filter_flag != $this->uql_in_out_flag) &&($filter_flag != UQL_FILTER_IN|UQL_FILTER_OUT)))
                 continue;
 
+            $include_filter_api = 'include_filter';
+            $include_filter_api($filter_name);
+
             $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$filter_name);
             
             if(!function_exists($filter_api_function))
                 die($filter_name.' is not a valid filter');
 
-            $include_filter_api = 'include_filter';
-            $include_filter_api($filter_name);
+            
             if(@count($filter_value['filter']) == 2) // the filter has no parameter(s)
                 $tmp_value = $filter_api_function($field_name,$value,$filter_flag);
             else {
