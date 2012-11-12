@@ -13,95 +13,95 @@ class UQLFilter extends UQLBase{
     public function __call($function_name,$parameters) {
         $local_params_count = count($parameters);
         if($local_params_count < 1 /*filter_name [AT LEAST]*/)
-            $this->error($function_name.' filter must have 1 parameter at least');
+            $this->the_uql_error($function_name.' filter must have 1 parameter at least');
 
         if($local_params_count == 1)
-            $this->addFilter($function_name,array($parameters[0],'inout'));
+            $this->the_uql_add_filter($function_name,array($parameters[0],'inout'));
         else
-            $this->addFilter($function_name, $parameters);
+            $this->the_uql_add_filter($function_name, $parameters);
 
         return $this;
     }
 
-    protected function addFilter($field,$filter) {
-        if(!$this->uql_filters_map->isElementExist($field))
-            $this->uql_filters_map->addElement($field, new UQLMap());
+    protected function the_uql_add_filter($field,$filter) {
+        if(!$this->uql_filters_map->the_uql_is_element_exist($field))
+            $this->uql_filters_map->the_uql_add_element($field, new UQLMap());
 
-        $local_filter = $this->uql_filters_map->findElement($field);
+        $local_filter = $this->uql_filters_map->the_uql_find_element($field);
         // remove filter name from array because it's stored as a key
        // $filter = array_slice($filter,1);
-        $local_filter->addElement($filter[0],array('filter'=> $filter, 'is_active'=>true));
-        $this->uql_filters_map->addElement($field, $local_filter);
+        $local_filter->the_uql_add_element($filter[0],array('filter'=> $filter, 'is_active'=>true));
+        $this->uql_filters_map->the_uql_add_element($field, $local_filter);
     }
 
-    protected function setFilterActivation($field_name,$filter_name,$activation)
+    protected function the_uql_set_filter_activation($field_name,$filter_name,$activation)
     {
-        $local_filter = $this->uql_filters_map->findElement($field_name);
+        $local_filter = $this->uql_filters_map->the_uql_find_element($field_name);
         if(!$local_filter)
-            $this->error('You can not stop a filter for unknown field ('.$field_name.')');
+            $this->the_uql_error('You can not stop a filter for unknown field ('.$field_name.')');
 
-        $target_filter = $local_filter->findElement($filter_name);
+        $target_filter = $local_filter->the_uql_find_element($filter_name);
         if(!$target_filter)
-            $this->error('You can not stop unknown filter ('.$filter_name.')');
+            $this->the_uql_error('You can not stop unknown filter ('.$filter_name.')');
 
       
-        $local_filter->addElement($filter_name,array('filter'=>$target_filter['filter'],'is_active'=> $activation));
-        $this->uql_filters_map->addElement($field_name, $local_filter);
+        $local_filter->the_uql_add_element($filter_name,array('filter'=>$target_filter['filter'],'is_active'=> $activation));
+        $this->uql_filters_map->the_uql_add_element($field_name, $local_filter);
     }
 
-    public function startFilters(/*$field_name,$filter_name*/)
+    public function the_uql_start_filters(/*$field_name,$filter_name*/)
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->error('startFilter needs 2 parameters at least');
+            $this->the_uql_error('startFilter needs 2 parameters at least');
 
         $filters_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
         if($filters_counts == 1)
         {
-             $this->setFilterActivation($parameters[0],$parameters[1],true);
+             $this->the_uql_set_filter_activation($parameters[0],$parameters[1],true);
              return;
         }
         else
         {
             for($i = 0; $i < $filters_counts - 1; $i++)
-                $this->setFilterActivation($parameters[0],$parameters[$i + 1],true);
+                $this->the_uql_set_filter_activation($parameters[0],$parameters[$i + 1],true);
         }
     }
 
-    public function stopFilters(/*$field_name,$filter_name*/)
+    public function the_uql_stop_filters(/*$field_name,$filter_name*/)
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->error('stopFilter needs 2 parameters at least');
+            $this->the_uql_error('stopFilter needs 2 parameters at least');
 
         $filters_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
         if($filters_counts == 1)
         {
-             $this->setFilterActivation($parameters[0],$parameters[1],false);
+             $this->the_uql_set_filter_activation($parameters[0],$parameters[1],false);
              return;
         }
         else
         {   
             for($i = 0; $i < $filters_counts - 1; $i++)
-                $this->setFilterActivation($parameters[0],$parameters[$i + 1],false);
+                $this->the_uql_set_filter_activation($parameters[0],$parameters[$i + 1],false);
         }
     }
 
-    public function getFiltersByFieldName($field_name) {
-        return $this->uql_filters_map->findElement($field_name);
+    public function the_uql_get_filters_by_field_name($field_name) {
+        return $this->uql_filters_map->the_uql_find_element($field_name);
     }
 
-    public function getFilters() {
+    public function the_uql_get_filters() {
         return $this->uql_filters_map;
     }
 
-    public function getEntityName() {
+    public function the_uql_get_entity_name() {
         return $this->uql_entity_name;
     }
 
-    public static function findFilterObject($entity) {
+    public static function the_uql_find_filter_object($entity) {
         $filter_object_name = sprintf(UQL_FILTER_OBJECT_SYNTAX,$entity);
         if(isset($GLOBALS[$filter_object_name]))
             $filter_object = $GLOBALS[$filter_object_name];

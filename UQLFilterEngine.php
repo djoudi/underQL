@@ -12,13 +12,13 @@ class UQLFilterEngine extends UQLBase{
         $this->uql_in_out_flag = $in_out_flag;
     }
 
-    public function setValuesMap(&$values_map) {
+    public function the_uql_set_values_map(&$values_map) {
         $this->uql_values_map = $values_map;
     }
 
-    public function applyFilter($field_name,$value) {
+    public function the_uql_apply_filter($field_name,$value) {
         if($this->uql_filter_object != null)
-            $filters = $this->uql_filter_object->getFiltersByFieldName($field_name);
+            $filters = $this->uql_filter_object->the_uql_get_filters_by_field_name($field_name);
         else
             return $value;
 
@@ -27,7 +27,7 @@ class UQLFilterEngine extends UQLBase{
 
         $tmp_value = $value;
 
-        foreach ($filters->getMap() as $filter_name => $filter_value) {
+        foreach ($filters->the_uql_get_map() as $filter_name => $filter_value) {
             $filter_flag = $filter_value['filter'][1];
            // echo $filter_flag;
             if(strcmp(strtolower($filter_flag),'in') == 0)
@@ -60,13 +60,13 @@ class UQLFilterEngine extends UQLBase{
         return $tmp_value;
     }
 
-    public function runEngine() {
-        if(!$this->uql_values_map || $this->uql_values_map->getCount() == 0)
+    public function the_uql_run_engine() {
+        if(!$this->uql_values_map || $this->uql_values_map->the_uql_get_count() == 0)
             return null;
 
 
-        foreach($this->uql_values_map->getMap() as $name => $value) {
-            $this->uql_values_map->addElement($name,$this->applyFilter($name,$value));
+        foreach($this->uql_values_map->the_uql_get_map() as $name => $value) {
+            $this->uql_values_map->the_uql_add_element($name,$this->the_uql_apply_filter($name,$value));
         }
         return $this->uql_values_map;
     }

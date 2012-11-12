@@ -12,10 +12,10 @@ class UQLAbstractEntity extends UQLBase{
         $this ->uql_fields = null;
         $this ->uql_fields_count = 0;
 
-        $this->setEntityName($entity_name, $database_handle);
+        $this->the_uql_set_entity_name($entity_name, $database_handle);
     }
 
-    public function setEntityName($entity_name, &$database_handle) {
+    public function the_uql_set_entity_name($entity_name, &$database_handle) {
         if (($database_handle instanceof UQLConnection)) {
             $this ->uql_entity_name = $entity_name;
             $local_string_query = sprintf("SHOW COLUMNS FROM `%s`", $this ->uql_entity_name);
@@ -24,7 +24,7 @@ class UQLAbstractEntity extends UQLBase{
                 $this ->uql_fields_count = mysql_num_rows($local_query_result);
                 @mysql_free_result($local_query_result);
 
-                $local_fields_list = mysql_list_fields($database_handle -> getDatabaseName(), $this ->uql_entity_name);
+                $local_fields_list = mysql_list_fields($database_handle -> the_uql_get_database_name(), $this ->uql_entity_name);
                 $this ->uql_fields = array();
 
                 $local_i = 0;
@@ -41,25 +41,25 @@ class UQLAbstractEntity extends UQLBase{
         }
     }
 
-    public function getEntityName() {
+    public function the_uql_get_entity_name() {
         return $this ->uql_entity_name;
     }
 
-    public function isFieldExist($name) {
+    public function the_uql_is_field_exist($name) {
         return (($this ->uql_fields != null) && (array_key_exists($name, $this ->uql_fields)));
     }
 
-    public function getFieldObject($name) {
-        if ($this -> isFieldExist($name))
+    public function the_uql_get_field_object($name) {
+        if ($this -> the_uql_is_field_exist($name))
             return $this ->uql_fields[$name];
         return null;
     }
 
-    public function getAllFields() {
+    public function the_uql_get_all_fields() {
         return $this ->uql_fields;
     }
 
-    public function getFieldsCount() {
+    public function the_uql_get_fields_count() {
         return $this ->uql_fields_count;
     }
 

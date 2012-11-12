@@ -25,80 +25,80 @@ class UQLEntity extends UQLBase{
         return $this->uql_change->$name;
     }
 
-    public function insert() {
-        return $this->uql_change->insert();
+    public function the_uql_insert() {
+        return $this->uql_change->the_uql_insert();
     }
 
-    public function insertOrUpdateFromArray($the_array,$extra = '',$is_save = true) {
+    public function the_uql_insert_or_update_from_array($the_array,$extra = '',$is_save = true) {
         //$array_count = @count($the_array);
         foreach($the_array as $key => $value) {
-            if($this->uql_abstract_entity->isFieldExist($key))
+            if($this->uql_abstract_entity->the_uql_is_field_exist($key))
                 $this->$key = $value;
         }
 
         if($is_save)
-            return $this->insert();
+            return $this->the_uql_insert();
         else
-            return $this->update($extra);
+            return $this->the_uql_update($extra);
     }
 
-    public function insertFromArray($the_array) {
-        return $this->insertOrUpdateFromArray($the_array,null);
+    public function the_uql_insert_from_array($the_array) {
+        return $this->the_uql_insert_or_update_from_array($the_array,null);
     }
 
-    public function updateFromArray($the_array,$extra ='') {
-        return $this->insertOrUpdateFromArray($the_array,$extra,false);
+    public function the_uql_update_from_array($the_array,$extra ='') {
+        return $this->insert_or_update_from_array($the_array,$extra,false);
     }
 
-    public function updateFromArrayWhereID($the_array,$id,$id_name = 'id') {
-        return $this->insertOrUpdateFromArray($the_array,"WHERE `$id_name` = $id",false);
+    public function the_uql_update_from_array_where_id($the_array,$id,$id_name = 'id') {
+        return $this->insert_or_update_from_array($the_array,"WHERE `$id_name` = $id",false);
     }
 
-    public function update($extra = '') {
-        return $this->uql_change->update($extra);
+    public function the_uql_update($extra = '') {
+        return $this->uql_change->the_uql_update($extra);
     }
 
-    public function updateWhereID($id,$id_name = 'id') {
-        return $this->uql_change->updateWhereID($id,$id_name);
+    public function the_uql_update_where_id($id,$id_name = 'id') {
+        return $this->uql_change->the_uql_update_where_id($id,$id_name);
     }
 
-    public function delete($extra = '') {
-        return $this->uql_delete->delete($extra);
+    public function the_uql_delete($extra = '') {
+        return $this->uql_delete->the_uql_delete($extra);
     }
 
-    public function deleteWhereID($id,$id_name = 'id') {
-        return $this->uql_delete->deleteWhereID($id,$id_name);
+    public function the_uql_delete_where_id($id,$id_name = 'id') {
+        return $this->uql_delete->the_uql_delete_where_id($id,$id_name);
     }
 
-    public function query($query) {
+    public function the_uql_query($query) {
 
         $this->uql_path = new UQLQueryPath($this->uql_database_handle,$this->uql_abstract_entity);
-        if($this->uql_path->executeQuery($query))
+        if($this->uql_path->the_uql_execute_query($query))
             return $this->uql_path;
  
         return false;
     }
 
-    public function select($fields = '*',$extra = '') {
+    public function the_uql_select($fields = '*',$extra = '') {
         $query = sprintf("SELECT %s FROM `%s` %s",$fields,
-                $this->uql_abstract_entity->getEntityName(),$extra);
+                $this->uql_abstract_entity->the_uql_get_entity_name(),$extra);
 
-        return $this->query($query);
+        return $this->the_uql_query($query);
     }
 
-    public function selectWhereID($fields,$id,$id_name = 'id') {
-        return $this->select($fields,"WHERE `$id_name` = $id");
+    public function the_uql_select_where_id($fields,$id,$id_name = 'id') {
+        return $this->the_uql_select($fields,"WHERE `$id_name` = $id");
     }
 
-    public function areRulesPassed() {
-        return $this->uql_change->areRulesPassed();
+    public function the_uql_are_rules_passed() {
+        return $this->uql_change->the_uql_are_rules_passed();
     }
 
-    public function getMessagesList() {
-        return $this->uql_change->getMessagesList();
+    public function the_uql_get_messages_list() {
+        return $this->uql_change->the_uql_get_messages_list();
     }
 
-    public function getAbstractEntity()
+    public function the_uql_get_abstract_entity()
     {
       return $this->uql_abstract_entity;
     }

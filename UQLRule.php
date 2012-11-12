@@ -18,38 +18,38 @@ class UQLRule extends UQLBase{
         $local_params_count = count($parameters);
         if($local_params_count == 0) return;
 
-        $this->addRule($function_name, $parameters);
+        $this->the_uql_add_rule($function_name, $parameters);
         return $this;
     }
 
-    protected function addRule($field,$rule) {
+    protected function the_uql_add_rule($field,$rule) {
 
-        if(!$this->uql_rules_map->isElementExist($field))
-            $this->uql_rules_map->addElement($field, new UQLMap());
+        if(!$this->uql_rules_map->the_uql_is_element_exist($field))
+            $this->uql_rules_map->the_uql_add_element($field, new UQLMap());
 
-        $local_rule = $this->uql_rules_map->findElement($field);
-        $local_rule->addElement($rule[0]/*rule name*/,array('rule'=> $rule, 'is_active' => true));
+        $local_rule = $this->uql_rules_map->the_uql_find_element($field);
+        $local_rule->the_uql_add_element($rule[0]/*rule name*/,array('rule'=> $rule, 'is_active' => true));
 
-        $this->uql_rules_map->addElement($field, $local_rule);
+        $this->uql_rules_map->the_uql_add_element($field, $local_rule);
     }
 
-    protected function setRuleActivation($field_name,$rule_name,$activation)
+    protected function the_uql_set_rule_activation($field_name,$rule_name,$activation)
     {
-         $local_rule = $this->uql_rules_map->findElement($field_name);
+         $local_rule = $this->uql_rules_map->the_uql_find_element($field_name);
          
         if(!$local_rule)
-            $this->error('You can not stop a rule for unknown field ('.$field_name.')');
+            $this->the_uql_error('You can not stop a rule for unknown field ('.$field_name.')');
 
-        $target_rule = $local_rule->findElement($rule_name);
+        $target_rule = $local_rule->the_uql_find_element($rule_name);
         if(!$target_rule)
-            $this->error('You can not stop unknown rule ('.$rule_name.')');
+            $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');
 
 
-        $local_rule->addElement($rule_name,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
-        $this->uql_rules_map->addElement($field_name, $local_rule);
+        $local_rule->the_uql_add_element($rule_name,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
+        $this->uql_rules_map->the_uql_add_element($field_name, $local_rule);
     }
 
-    public function startRules(/*$field_name,$rule_name*/)
+    public function the_uql_start_rules(/*$field_name,$rule_name*/)
     {
         $params_count = func_num_args();
         if($params_count < 2)
@@ -59,64 +59,64 @@ class UQLRule extends UQLBase{
         $parameters = func_get_args();
         if($rules_counts == 1)
         {
-             $this->setRuleActivation($parameters[0],$parameters[1],true);
+             $this->the_uql_set_rule_activation($parameters[0],$parameters[1],true);
              return;
         }
         else
         {
             for($i = 0; $i < $rules_counts - 1; $i++)
-                $this->setRuleActivation($parameters[0],$parameters[$i + 1],true);
+                $this->the_uql_set_rule_activation($parameters[0],$parameters[$i + 1],true);
         }
     }
 
-    public function stopRules(/*$field_name,$rule_name*/)
+    public function the_uql_stop_rules(/*$field_name,$rule_name*/)
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->error('stopRules needs 2 parameters at least');
+            $this->the_uql_error('stopRules needs 2 parameters at least');
 
         $rules_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
         if($rules_counts == 1)
         {
-             $this->setRuleActivation($parameters[0],$parameters[1],false);
+             $this->the_uql_set_rule_activation($parameters[0],$parameters[1],false);
              return;
         }
         else
         {
             for($i = 0; $i < $rules_counts - 1; $i++)
-                $this->setRuleActivation($parameters[0],$parameters[$i + 1],false);
+                $this->the_uql_set_rule_activation($parameters[0],$parameters[$i + 1],false);
         }
     }
 
-    public function getRulesByFieldName($field_name) {
+    public function the_uql_get_rules_by_field_name($field_name) {
 
-        return $this->uql_rules_map->findElement($field_name);
+        return $this->uql_rules_map->the_uql_find_element($field_name);
     }
 
-    public function addAlias($key, $value) {
+    public function the_uql_add_alias($key, $value) {
 
-        $this->uql_alises_map->addElement($key, $value);
+        $this->uql_alises_map->the_uql_add_element($key, $value);
     }
 
-    public function getAlias($key) {
+    public function the_uql_get_alias($key) {
 
-        return $this->uql_alises_map->findElement($key);
+        return $this->uql_alises_map->the_uql_find_element($key);
     }
 
-    public function getRules() {
+    public function the_uql_get_rules() {
         return $this->uql_alises_map;
     }
 
-    public function getEntityName() {
+    public function the_uql_get_entity_name() {
         return $this->uql_entity_name;
     }
 
-    public function getAliases() {
+    public function the_uql_get_aliases() {
         return $this->uql_alises_map;
     }
 
-    public static function findRuleObject($entity) {
+    public static function the_uql_find_rule_object($entity) {
         
         $rule_object_name = sprintf(UQL_RULE_OBJECT_SYNTAX,$entity);
 

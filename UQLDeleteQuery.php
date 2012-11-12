@@ -7,28 +7,28 @@ class UQLDeleteQuery extends UQLBase{
 
     public function __construct(&$database_handle,&$abstract_entity) {
         if((!$database_handle instanceof UQLConnection) || (!$abstract_entity instanceof UQLAbstractEntity))
-            $this->error('Bad database handle');
+            $this->the_uql_error('Bad database handle');
 
         $this->uql_query = new UQLQuery($database_handle);
         $this->uql_abstract_entity = $abstract_entity;
     }
 
-    protected function formatDeleteQuery($extra = null) {
+    protected function the_uql_format_delete_query($extra = null) {
 
-        $delete_query = 'DELETE FROM `'.$this->uql_abstract_entity->getEntityName().'`';
+        $delete_query = 'DELETE FROM `'.$this->uql_abstract_entity->the_uql_get_entity_name().'`';
         if($extra != null)
             $delete_query .= ' WHERE '.$extra;
 
         return $delete_query;
     }
 
-    public function delete($extra ='') {
-        $query = $this->formatDeleteQuery($extra);
-        return $this->uql_query->executeQuery($query);
+    public function the_uql_delete($extra ='') {
+        $query = $this->the_uql_format_delete_query($extra);
+        return $this->uql_query->the_uql_execute_query($query);
     }
 
-    public function deleteWhereID($id,$id_name = 'id') {
-        return $this->delete("`$id_name` = $id");
+    public function the_uql_delete_where_id($id,$id_name = 'id') {
+        return $this->the_uql_delete("`$id_name` = $id");
     }
 
     public function __destruct()

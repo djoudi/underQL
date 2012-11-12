@@ -15,16 +15,16 @@ class UQLRuleEngine extends UQLBase{
         $this->uql_fail_rules_list = new UQLMap();
     }
 
-    protected function applyRule($field_name,$value) {
+    protected function the_uql_apply_rule($field_name,$value) {
 
-        $rules = $this->uql_rule_object->getRulesByFieldName($field_name);
+        $rules = $this->uql_rule_object->the_uql_get_rules_by_field_name($field_name);
 
         $the_results = array();
 
         if($rules == null)
             return true;
 
-        foreach ($rules->getMap() as $rule_name => $rule_value) {
+        foreach ($rules->the_uql_get_map() as $rule_name => $rule_value) {
 
             if(!$rule_value['is_active'])
                 continue;
@@ -35,9 +35,9 @@ class UQLRuleEngine extends UQLBase{
             $rule_api_function = sprintf(UQL_RULE_FUNCTION_NAME,$rule_name);
 
             if(!function_exists($rule_api_function))
-                $this->error($rule_name.' is not a valid rule');
+                $this->the_uql_error($rule_name.' is not a valid rule');
 
-            $alias = $this->uql_rule_object->getAlias($field_name);
+            $alias = $this->uql_rule_object->the_uql_get_alias($field_name);
 
             if(@count($rule_value['rule']) == 1) // the rule has no parameter(s)
                 $result = $rule_api_function($field_name,$value,$alias);
@@ -57,29 +57,29 @@ class UQLRuleEngine extends UQLBase{
         return $the_results;
     }
 
-    public function areRulesPassed() {
+    public function the_uql_are_rules_passed() {
         return $this->uql_false_rule_flag == false;
     }
 
-    public function runEngine() {
+    public function the_uql_run_engine() {
         
-        if(!$this->uql_values_map || $this->uql_values_map->getCount() == 0)
+        if(!$this->uql_values_map || $this->uql_values_map->the_uql_get_count() == 0)
             return null;
 
         $result = true;
         
-        foreach($this->uql_values_map->getMap() as $name => $value) {
+        foreach($this->uql_values_map->the_uql_get_map() as $name => $value) {
 
-            $result = $this->applyRule($name,$value);
+            $result = $this->the_uql_apply_rule($name,$value);
 
             if($result != UQL_RULE_SUCCESS)
-                $this->uql_fail_rules_list->addElement($name,$result);
+                $this->uql_fail_rules_list->the_uql_add_element($name,$result);
         }
 
-        if($this->areRulesPassed())
+        if($this->the_uql_are_rules_passed())
             return true;
 
-        return $this->uql_fail_rules_list->getMap();
+        return $this->uql_fail_rules_list->the_uql_get_map();
     }
 
     public function __destruct() {

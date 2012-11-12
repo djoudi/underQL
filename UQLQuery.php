@@ -14,19 +14,19 @@ class UQLQuery extends UQLBase{
         $this ->uql_current_query_fields = array();
     }
 
-    public function setDatabaseHandle($database_handle) {
+    public function the_uql_set_database_handle($database_handle) {
         $this -> database_handle(($database_handle instanceof UQLConnection) ? $database_handle : null);
     }
 
-    public function getDatabaseHandle() {
+    public function the_uql_get_database_handle() {
         return $this ->uql_database_handle;
     }
 
-    public function executeQuery($query) {
+    public function the_uql_execute_query($query) {
         if ($this ->uql_database_handle instanceof UQLConnection) {
             $this ->uql_query_result = mysql_query($query /*,$this -> database_handle*/);
             
-            $this->isThereAnyError();
+            $this->the_uql_is_there_any_error();
             
             if (!$this ->uql_query_result)
                 return false;
@@ -37,7 +37,7 @@ class UQLQuery extends UQLBase{
         return false;
     }
 
-    public function getCurrentQueryFields() {
+    public function the_uql_get_current_query_fields() {
         if (!$this ->uql_query_result)
             return null;
 
@@ -51,7 +51,7 @@ class UQLQuery extends UQLBase{
         return $this ->uql_current_query_fields;
     }
 
-    public function fetchRow() {
+    public function the_uql_fetch_row() {
         if ($this ->uql_query_result) {
             $this ->uql_current_row_object = mysql_fetch_object($this ->uql_query_result);
             return $this ->uql_current_row_object;
@@ -60,39 +60,39 @@ class UQLQuery extends UQLBase{
         return false;
     }
 
-    public function resetResult() {
+    public function the_uql_reset_result() {
         if($this->uql_query_result)
             return mysql_data_seek($this->uql_query_result,0);
 
         return false;
     }
 
-    public function getCurrentRow() {
+    public function the_uql_get_current_row() {
         return $this ->uql_current_row_object;
     }
 
-    public function getCount() {
+    public function the_uql_get_count() {
         if ($this ->uql_query_result)
             return mysql_num_rows($this ->uql_query_result);
 
         return 0;
     }
 
-    public function getAffectedRows() {
+    public function the_uql_get_affected_rows() {
         if (($this ->uql_database_handle instanceof UQLConnection) && ($this ->uql_query_result))
             return mysql_affected_rows($this ->uql_database_handle);
 
         return 0;
     }
 
-    public function getLastInsertedID() {
+    public function the_uql_get_last_inserted_id() {
         if (($this ->uql_database_handle instanceof UQLConnection) && ($this ->uql_query_result))
             return mysql_insert_id($this ->uql_database_handle);
 
         return 0;
     }
 
-    public function freeResult() {
+    public function the_uql_free_result() {
         if ($this ->uql_query_result)
             @mysql_free_result($this ->uql_query_result);
 
@@ -101,14 +101,14 @@ class UQLQuery extends UQLBase{
         $this ->uql_current_query_fields = array();
     }
     
-    public function isThereAnyError()
+    public function the_uql_is_there_any_error()
     {
       if(mysql_errno() != 0)
          $this->error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());      
     }
 
     public function __destruct() {
-        $this->freeResult();
+        $this->the_uql_free_result();
         $this ->uql_query_result = null;
         $this ->uql_current_query_fields = null;
         $this ->uql_current_row_object = null;

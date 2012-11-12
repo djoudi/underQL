@@ -10,22 +10,22 @@ class UQLMap extends UQLBase{
         $this ->uql_elements_count = 0;
     }
 
-    public function addElement($key, $value) {
+    public function the_uql_add_element($key, $value) {
 
-        if($this->findElement($key) == null)
+        if($this->the_uql_find_element($key) == null)
             $this ->uql_elements_count++;
 
         $this ->uql_map_list[$key] = $value;
     }
 
-    public function findElement($key) {
-        if ($this -> isElementExist($key))
+    public function the_uql_find_element($key) {
+        if ($this -> the_uql_is_element_exist($key))
             return $this ->uql_map_list[$key];
 
         return null;
     }
 
-    public function isElementExist($key) {
+    public function the_uql_is_element_exist($key) {
         if ($this ->uql_elements_count <= 0)
             return false;
 
@@ -35,19 +35,19 @@ class UQLMap extends UQLBase{
         return false;
     }
 
-    public function getCount() {
+    public function the_uql_get_count() {
         return count($this->uql_map_list);
     }
 
-    public function removeElement($key) {
+    public function the_uql_remove_element($key) {
 
-        if ($this -> isElementExist($key)) {
+        if ($this -> the_uql_is_element_exist($key)) {
             unset($this -> uql_map_list[$key]);
             $this -> uql_elements_count--;
         }
     }
 
-    public function isEmpty() {
+    public function the_uql_is_empty() {
         return $this -> uql_elements_count == 0;
     }
 
@@ -56,7 +56,7 @@ class UQLMap extends UQLBase{
             return array_map($callback, $this -> map_list);
     }
 
-    public function getMap() {
+    public function the_uql_get_map() {
         return $this->uql_map_list;
     }
     
