@@ -22,5 +22,9 @@ function include_rules()
    require_once(__DIR__.'/'.UQL_DIR_RULE.UQL_DIR_RULE_API.'uql_rule_'.$rule.'.php');
 }
 
+function _f($entity_name)
+{
+    $GLOBALS[sprintf(UQL_FILTER_OBJECT_SYNTAX,$entity_name)] = new UQLFilter($entity_name);
+}
 
 ?>

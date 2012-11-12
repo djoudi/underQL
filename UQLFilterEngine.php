@@ -35,7 +35,7 @@ class UQLFilterEngine extends UQLBase{
             else if(strcmp(strtolower($filter_flag),'out') == 0)
                      $filter_flag = UQL_FILTER_OUT;
             else
-                 $filter_flag = UQL_FILTER_IN | UQL_FILER_OUT;
+                 $filter_flag = UQL_FILTER_IN | UQL_FILTER_OUT;
             
                if((!$filter_value['is_active'])
                 ||(($filter_flag != $this->uql_in_out_flag) &&($filter_flag != UQL_FILTER_IN|UQL_FILTER_OUT)))

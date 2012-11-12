@@ -11,23 +11,14 @@ class UQLBase{
  function _(){
 
      $params_count = func_num_args();
-     $params = func_get_args();
      if($params_count < 1)
          $this->error('You must pass one parameter at least for _ method');
 
-     switch($params_count)
-     {
-         case 1: return $this->$params[0]();
-         case 2: return $this->$params[0]($params[1]);
-         case 3: return $this->$params[0]($params[1],$params[2]);
-         case 4: return $this->$params[0]($params[1],$params[2],$params[3]);
-         case 5: return $this->$params[0]($params[1],$params[2],$params[3],$params[4]);
-         case 6: return $this->$params[0]($params[1],$params[2],$params[3],$params[4],$params[5]);
-         case 7: return $this->$params[0]($params[1],$params[2],$params[3],$params[4],$params[5],$params[6]);
-     }
-
+       $params = func_get_args();
+       $func_name = $params[0];
+       $params = array_slice($params,1);
+       return call_user_func_array(array($this,$func_name),$params);
  }
- 
 }
 
 ?>
