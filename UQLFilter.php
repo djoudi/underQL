@@ -16,6 +16,8 @@ class UQLFilter extends UQLBase{
             $this->error($function_name.' filter must have 2 parameters at least');
 
         $this->addFilter($function_name, $parameters);
+
+        return $this;
     }
 
     protected function addFilter($field,$filter) {
