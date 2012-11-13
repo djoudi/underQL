@@ -53,7 +53,7 @@ class UQLRule extends UQLBase{
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->error('startRules needs 2 parameters at least');
+            $this->error('start_rules needs 2 parameters at least');
 
         $rules_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
@@ -73,7 +73,7 @@ class UQLRule extends UQLBase{
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->the_uql_error('stopRules needs 2 parameters at least');
+            $this->the_uql_error('stop_rules needs 2 parameters at least');
 
         $rules_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();

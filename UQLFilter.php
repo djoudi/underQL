@@ -53,7 +53,7 @@ class UQLFilter extends UQLBase{
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->the_uql_error('startFilter needs 2 parameters at least');
+            $this->the_uql_error('start_filters needs 2 parameters at least');
 
         $filters_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
@@ -73,7 +73,7 @@ class UQLFilter extends UQLBase{
     {
         $params_count = func_num_args();
         if($params_count < 2)
-            $this->the_uql_error('stopFilter needs 2 parameters at least');
+            $this->the_uql_error('stop_filters needs 2 parameters at least');
 
         $filters_counts = $params_count - 1; // remove field name
         $parameters = func_get_args();
