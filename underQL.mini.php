@@ -1,10 +1,8 @@
 <?php
-/*
- * underQL 1.0.0 Beta
- * By Abdullah E. Almehmadi
- * www.abdullaheid.net
- *
- */
+/***********************************************************************
+ * underQL 1.0.0 Beta - By Abdullah E. Almehmadi - www.abdullaheid.net *
+ ***********************************************************************/
+
 define('UQL_VERSION','1.0.0');
 define('UQL_VERSION_ID',20120512);
 
