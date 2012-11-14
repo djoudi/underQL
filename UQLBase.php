@@ -8,7 +8,7 @@ class UQLBase{
    die('<h3><code><b style = "color:#FF0000">UnderQL Error: </b>'.$message.'</h3>');
  }
 
- function _(){
+ public function _(){
 
      $params_count = func_num_args();
      if($params_count < 1)
