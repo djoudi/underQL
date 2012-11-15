@@ -48,7 +48,7 @@ class UQLBase{
    die('<h3><code><b style = "color:#FF0000">UnderQL Error: </b>'.$message.'</h3>');
  }
 
- function _(){
+ public function _(){
 
      $params_count = func_num_args();
      if($params_count < 1)
@@ -481,7 +481,7 @@ class UQLFilterEngine extends UQLBase{
                 ||(($filter_flag != $this->uql_in_out_flag) &&($filter_flag != UQL_FILTER_IN|UQL_FILTER_OUT)))
                 continue;
 
-            $include_filter_api = 'include_filter';
+            $include_filter_api = 'include_filters';
             $include_filter_api($filter_name);
 
             $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$filter_name);
@@ -846,7 +846,7 @@ class UQLQuery extends UQLBase{
     public function the_uql_is_there_any_error()
     {
       if(mysql_errno() != 0)
-         $this->error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());
+         $this->the_uql_error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());
     }
 
     public function __destruct() {

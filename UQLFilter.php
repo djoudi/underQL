@@ -28,9 +28,7 @@ class UQLFilter extends UQLBase{
             $this->uql_filters_map->the_uql_add_element($field, new UQLMap());
 
         $local_filter = $this->uql_filters_map->the_uql_find_element($field);
-        // remove filter name from array because it's stored as a key
-       // $filter = array_slice($filter,1);
-        $local_filter->the_uql_add_element($filter[0],array('filter'=> $filter, 'is_active'=>true));
+        $local_filter->the_uql_add_element($local_filter->the_uql_get_count(),array('filter'=> $filter, 'is_active'=>true));
         $this->uql_filters_map->the_uql_add_element($field, $local_filter);
     }
 
@@ -40,13 +38,21 @@ class UQLFilter extends UQLBase{
         if(!$local_filter)
             $this->the_uql_error('You can not stop a filter for unknown field ('.$field_name.')');
 
-        $target_filter = $local_filter->the_uql_find_element($filter_name);
+       /* $target_filter = $local_filter->the_uql_find_element($filter_name);
         if(!$target_filter)
-            $this->the_uql_error('You can not stop unknown filter ('.$filter_name.')');
-
-      
-        $local_filter->the_uql_add_element($filter_name,array('filter'=>$target_filter['filter'],'is_active'=> $activation));
-        $this->uql_filters_map->the_uql_add_element($field_name, $local_filter);
+            $this->the_uql_error('You can not stop unknown filter ('.$filter_name.')'); */
+        
+        for($i = 0; $i < $local_filter->the_uql_get_count(); $i++)
+        {
+          $target_filter = $local_filter->the_uql_find_element($i);
+          if(strcmp($target_filter['filter'][0], $filter_name) == 0)
+           {
+             $target_filter['is_active'] = $activation;
+             $local_filter->the_uql_add_element($i,array('filter'=>$target_filter['filter'],'is_active'=> $activation));
+             $this->uql_filters_map->the_uql_add_element($field_name, $local_filter);
+           }
+        }
+        
     }
 
     public function the_uql_start_filters(/*$field_name,$filter_name*/)

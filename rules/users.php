@@ -1,5 +1,5 @@
 <?php
 
-_r('users')->email('isemail');
-
+_r('users')
+      ->email('isemail');
 ?>

@@ -28,7 +28,7 @@ class UQLRule extends UQLBase{
             $this->uql_rules_map->the_uql_add_element($field, new UQLMap());
 
         $local_rule = $this->uql_rules_map->the_uql_find_element($field);
-        $local_rule->the_uql_add_element($rule[0]/*rule name*/,array('rule'=> $rule, 'is_active' => true));
+        $local_rule->the_uql_add_element($local_rule->the_uql_get_count(),array('rule'=> $rule, 'is_active' => true));
 
         $this->uql_rules_map->the_uql_add_element($field, $local_rule);
     }
@@ -40,13 +40,21 @@ class UQLRule extends UQLBase{
         if(!$local_rule)
             $this->the_uql_error('You can not stop a rule for unknown field ('.$field_name.')');
 
-        $target_rule = $local_rule->the_uql_find_element($rule_name);
+        /*$target_rule = $local_rule->the_uql_find_element($rule_name);
         if(!$target_rule)
-            $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');
+            $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');*/
+            
+        for($i = 0; $i < $local_rule->the_uql_get_count(); $i++)
+        {
+          $target_rule = $local_rule->the_uql_find_element($i);
+          if(strcmp($target_rule['rule'][0], $rule_name) == 0)
+           {
+             $target_rule['is_active'] = $activation;
+             $local_rule->the_uql_add_element($i,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
+             $this->uql_rules_map->the_uql_add_element($field_name, $local_rule);
+           }
+        }
 
-
-        $local_rule->the_uql_add_element($rule_name,array('rule'=>$target_rule['rule'],'is_active'=> $activation));
-        $this->uql_rules_map->the_uql_add_element($field_name, $local_rule);
     }
 
     public function the_uql_start_rules(/*$field_name,$rule_name*/)

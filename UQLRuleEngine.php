@@ -24,11 +24,12 @@ class UQLRuleEngine extends UQLBase{
         if($rules == null)
             return true;
 
-        foreach ($rules->the_uql_get_map() as $rule_name => $rule_value) {
+        foreach ($rules->the_uql_get_map() as $rule_id => $rule_value) {
 
             if(!$rule_value['is_active'])
                 continue;
 
+            $rule_name = $rule_value['rule'][0];
             $include_rule_api = 'include_rules';
             $include_rule_api($rule_name);
 

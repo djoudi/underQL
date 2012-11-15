@@ -104,7 +104,7 @@ class UQLQuery extends UQLBase{
     public function the_uql_is_there_any_error()
     {
       if(mysql_errno() != 0)
-         $this->error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());      
+         $this->the_uql_error('[MySQL query error - '.mysql_errno().'] - '.mysql_error());      
     }
 
     public function __destruct() {

@@ -27,7 +27,8 @@ class UQLFilterEngine extends UQLBase{
 
         $tmp_value = $value;
 
-        foreach ($filters->the_uql_get_map() as $filter_name => $filter_value) {
+        foreach ($filters->the_uql_get_map() as $filter_id => $filter_value) {
+            $filter_name = $filter_value['filter'][0];
             $filter_flag = $filter_value['filter'][1];
            // echo $filter_flag;
             if(strcmp(strtolower($filter_flag),'in') == 0)
@@ -41,7 +42,7 @@ class UQLFilterEngine extends UQLBase{
                 ||(($filter_flag != $this->uql_in_out_flag) &&($filter_flag != UQL_FILTER_IN|UQL_FILTER_OUT)))
                 continue;
 
-            $include_filter_api = 'include_filter';
+            $include_filter_api = 'include_filters';
             $include_filter_api($filter_name);
 
             $filter_api_function = sprintf(UQL_FILTER_FUNCTION_NAME,$filter_name);

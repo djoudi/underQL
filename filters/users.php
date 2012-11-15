@@ -1,7 +1,12 @@
 <?php
 
-_f('users') ->name('md5')
-               ->name('md5')
-               ->description('phpcolor','out');
-
+function demo($v)
+{
+ return 'extra.'.$v.'.com';
+}
+_f('users')
+        ->name('trim','in')
+        ->name('callback','in','demo')
+        ->name('sqli','in');
+       
 ?>
