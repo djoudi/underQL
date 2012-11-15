@@ -52,10 +52,10 @@ class UQLFilterEngine extends UQLBase{
 
             
             if(@count($filter_value['filter']) == 2) // the filter has no parameter(s)
-                $tmp_value = $filter_api_function($field_name,$value,$filter_flag);
+                $tmp_value = $filter_api_function($field_name,$tmp_value,$filter_flag);
             else {
                 $params = array_slice($filter_value['filter'],2);
-                $tmp_value = $filter_api_function($field_name,$value,$filter_flag,$params);
+                $tmp_value = $filter_api_function($field_name,$tmp_value,$filter_flag,$params);
             }
         }
         return $tmp_value;
