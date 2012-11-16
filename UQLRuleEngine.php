@@ -80,7 +80,8 @@ class UQLRuleEngine extends UQLBase{
         if($this->the_uql_are_rules_passed())
             return true;
 
-        return new UQLRuleMessagesHandler($this->uql_fail_rules_list->the_uql_get_map());
+        $the_map =  $this->uql_fail_rules_list->the_uql_get_map();
+        return new UQLRuleMessagesHandler($the_map);
     }
 
     public function __destruct() {
