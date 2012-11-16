@@ -8,6 +8,7 @@ require_once('UQLAbstractEntity.php');
 require_once('UQLFilter.php');
 require_once('UQLFilterEngine.php');
 require_once('UQLRule.php');
+require_once('UQLRuleMessagesHandler.php');
 require_once('UQLRuleEngine.php');
 require_once('UQLQuery.php');
 require_once('UQLQueryPath.php');
