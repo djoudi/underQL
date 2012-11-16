@@ -19,6 +19,7 @@ class UQLEntity extends UQLBase{
 
     public function __set($name,$value) {
         $this->uql_change->$name = $value;
+        return $this;
     }
 
     public function __get($name) {

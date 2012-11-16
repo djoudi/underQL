@@ -1,7 +1,6 @@
 <?php
 
-_f('videos');
-$videos_filter->description('phpcode','out');
+_f('videos')->description('phpcolor','out');
 
 
 
