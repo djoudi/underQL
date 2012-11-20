@@ -1,6 +1,6 @@
 <?php
 
-$uql_plugin_loaded_list = array('toXML','toJSON');
+//$uql_plugin_loaded_list = array('toXML','toJSON');
 
 class UQLPlugin{
 	

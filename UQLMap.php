@@ -1,4 +1,5 @@
 <?php
+
 class UQLMap {
 
 	private $map_list;
