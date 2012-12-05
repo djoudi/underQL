@@ -1,16 +1,10 @@
 <?php
 
+//$GLOBALS['phandler_var']['xml'] = array();
 
-require_once ('underQL.php');
+//function phandler_init_xml($path,$params = null);
 
-$_('users');
+//function phandler_run_xml($path,$params = null);
 
-$users->id = 10;
-$users->name = 'Abdullah Eid';
-
-$users->_('check_ruels');
-
-
-$_->_('shutdown');
-
+//function phandler_shutdown_xml($path,$params = null);
 ?>

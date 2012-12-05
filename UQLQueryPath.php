@@ -53,8 +53,9 @@ class UQLQueryPath extends UQLBase {
 		if ($this->uql_query_object->the_uql_execute_query ( $query )) {
 			if ($this->uql_query_object->the_uql_get_count () > 0) {
 				$this->the_uql_get_next ();
-				return true;
 			}
+			return true;
+			
 		}
 		
 		return false;
