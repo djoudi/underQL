@@ -131,6 +131,11 @@ class underQL extends UQLBase {
 		$this->the_uql_load_entity ( $entity_name );
 	}
 	
+	public function the_uql_shutdown()
+	{
+		$this->uql_database_handle->the_uql_close_connection();
+	}
+	
 	public function __destruct() {
 		$this->uql_database_handle = null;
 		$this->uql_entity_list = null;
