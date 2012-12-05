@@ -59,6 +59,11 @@ class UQLEntity extends UQLBase {
 		return $this->uql_change->the_uql_insert ();
 	}
 	
+	public function the_uql_check_rules()
+	{
+		return $this->uql_change->the_uql_check_rules();
+	}
+	
 	public function the_uql_insert_or_update_from_array($the_array, $extra = '', $is_save = true) {
 		//$array_count = @count($the_array);
 		foreach ( $the_array as $key => $value ) {
