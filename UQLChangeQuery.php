@@ -125,21 +125,26 @@ class UQLChangeQuery extends UQLBase {
 		return $insert_query;
 	}
 	
-	protected function the_uql_insert_or_update($is_save = true, $extra = '') {
-		$values_count = $this->uql_the_values_map->the_uql_get_count ();
-		if ($values_count == 0)
-			return false;
-		
-		$rule_object = UQLRule::the_uql_find_rule_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
+	public function the_uql_check_rules()
+	{
+	    $rule_object = UQLRule::the_uql_find_rule_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
 		
 		if ($rule_object != null) {
 			$this->uql_the_rule_engine = new UQLRuleEngine ( $rule_object, $this->uql_the_values_map );
 			
 			$this->uql_the_rule_engine_results = $this->uql_the_rule_engine->the_uql_run_engine ();
 			
-			if (! $this->uql_the_rule_engine->the_uql_are_rules_passed ())
-				return false;
+			return $this->uql_the_rule_engine->the_uql_are_rules_passed ();
 		}
+	}
+	
+	protected function the_uql_insert_or_update($is_save = true, $extra = '') {
+		$values_count = $this->uql_the_values_map->the_uql_get_count ();
+		if ($values_count == 0)
+			return false;
+		
+		 if(!$this->the_uql_check_rules())
+		  return false;
 		
 		$filter_object = UQLFilter::the_uql_find_filter_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
 		
