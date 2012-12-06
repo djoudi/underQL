@@ -48,12 +48,12 @@ define ( 'UQL_FILTER_OUT', 0xC );
 //%s represents the table name
 define ( 'UQL_FILTER_OBJECT_SYNTAX', '%s_filter' );
 define ( 'UQL_FILTER_FUNCTION_NAME', 'ufilter_%s' );
-define ( 'UQL_FILTER_FILE_NAME', 'ufilter_%s' );
+//define ( 'UQL_FILTER_FILE_NAME', 'ufilter_%s' );
 
 //%s represents the table name
 define ( 'UQL_RULE_OBJECT_SYNTAX', '%s_rule' );
 define ( 'UQL_RULE_FUNCTION_NAME', 'urule_%s' );
-define ( 'UQL_RULE_FILE_NAME', 'urule_%s' );
+//define ( 'UQL_RULE_FILE_NAME', 'urule_%s' );
 
 define ( 'UQL_RULE_SUCCESS', 0x0D );
 

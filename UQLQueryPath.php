@@ -51,9 +51,9 @@ class UQLQueryPath extends UQLBase {
 	public function the_uql_execute_query($query) {
 		
 		if ($this->uql_query_object->the_uql_execute_query ( $query )) {
-			if ($this->uql_query_object->the_uql_get_count () > 0) {
+			/*if ($this->uql_query_object->the_uql_get_count () > 0) {
 				$this->the_uql_get_next ();
-			}
+			}*/
 			return true;
 			
 		}
@@ -64,6 +64,11 @@ class UQLQueryPath extends UQLBase {
 	
 	public function the_uql_get_next() {
 		return $this->uql_query_object->the_uql_fetch_row ();
+	}
+	
+	public function the_uql_reset_result()
+	{
+	   return $this->uql_query_object->the_uql_reset_result();
 	}
 	
 	public function the_uql_get_count() {
@@ -81,24 +86,24 @@ class UQLQueryPath extends UQLBase {
 	public function __get($key) {
 		
 		if (! $this->uql_abstract_entity->the_uql_is_field_exist ( $key ))
-			$this->the_uql_error ( "Unknown field [$key]" );
+			$this->the_uql_error ( "[$key] does not exist in ".$this->uql_abstract_entity->the_uql_get_entity_name());
 		
 		$local_current_query_fields = $this->uql_query_object->the_uql_get_current_query_fields ();
 		if ($local_current_query_fields == null)
-			return "Unknown";
+			$this->the_uql_error ( "[$key] does not exist in the current query fields" );
 		
 		foreach ( $local_current_query_fields as $local_field_name ) {
 			if (strcmp ( $key, $local_field_name ) == 0) {
 				$local_current_row = $this->uql_query_object->the_uql_get_current_row ();
 				if ($local_current_row == null)
-					return "Unknown";
+					return null;
 				else {
 					return $this->uql_filter_engine->the_uql_apply_filter ( $key, $local_current_row->$key );
 				}
 			}
 		}
 		
-		return "Unknown";
+		return null;
 	}
 	
 	public function __destruct() {
