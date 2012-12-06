@@ -136,6 +136,8 @@ class UQLChangeQuery extends UQLBase {
 			
 			return $this->uql_the_rule_engine->the_uql_are_rules_passed ();
 		}
+		
+		return true; // No rules applied
 	}
 	
 	protected function the_uql_insert_or_update($is_save = true, $extra = '') {
