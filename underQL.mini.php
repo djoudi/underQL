@@ -48,10 +48,12 @@ define ( 'UQL_FILTER_OUT', 0xC );
 //%s represents the table name
 define ( 'UQL_FILTER_OBJECT_SYNTAX', '%s_filter' );
 define ( 'UQL_FILTER_FUNCTION_NAME', 'ufilter_%s' );
+//define ( 'UQL_FILTER_FILE_NAME', 'ufilter_%s' );
 
 //%s represents the table name
 define ( 'UQL_RULE_OBJECT_SYNTAX', '%s_rule' );
 define ( 'UQL_RULE_FUNCTION_NAME', 'urule_%s' );
+//define ( 'UQL_RULE_FILE_NAME', 'urule_%s' );
 
 define ( 'UQL_RULE_SUCCESS', 0x0D );
 
@@ -64,7 +66,8 @@ define ( 'UQL_DB_PASSWORD', 'root' );
 define ( 'UQL_DB_NAME', 'abdullaheid_db' );
 define ( 'UQL_DB_CHARSET', 'utf8' );
 
-define ( 'UQL_CONFIG_USE_INVOKE_CALL', true ); // to use __invoke magic method
+define ( 'UQL_CONFIG_USE_INVOKE_CALL', true );
+// to use __invoke magic method
 
 
 class UQLBase {
@@ -87,7 +90,9 @@ class UQLBase {
 		$params = array_slice ( $params, 1 );
 		return call_user_func_array ( array ($this, $func_name ), $params );
 	}
+
 }
+
 
 class UQLConnection extends UQLBase {
 	
@@ -188,7 +193,7 @@ class UQLConnection extends UQLBase {
 	
 	public function the_uql_close_connection() {
 		if ($this->uql_connection_handle)
-			mysql_close ( $this->connection_handle );
+			mysql_close ( $this->uql_connection_handle );
 		
 		$this->uql_connection_handle = false;
 	}
@@ -205,6 +210,7 @@ class UQLConnection extends UQLBase {
 	}
 
 }
+
 
 class UQLMap extends UQLBase {
 	
@@ -273,6 +279,7 @@ class UQLMap extends UQLBase {
 	}
 
 }
+
 
 class UQLAbstractEntity extends UQLBase {
 	
@@ -344,6 +351,7 @@ class UQLAbstractEntity extends UQLBase {
 	}
 
 }
+
 
 class UQLFilter extends UQLBase {
 	
@@ -459,11 +467,14 @@ class UQLFilter extends UQLBase {
 	}
 }
 
+
 class UQLFilterEngine extends UQLBase {
 	
 	private $uql_filter_object;
-	private $uql_values_map; //current inserted | updated $key => $value pairs
-	private $uql_in_out_flag; // specify if the engine for input or output
+	private $uql_values_map;
+	//current inserted | updated $key => $value pairs
+	private $uql_in_out_flag;
+	// specify if the engine for input or output
 	
 
 	public function __construct(&$filter_object, $in_out_flag) {
@@ -533,7 +544,9 @@ class UQLFilterEngine extends UQLBase {
 		$this->uql_values_map = null;
 		$this->uql_filter_object = null;
 	}
+
 }
+
 
 class UQLRule extends UQLBase {
 	
@@ -576,8 +589,8 @@ class UQLRule extends UQLBase {
 			$this->the_uql_error ( 'You can not stop a rule for unknown field (' . $field_name . ')' );
 			
 		/*$target_rule = $local_rule->the_uql_find_element($rule_name);
-        if(!$target_rule)
-            $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');*/
+         if(!$target_rule)
+         $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');*/
 		
 		for($i = 0; $i < $local_rule->the_uql_get_count (); $i ++) {
 			$target_rule = $local_rule->the_uql_find_element ( $i );
@@ -590,13 +603,13 @@ class UQLRule extends UQLBase {
 	
 	}
 	
-	public function the_uql_start_rules(/*$field_name,$rule_name*/)
-    {
+	public function the_uql_start_rules(/*$field_name,$rule_name*/) {
 		$params_count = func_num_args ();
 		if ($params_count < 2)
 			$this->error ( 'start_rules needs 2 parameters at least' );
 		
-		$rules_counts = $params_count - 1; // remove field name
+		$rules_counts = $params_count - 1;
+		// remove field name
 		$parameters = func_get_args ();
 		if ($rules_counts == 1) {
 			$this->the_uql_set_rule_activation ( $parameters [0], $parameters [1], true );
@@ -607,13 +620,13 @@ class UQLRule extends UQLBase {
 		}
 	}
 	
-	public function the_uql_stop_rules(/*$field_name,$rule_name*/)
-    {
+	public function the_uql_stop_rules(/*$field_name,$rule_name*/) {
 		$params_count = func_num_args ();
 		if ($params_count < 2)
 			$this->the_uql_error ( 'stop_rules needs 2 parameters at least' );
 		
-		$rules_counts = $params_count - 1; // remove field name
+		$rules_counts = $params_count - 1;
+		// remove field name
 		$parameters = func_get_args ();
 		if ($rules_counts == 1) {
 			$this->the_uql_set_rule_activation ( $parameters [0], $parameters [1], false );
@@ -670,14 +683,49 @@ class UQLRule extends UQLBase {
 		$this->uql_rules_map = null;
 		$this->uql_alises_map = null;
 	}
+
 }
+
+
+class UQLRuleMessagesHandler extends UQLBase {
+	
+	private $uql_messages;
+	
+	public function __construct(&$the_msgs_list) {
+		if (! $the_msgs_list)
+			$this->uql_messages = array ();
+		else
+			$this->uql_messages = $the_msgs_list;
+	}
+	
+	public function in($field_name) {
+		return isset ( $this->uql_messages [$field_name] );
+	}
+	
+	public function at($field_name, $rule_name) {
+		return isset ( $this->uql_messages [$field_name] [$rule_name] );
+	}
+	
+	public function get($field_name, $rule_name) {
+		return $this->uql_messages [$field_name] [$rule_name];
+	}
+	
+	public function __destruct() {
+		$this->uql_messages = null;
+	}
+
+}
+
 
 class UQLRuleEngine extends UQLBase {
 	
 	private $uql_rule_object;
-	private $uql_values_map; //current inserted | updated $key => $value pairs
-	private $uql_false_rule_flag; // true if there is at least one rule failed.
-	private $uql_fail_rules_list; // list of error messages about each field that fail in one or more rules
+	private $uql_values_map;
+	//current inserted | updated $key => $value pairs
+	private $uql_false_rule_flag;
+	// true if there is at least one rule failed.
+	private $uql_fail_rules_list;
+	// list of error messages about each field that fail in one or more rules
 	
 
 	public function __construct(&$rule_object, &$values_map) {
@@ -716,15 +764,19 @@ class UQLRuleEngine extends UQLBase {
 			if (@count ( $rule_value ['rule'] ) == 1) // the rule has no parameter(s)
 				$result = $rule_api_function ( $field_name, $value, $alias );
 			else {
-				$params = array_alice ( $rule_value ['rule'] ); // remove rule name
+				$params = array_alice ( $rule_value ['rule'] );
+				// remove rule name
 				$result = $rule_api_function ( $field_name, $value, $alias, $params );
 			}
 			
 			if ($result != UQL_RULE_SUCCESS) {
-				$the_results [$rule_name] = $result; // message
+				$the_results [$rule_name] = $result;
+				// message
 				$this->uql_false_rule_flag = true;
 			} else
-				$the_results [$rule_name] = $result; // OK
+				$the_results [$rule_name] = $result;
+		
+		// OK
 		}
 		
 		return $the_results;
@@ -752,14 +804,17 @@ class UQLRuleEngine extends UQLBase {
 		if ($this->the_uql_are_rules_passed ())
 			return true;
 		
-		return $this->uql_fail_rules_list->the_uql_get_map ();
+		$the_map = $this->uql_fail_rules_list->the_uql_get_map ();
+		return new UQLRuleMessagesHandler ( $the_map );
 	}
 	
 	public function __destruct() {
 		$this->uql_values_map = null;
 		$this->uql_rule_object = null;
 	}
+
 }
+
 
 class UQLQuery extends UQLBase {
 	
@@ -877,6 +932,7 @@ class UQLQuery extends UQLBase {
 
 }
 
+
 class UQLQueryPath extends UQLBase {
 	
 	public $uql_abstract_entity;
@@ -899,10 +955,11 @@ class UQLQueryPath extends UQLBase {
 	public function the_uql_execute_query($query) {
 		
 		if ($this->uql_query_object->the_uql_execute_query ( $query )) {
-			if ($this->uql_query_object->the_uql_get_count () > 0) {
+			/*if ($this->uql_query_object->the_uql_get_count () > 0) {
 				$this->the_uql_get_next ();
-				return true;
-			}
+			}*/
+			return true;
+			
 		}
 		
 		return false;
@@ -911,6 +968,11 @@ class UQLQueryPath extends UQLBase {
 	
 	public function the_uql_get_next() {
 		return $this->uql_query_object->the_uql_fetch_row ();
+	}
+	
+	public function the_uql_reset_result()
+	{
+	   return $this->uql_query_object->the_uql_reset_result();
 	}
 	
 	public function the_uql_get_count() {
@@ -928,24 +990,24 @@ class UQLQueryPath extends UQLBase {
 	public function __get($key) {
 		
 		if (! $this->uql_abstract_entity->the_uql_is_field_exist ( $key ))
-			$this->the_uql_error ( "Unknown field [$key]" );
+			$this->the_uql_error ( "[$key] does not exist in ".$this->uql_abstract_entity->the_uql_get_entity_name());
 		
 		$local_current_query_fields = $this->uql_query_object->the_uql_get_current_query_fields ();
 		if ($local_current_query_fields == null)
-			return "Unknown";
+			$this->the_uql_error ( "[$key] does not exist in the current query fields" );
 		
 		foreach ( $local_current_query_fields as $local_field_name ) {
 			if (strcmp ( $key, $local_field_name ) == 0) {
 				$local_current_row = $this->uql_query_object->the_uql_get_current_row ();
 				if ($local_current_row == null)
-					return "Unknown";
+					return null;
 				else {
 					return $this->uql_filter_engine->the_uql_apply_filter ( $key, $local_current_row->$key );
 				}
 			}
 		}
 		
-		return "Unknown";
+		return null;
 	}
 	
 	public function __destruct() {
@@ -958,14 +1020,15 @@ class UQLQueryPath extends UQLBase {
 
 }
 
+
 class UQLChangeQuery extends UQLBase {
 	
 	private $uql_the_query;
 	private $uql_the_abstract_entity;
 	/*
-	used to save list of [field_name = value] that are coming
-	 from current insertion query
-    */
+     used to save list of [field_name = value] that are coming
+     from current insertion query
+     */
 	private $uql_the_values_map;
 	private $uql_the_rule_engine;
 	private $uql_the_rule_engine_results;
@@ -1028,7 +1091,8 @@ class UQLChangeQuery extends UQLBase {
 		$values = 'VALUES(';
 		
 		$all_values = $this->uql_the_values_map->the_uql_get_map ();
-		$comma = 0; // for last comma in a string
+		$comma = 0;
+		// for last comma in a string
 		
 
 		foreach ( $all_values as $key => $value ) {
@@ -1053,21 +1117,28 @@ class UQLChangeQuery extends UQLBase {
 		return $insert_query;
 	}
 	
-	protected function the_uql_insert_or_update($is_save = true, $extra = '') {
-		$values_count = $this->uql_the_values_map->the_uql_get_count ();
-		if ($values_count == 0)
-			return false;
-		
-		$rule_object = UQLRule::the_uql_find_rule_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
+	public function the_uql_check_rules()
+	{
+	    $rule_object = UQLRule::the_uql_find_rule_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
 		
 		if ($rule_object != null) {
 			$this->uql_the_rule_engine = new UQLRuleEngine ( $rule_object, $this->uql_the_values_map );
 			
 			$this->uql_the_rule_engine_results = $this->uql_the_rule_engine->the_uql_run_engine ();
 			
-			if (! $this->uql_the_rule_engine->the_uql_are_rules_passed ())
-				return false;
+			return $this->uql_the_rule_engine->the_uql_are_rules_passed ();
 		}
+		
+		return true; // No rules applied
+	}
+	
+	protected function the_uql_insert_or_update($is_save = true, $extra = '') {
+		$values_count = $this->uql_the_values_map->the_uql_get_count ();
+		if ($values_count == 0)
+			return false;
+		
+		 if(!$this->the_uql_check_rules())
+		  return false;
 		
 		$filter_object = UQLFilter::the_uql_find_filter_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
 		
@@ -1102,7 +1173,8 @@ class UQLChangeQuery extends UQLBase {
 		$fields = '';
 		
 		$all_values = $this->uql_the_values_map->the_uql_get_map ();
-		$comma = 0; // for last comma in a string
+		$comma = 0;
+		// for last comma in a string
 		
 
 		foreach ( $all_values as $key => $value ) {
@@ -1125,8 +1197,8 @@ class UQLChangeQuery extends UQLBase {
 		return $update_query;
 	}
 	
-	public function update($extra = '') {
-		return $this->insertOrUpdate ( false, $extra );
+	public function the_uql_update($extra = '') {
+		return $this->the_uql_insert_or_update ( false, $extra );
 	}
 	
 	public function the_uql_update_where_id($id, $id_name = 'id') {
@@ -1142,6 +1214,7 @@ class UQLChangeQuery extends UQLBase {
 	}
 
 }
+
 
 class UQLDeleteQuery extends UQLBase {
 	
@@ -1181,6 +1254,7 @@ class UQLDeleteQuery extends UQLBase {
 
 }
 
+
 class UQLEntity extends UQLBase {
 	
 	private $uql_abstract_entity;
@@ -1200,15 +1274,20 @@ class UQLEntity extends UQLBase {
 	
 	public function __set($name, $value) {
 		$this->uql_change->$name = $value;
-		return $this;
+		//return $this;
 	}
 	
 	public function __get($name) {
-		return $this->uql_change->$name;
+		return $this;//->uql_change->$name;
 	}
 	
 	public function the_uql_insert() {
 		return $this->uql_change->the_uql_insert ();
+	}
+	
+	public function the_uql_check_rules()
+	{
+		return $this->uql_change->the_uql_check_rules();
 	}
 	
 	public function the_uql_insert_or_update_from_array($the_array, $extra = '', $is_save = true) {
@@ -1229,11 +1308,11 @@ class UQLEntity extends UQLBase {
 	}
 	
 	public function the_uql_update_from_array($the_array, $extra = '') {
-		return $this->insert_or_update_from_array ( $the_array, $extra, false );
+		return $this->the_uql_insert_or_update_from_array ( $the_array, $extra, false );
 	}
 	
 	public function the_uql_update_from_array_where_id($the_array, $id, $id_name = 'id') {
-		return $this->insert_or_update_from_array ( $the_array, "WHERE `$id_name` = $id", false );
+		return $this->the_uql_insert_or_update_from_array ( $the_array, "WHERE `$id_name` = $id", false );
 	}
 	
 	public function the_uql_update($extra = '') {
@@ -1293,6 +1372,8 @@ class UQLEntity extends UQLBase {
 
 }
 
+
+
 function include_filters() {
 	$params = func_get_args ();
 	
@@ -1300,7 +1381,7 @@ function include_filters() {
 		die ( 'You must pass one filter at least to include_filters' );
 	
 	foreach ( $params as $key => $filter )
-		require_once (__DIR__ . '/' . UQL_DIR_FILTER . UQL_DIR_FILTER_API . 'uql_filter_' . $filter . '.php');
+		require_once (__DIR__ . '/' . UQL_DIR_FILTER . UQL_DIR_FILTER_API . 'ufilter_' . $filter . '.php');
 }
 
 function include_rules() {
@@ -1310,7 +1391,7 @@ function include_rules() {
 		die ( 'You must pass one rule at least to include_rules' );
 	
 	foreach ( $params as $key => $rule )
-		require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'uql_rule_' . $rule . '.php');
+		require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'urule_' . $rule . '.php');
 }
 
 function _f($entity_name) {
@@ -1326,7 +1407,8 @@ function _r($entity_name) {
 class underQL extends UQLBase {
 	
 	private $uql_database_handle;
-	private $uql_entity_list; // load all tables' names from current database
+	private $uql_entity_list;
+	// load all tables' names from current database
 	private $uql_loaded_entity_list;
 	
 	public function __construct($host = UQL_DB_HOST, $database_name = UQL_DB_NAME, $user = UQL_DB_USER, $password = UQL_DB_PASSWORD, $charset = UQL_DB_CHARSET) {
@@ -1335,7 +1417,7 @@ class underQL extends UQLBase {
 		if (UQL_CONFIG_USE_INVOKE_CALL) {
 			$php_ver = floatval ( PHP_VERSION );
 			if ($php_ver < 5.3)
-				$this->the_uql_error ( 'underQL work at least on PHP 5.3 to run invoke magic method. Go to UQL.php and change UQL_CONFIG_USE_INVOKE_CALL to false, after that, use loadEntity method rather thatn $_(\'table\') method' );
+				$this->the_uql_error ( 'underQL needs at least PHP 5.3' );
 		}
 		
 		$this->uql_database_handle = new UQLConnection ( $host, $database_name, $user, $password, $charset );
@@ -1367,7 +1449,7 @@ class underQL extends UQLBase {
 	}
 	
 	/* create UQLEntity object and load all information about
-       $entity_name table within it */
+     $entity_name table within it */
 	public function the_uql_load_entity($entity_name) {
 		
 		if (strcmp ( $entity_name, '*' ) == 0) {
@@ -1379,20 +1461,22 @@ class underQL extends UQLBase {
 			$this->the_uql_error ( $entity_name . ' is not a valid table name' );
 		
 		if (in_array ( $entity_name, $this->uql_loaded_entity_list ))
-			return; // no action
+			return;
+		
+		// no action
 		
 
 		/* Create a global entity object. This part helps underQL to know
-           the entity's object name for any loaded entity(table), therefore, underQL 
-           could automatically use it in its own operations. */
+         the entity's object name for any loaded entity(table), therefore, underQL
+         could automatically use it in its own operations. */
 		
-		sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name );
+		//sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name );
 		$GLOBALS [sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name )] = new UQLEntity ( $entity_name, $this->uql_database_handle );
 	
 	}
 	
 	/* You can load all tables as objects at once by use * symbol. This function
-       used to do that. */
+     used to do that. */
 	public function the_uql_load_all_entities() {
 		$entity_count = @count ( $this->uql_entity_list );
 		for($i = 0; $i < $entity_count; $i ++)
@@ -1400,9 +1484,14 @@ class underQL extends UQLBase {
 	}
 	
 	/* Helps underQL to use (object as function) syntax. However, this method used
-       only with PHP 5.3.x and over */
+     only with PHP 5.3.x and over */
 	public function __invoke($entity_name) {
 		$this->the_uql_load_entity ( $entity_name );
+	}
+	
+	public function the_uql_shutdown()
+	{
+		$this->uql_database_handle->the_uql_close_connection();
 	}
 	
 	public function __destruct() {
@@ -1410,12 +1499,13 @@ class underQL extends UQLBase {
 		$this->uql_entity_list = null;
 		$this->uql_loaded_entity_list = null;
 	}
+
 }
 
 /* Create underQL (this object called 'under') object. This is the default object, but
-    you can create another instance if you would like to deal with another database
-    by specifying the parameters for that database. However, you can change the name
-    of the ($_) 'under' object, but it is unpreferable(might be for future purposes).
+ you can create another instance if you would like to deal with another database
+ by specifying the parameters for that database. However, you can change the name
+ of the ($_) 'under' object, but it is unpreferable(might be for future purposes).
  */
 $_ = new underQL ();
 ?>
