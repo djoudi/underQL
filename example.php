@@ -3,6 +3,8 @@
 
 require_once('underQL.php');
 
+_f('users')->name('required')->_('add_alias','name','إسم التلميذ');
+
 $_('users');
 
 //$users->id = 10;
