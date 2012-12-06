@@ -52,7 +52,7 @@ class UQLEntity extends UQLBase {
 	}
 	
 	public function __get($name) {
-		return $this->uql_change->$name;
+		return $this;//->uql_change->$name;
 	}
 	
 	public function the_uql_insert() {

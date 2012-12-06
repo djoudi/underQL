@@ -128,7 +128,7 @@ class UQLConnection extends UQLBase {
 	
 	public function the_uql_close_connection() {
 		if ($this->uql_connection_handle)
-			mysql_close ( $this->connection_handle );
+			mysql_close ( $this->uql_connection_handle );
 		
 		$this->uql_connection_handle = false;
 	}
