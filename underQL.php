@@ -59,7 +59,7 @@ class underQL extends UQLBase {
 		if (UQL_CONFIG_USE_INVOKE_CALL) {
 			$php_ver = floatval ( PHP_VERSION );
 			if ($php_ver < 5.3)
-				$this->the_uql_error ( 'underQL work at least on PHP 5.3 to run invoke magic method. Go to UQL.php and change UQL_CONFIG_USE_INVOKE_CALL to false, after that, use loadEntity method rather thatn $_(\'table\') method' );
+				$this->the_uql_error ( 'underQL needs at least PHP 5.3' );
 		}
 		
 		$this->uql_database_handle = new UQLConnection ( $host, $database_name, $user, $password, $charset );
@@ -112,7 +112,7 @@ class underQL extends UQLBase {
          the entity's object name for any loaded entity(table), therefore, underQL
          could automatically use it in its own operations. */
 		
-		sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name );
+		//sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name );
 		$GLOBALS [sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name )] = new UQLEntity ( $entity_name, $this->uql_database_handle );
 	
 	}
