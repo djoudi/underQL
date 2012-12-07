@@ -235,6 +235,22 @@ class UQLChangeQuery extends UQLBase {
 	 return $this->uql_the_values_map;
 	}
 	
+	public function the_uql_set_map_object($map)
+	{
+	  if($map instanceof UQLMap)
+	   $this->uql_the_values_map = $map;
+	}
+	
+	public function the_uql_get_map()
+	{
+	 return $this->uql_the_values_map->the_uql_get_map();
+	}
+	
+	public function the_uql_set_map($values)
+	{
+	 return $this->uql_the_values_map->the_uql_set_map($values);
+	}
+	
 	public function __destruct() {
 		$this->uql_the_query = null;
 		$this->uql_the_abstract_entity = null;

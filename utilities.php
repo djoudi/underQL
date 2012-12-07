@@ -50,19 +50,33 @@ function include_rules() {
 }
 
 function _f($entity_name) {
+	
+	if(isset($GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )]))
+	 return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
+	 
 	$GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )] = new UQLFilter ( $entity_name );
 	return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
 }
 
 function _r($entity_name) {
+	if(isset($GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )]))
+	 return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
+	 
 	$GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )] = new UQLRule ( $entity_name );
 	return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
 }
 
 function _m($module_name) {
+    if(isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]))
+     return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
+     
     $module_class_name = sprintf(UQL_MODULE_CLASS_SYNTAX,$module_name);
 	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ();
 	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]->init();
+	
+	/* used to shutdown all modules */
+	$GLOBALS ['uql_global_loaded_modules'][] = $module_name;
+	
 	return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
 }
 ?>

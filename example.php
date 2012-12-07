@@ -2,7 +2,9 @@
 
 
 _m('demo');
+_m('xml');
 
-//$demo_module;
+$demo_module;
+$xml_module;
 
 ?>
