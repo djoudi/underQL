@@ -60,10 +60,45 @@ class UQLEntity extends UQLBase {
 	  return call_user_func_array(array($this->uql_change,$function_name),$parameters);
 	}
 	
-	public function _()
-	{
-	  $parameters = func_get_args();
-	  return call_user_func_array(array($this->uql_change,'_'),$parameters);
+	public function _() {
+		
+		$params_count = func_num_args ();
+		if ($params_count < 1)
+			$this->error ( 'You must pass one parameter at least for _ method' );
+		
+		$params = func_get_args ();
+		$func_name = 'the_uql_' . $params [0];
+		if (! method_exists ( $this, $func_name ))
+			{
+			   
+			   foreach($this->uql_the_values_map->the_uql_get_map() as $field_name => $value)
+	           {
+	            $update_method_name = 'update_where_'.$field_name;
+	            $delete_method_name = 'delete_where_'.$field_name;
+	            
+	            $function_name = $params[0];
+	            if(strcmp($function_name,$update_method_name) == 0)
+	             {
+	               $params = array_slice ( $params, 1 );
+	               if(!is_array($params) || count($params) != 1)
+	                $this->the_uql_error("$function_name accept one parameter");
+	        
+	               return $this->uql_change->the_uql_update_where_n($field_name,$params[0]);
+	             }
+	             else if(strcmp($function_name,$delete_method_name) == 0)
+	             {
+	               $params = array_slice ( $params, 1 );
+	               if(!is_array($params) || count($params) != 1)
+	                $this->the_uql_error("$function_name accept one parameter");
+	        
+	               return $this->uql_delete->the_uql_delete_where_n($field_name,$params[0]);
+	             }
+	            }
+	            
+			  $this->the_uql_error ( $params [0] . ' is not a valid action' );
+			}
+		$params = array_slice ( $params, 1 );
+		return call_user_func_array ( array ($this, $func_name ), $params );
 	}
 	
 	public function the_uql_insert() {

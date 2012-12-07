@@ -209,7 +209,7 @@ class UQLChangeQuery extends UQLBase {
 		return $this->the_uql_insert_or_update ( false, $extra );
 	}
 	
-	protected function the_uql_update_where_n($field_name,$value)
+	public function the_uql_update_where_n($field_name,$value)
 	{
 	  $field_object = $this->uql_the_abstract_entity->the_uql_get_field_object($field_name);
 	  if($field_object != null)
@@ -225,38 +225,6 @@ class UQLChangeQuery extends UQLBase {
 	{
 	  $this->the_uql_error("UQLChangeQuery unknown method : $function_name");
 	}*/
-	
-	public function _() {
-		
-		$params_count = func_num_args ();
-		if ($params_count < 1)
-			$this->error ( 'You must pass one parameter at least for _ method' );
-		
-		$params = func_get_args ();
-		$func_name = 'the_uql_' . $params [0];
-		if (! method_exists ( $this, $func_name ))
-			{
-			   
-			   foreach($this->uql_the_values_map->the_uql_get_map() as $field_name => $value)
-	           {
-	            $method_name = 'update_where_'.$field_name;
-	            $function_name = $params[0];
-	            if(strcmp($function_name,$method_name) == 0)
-	             {
-	               $params = array_slice ( $params, 1 );
-	               if(!is_array($params) || count($params) != 1)
-	                $this->the_uql_error("$function_name accept one parameter");
-	        
-	               return $this->the_uql_update_where_n($field_name,$params[0]);
-	             }
-	            }
-	            
-			$this->the_uql_error ( $params [0] . ' is not a valid action' );
-			}
-		$params = array_slice ( $params, 1 );
-		return call_user_func_array ( array ($this, $func_name ), $params );
-	}
-
 	
 	/*public function the_uql_update_where_id($id, $id_name = 'id') {
 		return $this->the_uql_update ( "WHERE `$id_name` = $id" );

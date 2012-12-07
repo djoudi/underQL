@@ -56,8 +56,20 @@ class UQLDeleteQuery extends UQLBase {
 		return $this->uql_query->the_uql_execute_query ( $query );
 	}
 	
-	public function the_uql_delete_where_id($id, $id_name = 'id') {
+	/*public function the_uql_delete_where_id($id, $id_name = 'id') {
 		return $this->the_uql_delete ( "`$id_name` = $id" );
+	}*/
+	
+	public function the_uql_delete_where_n($field_name,$value)
+	{
+	  $field_object = $this->uql_the_abstract_entity->the_uql_get_field_object($field_name);
+	  if($field_object != null)
+	  {
+	    if($field_object->numeric)
+	     return $this->the_uql_delete("WHERE `$field_name` = $value");
+	    else
+	     return $this->the_uql_delete("WHERE `$field_name` = '$value'"); 
+	  }
 	}
 	
 	public function __destruct() {
