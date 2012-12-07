@@ -91,7 +91,7 @@ class UQLMap extends UQLBase {
 	
 	public function the_uql_set_map($the_map)
 	{
-	  if(is_array($the_map)
+	  if(is_array($the_map))
 	   $this->uql_map_list = $the_map;
 	}
 	
