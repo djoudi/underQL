@@ -247,7 +247,7 @@ class UQLChangeQuery extends UQLBase {
 	               if(!is_array($params) || count($params) != 1)
 	                $this->the_uql_error("$function_name accept one parameter");
 	        
-	               return $this->the_uql_update_where_n($field_name,$parameters[0]);
+	               return $this->the_uql_update_where_n($field_name,$params[0]);
 	             }
 	            }
 	            
