@@ -46,7 +46,7 @@ class UQLDeleteQuery extends UQLBase {
 		
 		$delete_query = 'DELETE FROM `' . $this->uql_abstract_entity->the_uql_get_entity_name () . '`';
 		if ($extra != null)
-			$delete_query .= ' WHERE ' . $extra;
+			$delete_query .= ' ' . $extra;
 		
 		return $delete_query;
 	}
