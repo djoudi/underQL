@@ -225,7 +225,7 @@ class UQLChangeQuery extends UQLBase {
 	{
 	  // for update methods
 	  
-	  foreach($this->uql_the_values_map as $field_name => $value)
+	  foreach($this->uql_the_values_map->the_uql_get_map() as $field_name => $value)
 	  {
 	     $method_name = 'update_where_'.$field_name;
 	     if(strcmp($function_name,$method_name) == 0)
