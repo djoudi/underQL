@@ -52,7 +52,7 @@ class UQLQueryPath extends UQLBase {
 		if ($this->um_query_object->underql_execute_query ( $query ))
 			{
 			 UQLModuleEngine::underql_module_run_output($this);
-			 $this->underql_reset_result();
+			// $this->underql_reset_result();
 			 return true;
 			}
 				

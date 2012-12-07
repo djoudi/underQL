@@ -29,7 +29,10 @@ public static function underql_module_run_output(&$path)
 	       {
 	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)])
 	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isActive())
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
+	          {
+	            $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
+	            $path->_('reset_result');
+	          }
 	       }
 	     }   
 	}
