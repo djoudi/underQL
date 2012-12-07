@@ -209,6 +209,37 @@ class UQLChangeQuery extends UQLBase {
 		return $this->the_uql_insert_or_update ( false, $extra );
 	}
 	
+	protected function the_uql_update_where_n($field_name,$value)
+	{
+	  $field_object = $this->uql_the_abstract_entity->the_uql_get_field_object($field_name);
+	  if($field_object != null)
+	  {
+	    if($field_object->numeric)
+	     return $this->the_uql_update("WHERE `$field_name` = $value");
+	    else
+	     return $this->the_uql_update("WHERE `$field_name` = '$value'"); 
+	  }
+	}
+	
+	public function __call($function_name,$parameters)
+	{
+	  // for update methods
+	  
+	  foreach($this->uql_the_values_map as $field_name => $value)
+	  {
+	     $method_name = 'update_where_'.$field_name;
+	     if(strcmp($function_name,$method_name) == 0)
+	     {
+	       if(!is_array($parameters) || count($parameters) != 1)
+	        $this->the_uql_error("$function_name accept one parameter");
+	        
+	       return $this->the_uql_update_where_n($field_name,$parameters[0]);
+	     }
+	  }
+	  
+	  $this->the_uql_error("unknown method : $function_name");
+	}
+	
 	public function the_uql_update_where_id($id, $id_name = 'id') {
 		return $this->the_uql_update ( "WHERE `$id_name` = $id" );
 	}
