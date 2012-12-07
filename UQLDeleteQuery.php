@@ -31,51 +31,48 @@
 
 class UQLDeleteQuery extends UQLBase {
 	
-	private $uql_query;
-	private $uql_abstract_entity;
+	private $um_query;
+	private $um_abstract_entity;
 	
 	public function __construct(&$database_handle, &$abstract_entity) {
 		if ((! $database_handle instanceof UQLConnection) || (! $abstract_entity instanceof UQLAbstractEntity))
-			$this->the_uql_error ( 'Bad database handle' );
+			UQLBase::underql_error ( 'Invalid database handle' );
 		
-		$this->uql_query = new UQLQuery ( $database_handle );
-		$this->uql_abstract_entity = $abstract_entity;
+		$this->um_query = new UQLQuery ( $database_handle );
+		$this->um_abstract_entity = $abstract_entity;
 	}
 	
-	protected function the_uql_format_delete_query($extra = null) {
+	protected function underql_format_delete_query($extra = null) {
 		
-		$delete_query = 'DELETE FROM `' . $this->uql_abstract_entity->the_uql_get_entity_name () . '`';
+		$delete_query = 'DELETE FROM `' . $this->um_abstract_entity->underql_get_entity_name () . '`';
 		if ($extra != null)
 			$delete_query .= ' ' . $extra;
 		
 		return $delete_query;
 	}
 	
-	public function the_uql_delete($extra = '') {
-		$query = $this->the_uql_format_delete_query ( $extra );
-		return $this->uql_query->the_uql_execute_query ( $query );
+	public function underql_delete($extra = '') {
+		$query = $this->underql_format_delete_query ( $extra );
+		return $this->um_query->underql_execute_query ( $query );
 	}
-	
-	/*public function the_uql_delete_where_id($id, $id_name = 'id') {
-		return $this->the_uql_delete ( "`$id_name` = $id" );
-	}*/
-	
-	public function the_uql_delete_where_n($field_name,$value)
+
+	public function underql_delete_where_n($field_name,$value)
 	{
-	  $field_object = $this->uql_abstract_entity->the_uql_get_field_object($field_name);
+	  $field_object = $this->um_abstract_entity->underql_get_field_object($field_name);
 	  if($field_object != null)
 	  {
 	    if($field_object->numeric)
-	     return $this->the_uql_delete("WHERE `$field_name` = $value");
+	     return $this->underql_delete("WHERE `$field_name` = $value");
 	    else
-	     return $this->the_uql_delete("WHERE `$field_name` = '$value'"); 
+	     return $this->underql_delete("WHERE `$field_name` = '$value'"); 
 	  }
 	}
 	
 	public function __destruct() {
-		$this->uql_query = null;
-		$this->uql_abstract_entity = null;
+		$this->um_query = null;
+		$this->um_abstract_entity = null;
 	}
 
 }
+
 ?>
