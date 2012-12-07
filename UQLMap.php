@@ -80,13 +80,19 @@ class UQLMap extends UQLBase {
 		return $this->uql_elements_count == 0;
 	}
 	
-	public function mapCallback($callback) {
+	public function the_uql_map_callback($callback) {
 		if (! $this->isEmpty ())
 			return array_map ( $callback, $this->map_list );
 	}
 	
 	public function the_uql_get_map() {
 		return $this->uql_map_list;
+	}
+	
+	public function the_uql_set_map($the_map)
+	{
+	  if(is_array($the_map)
+	   $this->uql_map_list = $the_map;
 	}
 	
 	public function __destruct() {
