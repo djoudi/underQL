@@ -49,6 +49,23 @@ function include_rules() {
 		require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'urule_' . $rule . '.php');
 }
 
+function include_modules()
+{
+  $params = func_get_args ();
+	
+	if (func_num_args () == 0)
+		die ( 'You must pass one module at least to include_modules' );
+	
+	foreach ( $params as $key => $module_name )
+		{
+		if(!isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]))
+         {
+		  require_once (__DIR__ . '/' . UQL_DIR_MODULE . 'umodule_' . $module_name . '.php');
+		  _m($module_name);
+		 }
+		}
+}
+
 function _f($entity_name) {
 	
 	if(isset($GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )]))

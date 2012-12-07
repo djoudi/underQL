@@ -1,8 +1,7 @@
 <?php 
 
 
-_m('demo');
-_m('xml');
+include_modules('demo');
 
 $demo_module;
 $xml_module;

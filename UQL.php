@@ -38,6 +38,8 @@ define ( 'UQL_DIR_FILTER_API', 'filters_api/' );
 
 define ( 'UQL_DIR_RULE', 'rules/' );
 define ( 'UQL_DIR_RULE_API', 'rules_api/' );
+
+define ( 'UQL_DIR_MODULE', 'modules/' );
 //%s represents the table name
 //define ('UQL_ABSTRACT_E_OBJECT_SYNTAX','the_%s_abstract');
 
