@@ -41,7 +41,7 @@ class UQLQueryPath extends UQLBase {
 		if ($abstract_entity instanceof UQLAbstractEntity)
 			$this->uql_abstract_entity = $abstract_entity;
 		else
-			$this->error ( 'You must provide a appropriate value for abstract_entity parameter' );
+			$this->the_uql_error ( 'You must provide a appropriate value for abstract_entity parameter' );
 		
 		$this->uql_query_object = new UQLQuery ( $database_handle );
 		$filter_object = UQLFilter::the_uql_find_filter_object ( $this->uql_abstract_entity->the_uql_get_entity_name () );
