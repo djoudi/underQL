@@ -101,43 +101,8 @@ class UQLEntity extends UQLBase {
 		return call_user_func_array ( array ($this, $func_name ), $params );
 	}
 	
-	protected function the_uql_module_run_input($is_insert = true)
-	{
-	   /* run modules */
-	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
-	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
-	     {
-	       $current_vals = $this->uql_change->the_uql_get_map();
-	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
-	       {
-	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->in($current_vals,$is_insert);
-	          
-	         $this->uql_change->the_uql_set_map($current_vals);
-	       }
-	     }   
-	}
-	
-	protected function the_uql_module_run_output(&$path)
-	{
-	   /* run modules */
-	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
-	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
-	     {
-	       $current_vals = $this->uql_change->the_uql_get_map();
-	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
-	       {
-	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
-	          
-	         $this->uql_change->the_uql_set_map($current_vals);
-	       }
-	     }   
-	}
 	public function the_uql_insert() {
-	    
-	    $this->the_uql_module_run_input();
-		return $this->uql_change->the_uql_insert ();
+	    return $this->uql_change->the_uql_insert ();
 	}
 	
 	public function the_uql_check_rules()
@@ -171,7 +136,6 @@ class UQLEntity extends UQLBase {
 	}
 	
 	public function the_uql_update($extra = '') {
-	    $this->the_uql_module_run_input(false);
 		return $this->uql_change->the_uql_update ( $extra );
 	}
 	
@@ -199,9 +163,7 @@ class UQLEntity extends UQLBase {
 	public function the_uql_select($fields = '*', $extra = '') {
 		$query = sprintf ( "SELECT %s FROM `%s` %s", $fields, $this->uql_abstract_entity->the_uql_get_entity_name (), $extra );
 		
-		$path =  $this->the_uql_query ( $query );
-		$this->the_uql_module_run_output($path);
-		return $path;
+		return $this->the_uql_query ( $query );
 	}
 	
 	public function the_uql_select_where_id($fields, $id, $id_name = 'id') {

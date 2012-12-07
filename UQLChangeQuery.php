@@ -125,6 +125,23 @@ class UQLChangeQuery extends UQLBase {
 		return $insert_query;
 	}
 	
+	protected function the_uql_module_run_input($is_insert = true)
+	{
+	   /* run modules */
+	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
+	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
+	     {
+	       $current_vals = $this->uql_the_values_map->the_uql_get_map();
+	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
+	       {
+	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
+	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->in($current_vals,$is_insert);
+	         $this->uql_the_values_map->the_uql_set_map($current_vals);
+	         //var_dump($this->uql_the_values_map);
+	       }
+	     }   
+	}
+	
 	public function the_uql_check_rules()
 	{
 	    $rule_object = UQLRule::the_uql_find_rule_object ( $this->uql_the_abstract_entity->the_uql_get_entity_name () );
@@ -157,9 +174,16 @@ class UQLChangeQuery extends UQLBase {
 		}
 		
 		if ($is_save)
-			$query = $this->the_uql_format_insert_query ();
+			{
+			 $this->the_uql_module_run_input();
+			 $query = $this->the_uql_format_insert_query ();
+			
+			}
 		else
-			$query = $this->the_uql_format_update_query ( $extra );
+			{
+			  $this->the_uql_module_run_input(false);
+			  $query = $this->the_uql_format_update_query ( $extra );
+			}
 		
 		// clear values
 		$this->uql_the_values_map = new UQLMap ();
@@ -221,35 +245,7 @@ class UQLChangeQuery extends UQLBase {
 	  }
 	}
 	
-	/*public function __call($function_name,$parameters)
-	{
-	  $this->the_uql_error("UQLChangeQuery unknown method : $function_name");
-	}*/
 	
-	/*public function the_uql_update_where_id($id, $id_name = 'id') {
-		return $this->the_uql_update ( "WHERE `$id_name` = $id" );
-	}*/
-	
-	public function the_uql_get_map_object()
-	{
-	 return $this->uql_the_values_map;
-	}
-	
-	public function the_uql_set_map_object($map)
-	{
-	  if($map instanceof UQLMap)
-	   $this->uql_the_values_map = $map;
-	}
-	
-	public function the_uql_get_map()
-	{
-	 return $this->uql_the_values_map->the_uql_get_map();
-	}
-	
-	public function the_uql_set_map($values)
-	{
-	 return $this->uql_the_values_map->the_uql_set_map($values);
-	}
 	
 	public function __destruct() {
 		$this->uql_the_query = null;

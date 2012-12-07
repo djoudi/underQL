@@ -48,8 +48,23 @@ class UQLQueryPath extends UQLBase {
 		$this->uql_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
 	}
 	
+	protected function the_uql_module_run_output(&$path)
+	{
+	   /* run modules */
+	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
+	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
+	     {
+	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
+	       {
+	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
+	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
+	       }
+	     }   
+	}
+	
 	public function the_uql_execute_query($query) {
 		
+		$this->the_uql_module_run_output($this);
 		if ($this->uql_query_object->the_uql_execute_query ( $query )) {
 			/*if ($this->uql_query_object->the_uql_get_count () > 0) {
 				$this->the_uql_get_next ();
