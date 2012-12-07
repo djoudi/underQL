@@ -60,6 +60,12 @@ class UQLEntity extends UQLBase {
 	  return call_user_func_array(array($this->uql_change,$function_name),$parameters);
 	}
 	
+	public function _()
+	{
+	  $parameters = func_get_args();
+	  return call_user_func_array(array($this->uql_change,'_'),$parameters);
+	}
+	
 	public function the_uql_insert() {
 		return $this->uql_change->the_uql_insert ();
 	}
