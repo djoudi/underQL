@@ -10,7 +10,7 @@ $users->email = 'cs.abdullah@hotmail.com';
 $users->description = 'www.abdullaheid.net';
 
 $demo_module->stopModule();
-$demo_module->restartModule();
+//$demo_module->restartModule();
 $users->_('insert');
 
 $_->_('shutdown');
