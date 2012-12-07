@@ -40,7 +40,7 @@ class UQLBase {
 		
 		$params_count = func_num_args ();
 		if ($params_count < 1)
-			$this->error ( 'You must pass one parameter at least for _ method' );
+			$this->the_uql_error ( 'You must pass one parameter at least for _ method' );
 		
 		$params = func_get_args ();
 		$func_name = 'the_uql_' . $params [0];
