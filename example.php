@@ -5,13 +5,18 @@ include_modules('demo');
 
 $_('users');
 
-$users->name = 'Abdullah';
-$users->email = 'cs.abdullah@hotmail.com';
-$users->description = 'www.abdullaheid.net';
+//$users->name = 'Abdullah';
+//$users->email = 'cs.abdullah@hotmail.com';
+//$users->description = 'www.abdullaheid.net';
 
-$demo_module->stopModule();
+//$demo_module->stopModule();
 //$demo_module->restartModule();
-$users->_('insert');
+$p = $users->_('select');
 
+while($p->_('get_next'))
+    {
+      echo $p->id.' - '.$p->name;
+      echo '<br />';
+    }
 $_->_('shutdown');
 ?>

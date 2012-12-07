@@ -15,8 +15,15 @@ class umodule_demo extends UQLModule implements IUQLModule{
  }
  
  public function out(&$path)
- {
-    echo 'out Demo .. <br />';
+ { 
+    $path->_('reset_result');
+    $f = $path->_('get_current_query_fields');
+    while($path->_('get_next'))
+    {
+      echo $path->$f[0].' - '.$path->$f[3];
+      echo '<br />';
+    }
+      echo 'out Demo .. <br />';
  }
  
  public function shutdown()

@@ -49,9 +49,12 @@ class UQLQueryPath extends UQLBase {
 	
 	public function underql_execute_query($query) {
 		
-		UQLModuleEngine::underql_module_run_output($this);
 		if ($this->um_query_object->underql_execute_query ( $query ))
-			return true;
+			{
+			 UQLModuleEngine::underql_module_run_output($this);
+			 $this->underql_reset_result();
+			 return true;
+			}
 				
 		return false;
 	}
@@ -92,7 +95,7 @@ class UQLQueryPath extends UQLBase {
 			UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
 		
 		foreach ( $current_query_fields as $field_name ) {
-			if (strcmp ( $key, $local_field_name ) == 0) {
+			if (strcmp ( $key, $field_name ) == 0) {
 				$current_row = $this->um_query_object->underql_get_current_row ();
 				if ($current_row == null)
 					return null;
