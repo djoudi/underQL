@@ -71,7 +71,7 @@ class UQLEntity extends UQLBase {
 		if (! method_exists ( $this, $func_name ))
 			{
 			   
-			   foreach($this->uql_the_values_map->the_uql_get_map() as $field_name => $value)
+			   foreach($this->uql_change->the_uql_get_map_object()->the_uql_get_map() as $field_name => $value)
 	           {
 	            $update_method_name = 'update_where_'.$field_name;
 	            $delete_method_name = 'delete_where_'.$field_name;

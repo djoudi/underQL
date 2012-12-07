@@ -230,6 +230,11 @@ class UQLChangeQuery extends UQLBase {
 		return $this->the_uql_update ( "WHERE `$id_name` = $id" );
 	}*/
 	
+	public function the_uql_get_map_object()
+	{
+	 return $this->uql_the_values_map;
+	}
+	
 	public function __destruct() {
 		$this->uql_the_query = null;
 		$this->uql_the_abstract_entity = null;
