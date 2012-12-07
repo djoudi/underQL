@@ -62,7 +62,7 @@ class UQLDeleteQuery extends UQLBase {
 	
 	public function the_uql_delete_where_n($field_name,$value)
 	{
-	  $field_object = $this->uql_the_abstract_entity->the_uql_get_field_object($field_name);
+	  $field_object = $this->uql_abstract_entity->the_uql_get_field_object($field_name);
 	  if($field_object != null)
 	  {
 	    if($field_object->numeric)
