@@ -58,4 +58,10 @@ function _r($entity_name) {
 	$GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )] = new UQLRule ( $entity_name );
 	return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
 }
+
+function _m($module_name) {
+    $module_class_name = sprintf(UQL_MODULE_CLASS_SYNTAX,$module_name);
+	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ( $module_name );
+	return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
+}
 ?>
