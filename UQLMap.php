@@ -81,7 +81,7 @@ class UQLMap extends UQLBase {
 	}
 	
 	public function the_uql_map_callback($callback) {
-		if (! $this->isEmpty ())
+		if (! $this->the_uql_is_empty ())
 			return array_map ( $callback, $this->map_list );
 	}
 	
