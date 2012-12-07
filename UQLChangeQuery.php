@@ -257,9 +257,9 @@ class UQLChangeQuery extends UQLBase {
 	}
 
 	
-	public function the_uql_update_where_id($id, $id_name = 'id') {
+	/*public function the_uql_update_where_id($id, $id_name = 'id') {
 		return $this->the_uql_update ( "WHERE `$id_name` = $id" );
-	}
+	}*/
 	
 	public function __destruct() {
 		$this->uql_the_query = null;

@@ -104,9 +104,9 @@ class UQLEntity extends UQLBase {
 		return $this->uql_change->the_uql_update ( $extra );
 	}
 	
-	public function the_uql_update_where_id($id, $id_name = 'id') {
+	/*public function the_uql_update_where_id($id, $id_name = 'id') {
 		return $this->uql_change->the_uql_update_where_id ( $id, $id_name );
-	}
+	}*/
 	
 	public function the_uql_delete($extra = '') {
 		return $this->uql_delete->the_uql_delete ( $extra );
