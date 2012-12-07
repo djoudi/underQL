@@ -31,47 +31,42 @@
 
 class UQLEntity extends UQLBase {
 	
-	private $uql_abstract_entity;
-	private $uql_database_handle;
-	private $uql_path;
-	private $uql_change;
-	private $uql_delete;
+	private $um_abstract_entity;
+	private $um_database_handle;
+	private $um_path;
+	private $um_change;
+	private $um_delete;
 	
 	public function __construct($entity_name, &$database_handle) {
 		
-		$this->uql_abstract_entity = new UQLAbstractEntity ( $entity_name, $database_handle );
-		$this->uql_database_handle = $database_handle;
-		$this->uql_path = null;
-		$this->uql_change = new UQLChangeQuery ( $database_handle, $this->uql_abstract_entity );
-		$this->uql_delete = new UQLDeleteQuery ( $database_handle, $this->uql_abstract_entity );
+		$this->um_abstract_entity = new UQLAbstractEntity ( $entity_name, $database_handle );
+		$this->um_database_handle = $database_handle;
+		$this->um_path = null;
+		$this->um_change = new UQLChangeQuery ( $database_handle, $this->um_abstract_entity );
+		$this->um_delete = new UQLDeleteQuery ( $database_handle, $this->um_abstract_entity );
 	}
 	
 	public function __set($name, $value) {
-		$this->uql_change->$name = $value;
-		//return $this;
+		$this->um_change->$name = $value;
+		
 	}
 	
 	public function __get($name) {
-		return $this;//->uql_change->$name;
+		return $this;
 	}
-	
-	/*public function __call($function_name,$parameters)
-	{
-	  return call_user_func_array(array($this->uql_change,$function_name),$parameters);
-	}*/
 	
 	public function _() {
 		
 		$params_count = func_num_args ();
 		if ($params_count < 1)
-			$this->the_uql_error ( 'You must pass one parameter at least for _ method' );
+			UQLBase::underql_error ( '_ method accepts one parameter at least' );
 		
 		$params = func_get_args ();
-		$func_name = 'the_uql_' . $params [0];
+		$func_name = 'underql_' . $params [0];
 		if (! method_exists ( $this, $func_name ))
 			{
 			   
-			   foreach($this->uql_change->the_uql_get_map_object()->the_uql_get_map() as $field_name => $value)
+			   foreach($this->um_change->underql_get_map_object()->underql_get_map() as $field_name => $value)
 	           {
 	            $update_method_name = 'update_where_'.$field_name;
 	            $delete_method_name = 'delete_where_'.$field_name;
@@ -81,113 +76,105 @@ class UQLEntity extends UQLBase {
 	             {
 	               $params = array_slice ( $params, 1 );
 	               if(!is_array($params) || count($params) != 1)
-	                $this->the_uql_error("$function_name accept one parameter");
+	                UQLBase::underql_error("$function_name accepts one parameter");
 	        
-	               return $this->uql_change->the_uql_update_where_n($field_name,$params[0]);
+	               return $this->um_change->underql_update_where_n($field_name,$params[0]);
 	             }
 	             else if(strcmp($function_name,$delete_method_name) == 0)
 	             {
 	               $params = array_slice ( $params, 1 );
 	               if(!is_array($params) || count($params) != 1)
-	                $this->the_uql_error("$function_name accept one parameter");
+	                UQLBase::underql_error("$function_name accept one parameter");
 	        
-	               return $this->uql_delete->the_uql_delete_where_n($field_name,$params[0]);
+	               return $this->um_delete->underql_delete_where_n($field_name,$params[0]);
 	             }
 	            }
 	            
-			  $this->the_uql_error ( $params [0] . ' is not a valid action' );
+			  UQLBase::underql_error ( $params [0] . ' is not a valid method' );
 			}
 		$params = array_slice ( $params, 1 );
 		return call_user_func_array ( array ($this, $func_name ), $params );
 	}
 	
-	public function the_uql_insert() {
-	    return $this->uql_change->the_uql_insert ();
+	public function underql_insert() {
+	    return $this->um_change->underql_insert ();
 	}
 	
-	public function the_uql_check_rules()
+	public function underql_check_rules()
 	{
-		return $this->uql_change->the_uql_check_rules();
+		return $this->um_change->underql_check_rules();
 	}
 	
-	public function the_uql_insert_or_update_from_array($the_array, $extra = '', $is_save = true) {
-		//$array_count = @count($the_array);
+	public function underql_insert_or_update_from_array($the_array, $extra = '', $is_save = true) {
+
 		foreach ( $the_array as $key => $value ) {
-			if ($this->uql_abstract_entity->the_uql_is_field_exist ( $key ))
+			if ($this->um_abstract_entity->underql_is_field_exist ( $key ))
 				$this->$key = $value;
 		}
 		
 		if ($is_save)
-			return $this->the_uql_insert ();
+			return $this->underql_insert ();
 		else
-			return $this->the_uql_update ( $extra );
+			return $this->underql_update ( $extra );
 	}
 	
-	public function the_uql_insert_from_array($the_array) {
-		return $this->the_uql_insert_or_update_from_array ( $the_array, null );
+	public function underql_insert_from_array($the_array) {
+		return $this->underql_insert_or_update_from_array ( $the_array, null );
 	}
 	
-	public function the_uql_update_from_array($the_array, $extra = '') {
-		return $this->the_uql_insert_or_update_from_array ( $the_array, $extra, false );
+	public function underql_update_from_array($the_array, $extra = '') {
+		return $this->underql_insert_or_update_from_array ( $the_array, $extra, false );
 	}
 	
-	public function the_uql_update_from_array_where_id($the_array, $id, $id_name = 'id') {
-		return $this->the_uql_insert_or_update_from_array ( $the_array, "WHERE `$id_name` = $id", false );
+	public function underql_update_from_array_where_id($the_array, $id, $id_name = 'id') {
+		return $this->underql_insert_or_update_from_array ( $the_array, "WHERE `$id_name` = $id", false );
 	}
 	
-	public function the_uql_update($extra = '') {
-		return $this->uql_change->the_uql_update ( $extra );
+	public function underql_update($extra = '') {
+		return $this->um_change->underql_update ( $extra );
 	}
 	
-	/*public function the_uql_update_where_id($id, $id_name = 'id') {
-		return $this->uql_change->the_uql_update_where_id ( $id, $id_name );
-	}*/
-	
-	public function the_uql_delete($extra = '') {
-		return $this->uql_delete->the_uql_delete ( $extra );
+	public function underql_delete($extra = '') {
+		return $this->um_delete->underql_delete ( $extra );
 	}
 	
-	public function the_uql_delete_where_id($id, $id_name = 'id') {
-		return $this->uql_delete->the_uql_delete_where_id ( $id, $id_name );
-	}
-	
-	public function the_uql_query($query) {
+	public function underql_query($query) {
 		
-		$this->uql_path = new UQLQueryPath ( $this->uql_database_handle, $this->uql_abstract_entity );
-		if ($this->uql_path->the_uql_execute_query ( $query ))
-			return $this->uql_path;
+		$this->um_path = new UQLQueryPath ( $this->um_database_handle, $this->um_abstract_entity );
+		if ($this->um_path->underql_execute_query ( $query ))
+			return $this->um_path;
 		
 		return false;
 	}
 	
-	public function the_uql_select($fields = '*', $extra = '') {
-		$query = sprintf ( "SELECT %s FROM `%s` %s", $fields, $this->uql_abstract_entity->the_uql_get_entity_name (), $extra );
+	public function underql_select($fields = '*', $extra = '') {
+		$query = sprintf ( "SELECT %s FROM `%s` %s", $fields, $this->um_abstract_entity->underql_get_entity_name (), $extra );
 		
-		return $this->the_uql_query ( $query );
+		return $this->underql_query ( $query );
 	}
 	
-	public function the_uql_select_where_id($fields, $id, $id_name = 'id') {
-		return $this->the_uql_select ( $fields, "WHERE `$id_name` = $id" );
+	public function underql_select_where_id($fields, $id, $id_name = 'id') {
+		return $this->underql_select ( $fields, "WHERE `$id_name` = $id" );
 	}
 	
-	public function the_uql_are_rules_passed() {
-		return $this->uql_change->the_uql_are_rules_passed ();
+	public function underql_are_rules_passed() {
+		return $this->um_change->underql_are_rules_passed ();
 	}
 	
-	public function the_uql_get_messages_list() {
-		return $this->uql_change->the_uql_get_messages_list ();
+	public function underql_get_messages_list() {
+		return $this->um_change->underql_get_messages_list ();
 	}
 	
-	public function the_uql_get_abstract_entity() {
-		return $this->uql_abstract_entity;
+	public function underql_get_abstract_entity() {
+		return $this->um_abstract_entity;
 	}
 	
 	public function __destruct() {
-		$this->uql_abstract_entity = null;
-		$this->uql_database_handle = null;
-		$this->uql_path = null;
-		$this->uql_change = null;
-		$this->uql_delete = null;
+		$this->um_abstract_entity = null;
+		$this->um_database_handle = null;
+		$this->um_path = null;
+		$this->um_change = null;
+		$this->um_delete = null;
 	}
 
 }
