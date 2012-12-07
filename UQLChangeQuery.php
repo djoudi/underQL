@@ -240,7 +240,7 @@ class UQLChangeQuery extends UQLBase {
 			   foreach($this->uql_the_values_map->the_uql_get_map() as $field_name => $value)
 	           {
 	            $method_name = 'update_where_'.$field_name;
-	            $function_name = $params[0]
+	            $function_name = $params[0];
 	            if(strcmp($function_name,$method_name) == 0)
 	             {
 	               if(!is_array($parameters) || count($parameters) != 1)
