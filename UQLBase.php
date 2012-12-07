@@ -31,24 +31,27 @@
 
 class UQLBase {
 	
-	//public function freeResources(){}
-	public function the_uql_error($message) {
-		die ( '<h3><code><b style = "color:#FF0000">UnderQL Error: </b>' . $message . '</h3>' );
+	public static function underql_error($message) {
+		die ( '<h3><code><b style = "color:#FF0000">UnderQL Error: </b>' . $message . '</h3> <br />' );
+	}
+	
+	public static function underql_warning($message)
+	{
+	  	echo '<h3><code><b style = "color:#0000FF">UnderQL Warning: </b>' . $message . '</h3> <br />';
 	}
 	
 	public function _() {
 		
 		$params_count = func_num_args ();
 		if ($params_count < 1)
-			$this->the_uql_error ( 'You must pass one parameter at least for _ method' );
+			UQLBase::underql_error ( '_ method accepts one parameter at least' );
 		
 		$params = func_get_args ();
-		$func_name = 'the_uql_' . $params [0];
+		$func_name = 'underql_' . $params [0];
 		if (! method_exists ( $this, $func_name ))
-			$this->the_uql_error ( $params [0] . ' is not a valid action' );
+			UQLBase::underql_error ( $params [0] . ' is not a valid method' );
 		$params = array_slice ( $params, 1 );
 		return call_user_func_array ( array ($this, $func_name ), $params );
 	}
-
 }
 ?>

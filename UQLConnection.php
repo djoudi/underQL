@@ -52,7 +52,7 @@ class UQLConnection extends UQLBase {
 	public function underql_start_connection() {
 		$this->underql_connection_handle = mysql_connect ( $this->um_database_host, $this->um_database_user_name, $this->um_database_password );
 		if (! $this->um_connection_handle) {
-			$this->underql_error ( 'Unable to connect' );
+			UQLBase::underql_error ( 'Unable to connect' );
 			return false;
 		}
 		
