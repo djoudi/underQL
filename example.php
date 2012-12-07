@@ -3,5 +3,6 @@
 
 _m('demo');
 
+//$demo_module;
 
 ?>

@@ -61,7 +61,8 @@ function _r($entity_name) {
 
 function _m($module_name) {
     $module_class_name = sprintf(UQL_MODULE_CLASS_SYNTAX,$module_name);
-	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ( $module_name );
+	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ();
+	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]->init();
 	return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
 }
 ?>
