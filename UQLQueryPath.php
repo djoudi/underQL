@@ -77,22 +77,27 @@ class UQLQueryPath extends UQLBase {
 		return $this->um_abstract_entity;
 	}
 	
+	public function underql_get_current_query_fields()
+	{
+	  return $this->um_query_object->underql_get_current_query_fields ();
+	}
+	
 	public function __get($key) {
 		
 		if (! $this->um_abstract_entity->underql_is_field_exist ( $key ))
 			UQLBase::underql_error ( "[$key] does not exist in ".$this->um_abstract_entity->underql_get_entity_name());
 		
-		$local_current_query_fields = $this->um_query_object->underql_get_current_query_fields ();
-		if ($local_current_query_fields == null)
+		$current_query_fields = $this->underql_get_current_query_fields();//$this->um_query_object->underql_get_current_query_fields ();
+		if ($current_query_fields == null)
 			UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
 		
-		foreach ( $local_current_query_fields as $local_field_name ) {
+		foreach ( $current_query_fields as $field_name ) {
 			if (strcmp ( $key, $local_field_name ) == 0) {
-				$local_current_row = $this->um_query_object->underql_get_current_row ();
-				if ($local_current_row == null)
+				$current_row = $this->um_query_object->underql_get_current_row ();
+				if ($current_row == null)
 					return null;
 				else {
-					return $this->um_filter_engine->underql_apply_filter ( $key, $local_current_row->$key );
+					return $this->um_filter_engine->underql_apply_filter ( $key, $current_row->$key );
 				}
 			}
 		}
