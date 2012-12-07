@@ -49,10 +49,10 @@ require_once ('utilities.php');
 
 class underQL extends UQLBase {
 	
-	private $uql_database_handle;
-	private $uql_entity_list;
+	private $um_database_handle;
+	private $um_entity_list;
 	// load all tables' names from current database
-	private $uql_loaded_entity_list;
+	private $um_loaded_entity_list;
 	
 	public function __construct($host = UQL_DB_HOST, $database_name = UQL_DB_NAME, $user = UQL_DB_USER, $password = UQL_DB_PASSWORD, $charset = UQL_DB_CHARSET) {
 		
@@ -60,50 +60,50 @@ class underQL extends UQLBase {
 		if (UQL_CONFIG_USE_INVOKE_CALL) {
 			$php_ver = floatval ( PHP_VERSION );
 			if ($php_ver < 5.3)
-				$this->the_uql_error ( 'underQL needs at least PHP 5.3' );
+				$this->underql_error ( 'underQL needs at least PHP 5.3' );
 		}
 		
-		$this->uql_database_handle = new UQLConnection ( $host, $database_name, $user, $password, $charset );
-		$this->the_uql_entity_list_init ();
-		$this->uql_loaded_entity_list = array ();
+		$this->um_database_handle = new UQLConnection ( $host, $database_name, $user, $password, $charset );
+		$this->underql_entity_list_init ();
+		$this->um_loaded_entity_list = array ();
 	}
 	
-	public function the_uql_get_database() {
-		return $this->uql_database_handle;
+	public function underql_get_database() {
+		return $this->um_database_handle;
 	}
 	
 	/* read all tables(entities) from current database and store them into array */
-	protected function the_uql_entity_list_init() {
+	protected function underql_entity_list_init() {
 		
-		$local_string_query = sprintf ( "SHOW TABLES FROM `%s`", $this->uql_database_handle->the_uql_get_database_name () );
-		$local_query_result = mysql_query ( $local_string_query/*, $this->uql_database_handle -> getConnectionHandle()*/);
+		$local_string_query = sprintf ( "SHOW TABLES FROM `%s`", $this->um_database_handle->underql_get_database_name () );
+		$local_query_result = mysql_query ( $local_string_query/*, $this->um_database_handle -> getConnectionHandle()*/);
 		if ($local_query_result) {
 			$tables_count = mysql_num_rows ( $local_query_result );
 			
 			while ( $local_entity = mysql_fetch_row ( $local_query_result ) ) {
-				$this->uql_entity_list [] = $local_entity [0];
+				$this->um_entity_list [] = $local_entity [0];
 			}
 			
 			@mysql_free_result ( $local_query_result );
 		
 		} else {
-			$this->the_uql_error ( mysql_error(/*$this->uql_database_handle -> getConnectionHandle()*/) );
+			$this->underql_error ( mysql_error(/*$this->um_database_handle -> getConnectionHandle()*/) );
 		}
 	}
 	
 	/* create UQLEntity object and load all information about
      $entity_name table within it */
-	public function the_uql_load_entity($entity_name) {
+	public function underql_load_entity($entity_name) {
 		
 		if (strcmp ( $entity_name, '*' ) == 0) {
-			$this->the_uql_load_all_entities ();
+			$this->underql_load_all_entities ();
 			return;
 		}
 		
-		if (! in_array ( $entity_name, $this->uql_entity_list ))
-			$this->the_uql_error ( $entity_name . ' is not a valid table name' );
+		if (! in_array ( $entity_name, $this->um_entity_list ))
+			$this->underql_error ( $entity_name . ' is not a valid table name' );
 		
-		if (in_array ( $entity_name, $this->uql_loaded_entity_list ))
+		if (in_array ( $entity_name, $this->um_loaded_entity_list ))
 			return;
 		
 		// no action
@@ -114,25 +114,25 @@ class underQL extends UQLBase {
          could automatically use it in its own operations. */
 		
 		//sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name );
-		$GLOBALS [sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name )] = new UQLEntity ( $entity_name, $this->uql_database_handle );
+		$GLOBALS [sprintf ( UQL_ENTITY_OBJECT_SYNTAX, $entity_name )] = new UQLEntity ( $entity_name, $this->um_database_handle );
 	
 	}
 	
 	/* You can load all tables as objects at once by use * symbol. This function
      used to do that. */
-	public function the_uql_load_all_entities() {
-		$entity_count = @count ( $this->uql_entity_list );
+	public function underql_load_all_entities() {
+		$entity_count = @count ( $this->um_entity_list );
 		for($i = 0; $i < $entity_count; $i ++)
-			$this->the_uql_load_entity ( $this->uql_entity_list [$i] );
+			$this->underql_load_entity ( $this->um_entity_list [$i] );
 	}
 	
 	/* Helps underQL to use (object as function) syntax. However, this method used
      only with PHP 5.3.x and over */
 	public function __invoke($entity_name) {
-		$this->the_uql_load_entity ( $entity_name );
+		$this->underql_load_entity ( $entity_name );
 	}
 	
-	protected function the_uql_module_shutdown()
+	protected function underql_module_shutdown()
 	{
 	   /* run modules */
 	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
@@ -146,16 +146,16 @@ class underQL extends UQLBase {
 	     }   
 	}
 	
-	public function the_uql_shutdown()
+	public function underql_shutdown()
 	{
-	    $this->the_uql_module_shutdown();
-		$this->uql_database_handle->the_uql_close_connection();
+	    $this->underql_module_shutdown();
+		$this->um_database_handle->underql_close_connection();
 	}
 	
 	public function __destruct() {
-		$this->uql_database_handle = null;
-		$this->uql_entity_list = null;
-		$this->uql_loaded_entity_list = null;
+		$this->um_database_handle = null;
+		$this->um_entity_list = null;
+		$this->um_loaded_entity_list = null;
 	}
 
 }

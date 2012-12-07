@@ -33,7 +33,7 @@ function include_filters() {
 	$params = func_get_args ();
 	
 	if (func_num_args () == 0)
-		die ( 'You must pass one filter at least to include_filters' );
+		UQLBase::underql_error ( 'You must pass one filter at least to include_filters' );
 	
 	foreach ( $params as $key => $filter )
 		require_once (__DIR__ . '/' . UQL_DIR_FILTER . UQL_DIR_FILTER_API . 'ufilter_' . $filter . '.php');
@@ -43,7 +43,7 @@ function include_rules() {
 	$params = func_get_args ();
 	
 	if (func_num_args () == 0)
-		die ( 'You must pass one rule at least to include_rules' );
+		UQLBase::underql_error ( 'You must pass one rule at least to include_rules' );
 	
 	foreach ( $params as $key => $rule )
 		require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'urule_' . $rule . '.php');
@@ -54,7 +54,7 @@ function include_modules()
   $params = func_get_args ();
 	
 	if (func_num_args () == 0)
-		die ( 'You must pass one module at least to include_modules' );
+		UQLBase::underql_error ( 'You must pass one module at least to include_modules' );
 	
 	foreach ( $params as $key => $module_name )
 		{

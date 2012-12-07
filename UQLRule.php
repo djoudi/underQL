@@ -31,15 +31,15 @@
 
 class UQLRule extends UQLBase {
 	
-	private $uql_entity_name;
-	private $uql_alises_map;
-	private $uql_rules_map;
+	private $um_entity_name;
+	private $um_alises_map;
+	private $um_rules_map;
 	
 	public function __construct($entity_name) {
 		
-		$this->uql_entity_name = $entity_name;
-		$this->uql_alises_map = new UQLMap ();
-		$this->uql_rules_map = new UQLMap ();
+		$this->um_entity_name = $entity_name;
+		$this->um_alises_map = new UQLMap ();
+		$this->um_rules_map = new UQLMap ();
 	}
 	
 	public function __call($function_name, $parameters) {
@@ -48,104 +48,99 @@ class UQLRule extends UQLBase {
 		if ($local_params_count == 0)
 			return;
 		
-		$this->the_uql_add_rule ( $function_name, $parameters );
+		$this->underql_add_rule ( $function_name, $parameters );
 		return $this;
 	}
 	
-	protected function the_uql_add_rule($field, $rule) {
+	protected function underql_add_rule($field, $rule) {
 		
-		if (! $this->uql_rules_map->the_uql_is_element_exist ( $field ))
-			$this->uql_rules_map->the_uql_add_element ( $field, new UQLMap () );
+		if (! $this->um_rules_map->underql_is_element_exist ( $field ))
+			$this->um_rules_map->underql_add_element ( $field, new UQLMap () );
 		
-		$local_rule = $this->uql_rules_map->the_uql_find_element ( $field );
-		$local_rule->the_uql_add_element ( $local_rule->the_uql_get_count (), array ('rule' => $rule, 'is_active' => true ) );
+		$local_rule = $this->um_rules_map->underql_find_element ( $field );
+		$local_rule->underql_add_element ( $local_rule->underql_get_count (), array ('rule' => $rule, 'is_active' => true ) );
 		
-		$this->uql_rules_map->the_uql_add_element ( $field, $local_rule );
+		$this->um_rules_map->underql_add_element ( $field, $local_rule );
 	}
 	
-	protected function the_uql_set_rule_activation($field_name, $rule_name, $activation) {
-		$local_rule = $this->uql_rules_map->the_uql_find_element ( $field_name );
+	protected function underql_set_rule_activation($field_name, $rule_name, $activation) {
+		$local_rule = $this->um_rules_map->underql_find_element ( $field_name );
 		
 		if (! $local_rule)
-			$this->the_uql_error ( 'You can not stop a rule for unknown field (' . $field_name . ')' );
+			UQLBase::underql_error ( 'You can not stop a rule for unknown field (' . $field_name . ')' );
 			
-		/*$target_rule = $local_rule->the_uql_find_element($rule_name);
-         if(!$target_rule)
-         $this->the_uql_error('You can not stop unknown rule ('.$rule_name.')');*/
-		
-		for($i = 0; $i < $local_rule->the_uql_get_count (); $i ++) {
-			$target_rule = $local_rule->the_uql_find_element ( $i );
+		for($i = 0; $i < $local_rule->underql_get_count (); $i ++) {
+			$target_rule = $local_rule->underql_find_element ( $i );
 			if (strcmp ( $target_rule ['rule'] [0], $rule_name ) == 0) {
 				$target_rule ['is_active'] = $activation;
-				$local_rule->the_uql_add_element ( $i, array ('rule' => $target_rule ['rule'], 'is_active' => $activation ) );
-				$this->uql_rules_map->the_uql_add_element ( $field_name, $local_rule );
+				$local_rule->underql_add_element ( $i, array ('rule' => $target_rule ['rule'], 'is_active' => $activation ) );
+				$this->um_rules_map->underql_add_element ( $field_name, $local_rule );
 			}
 		}
 	
 	}
 	
-	public function the_uql_start_rules(/*$field_name,$rule_name*/) {
+	public function underql_start_rules(/*$field_name,$rule_name*/) {
 		$params_count = func_num_args ();
 		if ($params_count < 2)
-			$this->the_uql_error ( 'start_rules needs 2 parameters at least' );
+			UQLBase::underql_error ( 'start_rules accepts two parameters at least' );
 		
 		$rules_counts = $params_count - 1;
 		// remove field name
 		$parameters = func_get_args ();
 		if ($rules_counts == 1) {
-			$this->the_uql_set_rule_activation ( $parameters [0], $parameters [1], true );
+			$this->underql_set_rule_activation ( $parameters [0], $parameters [1], true );
 			return;
 		} else {
 			for($i = 0; $i < $rules_counts - 1; $i ++)
-				$this->the_uql_set_rule_activation ( $parameters [0], $parameters [$i + 1], true );
+				$this->underql_set_rule_activation ( $parameters [0], $parameters [$i + 1], true );
 		}
 	}
 	
-	public function the_uql_stop_rules(/*$field_name,$rule_name*/) {
+	public function underql_stop_rules(/*$field_name,$rule_name*/) {
 		$params_count = func_num_args ();
 		if ($params_count < 2)
-			$this->the_uql_error ( 'stop_rules needs 2 parameters at least' );
+			UQLBase::underql_error ( 'stop_rules accepts two parameters at least' );
 		
 		$rules_counts = $params_count - 1;
-		// remove field name
 		$parameters = func_get_args ();
 		if ($rules_counts == 1) {
-			$this->the_uql_set_rule_activation ( $parameters [0], $parameters [1], false );
+			$this->underql_set_rule_activation ( $parameters [0], $parameters [1], false );
 			return;
 		} else {
 			for($i = 0; $i < $rules_counts - 1; $i ++)
-				$this->the_uql_set_rule_activation ( $parameters [0], $parameters [$i + 1], false );
+				$this->underql_set_rule_activation ( $parameters [0], $parameters [$i + 1], false );
 		}
 	}
 	
-	public function the_uql_get_rules_by_field_name($field_name) {
+	public function underql_get_rules_by_field_name($field_name) {
 		
-		return $this->uql_rules_map->the_uql_find_element ( $field_name );
+		return $this->um_rules_map->underql_find_element ( $field_name );
 	}
 	
-	public function the_uql_add_alias($key, $value) {
+	public function underql_add_alias($key, $value) {
 		
-		$this->uql_alises_map->the_uql_add_element ( $key, $value );
+		$this->um_alises_map->underql_add_element ( $key, $value );
 	}
 	
-	public function the_uql_get_alias($key) {
+	public function underql_get_alias($key) {
 		
-		return $this->uql_alises_map->the_uql_find_element ( $key );
+		return $this->um_alises_map->underql_find_element ( $key );
 	}
 	
-	public function the_uql_get_rules() {
-		return $this->uql_alises_map;
+	public function underql_get_rules() {
+		return $this->um_alises_map;
 	}
 	
-	public function the_uql_get_entity_name() {
-		return $this->uql_entity_name;
+	public function underql_get_entity_name() {
+		return $this->um_entity_name;
 	}
 	
-	public function the_uql_get_aliases() {
-		return $this->uql_alises_map;
+	public function underql_get_aliases() {
+		return $this->um_alises_map;
 	}
 	
-	public static function the_uql_find_rule_object($entity) {
+	public static function underql_find_rule_object($entity) {
 		
 		$rule_object_name = sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity );
 		
@@ -160,9 +155,9 @@ class UQLRule extends UQLBase {
 	
 	public function __destruct() {
 		
-		$this->uql_entity_name = null;
-		$this->uql_rules_map = null;
-		$this->uql_alises_map = null;
+		$this->um_entity_name = null;
+		$this->um_rules_map = null;
+		$this->um_alises_map = null;
 	}
 
 }

@@ -31,24 +31,23 @@
 
 class UQLQueryPath extends UQLBase {
 	
-	public $uql_abstract_entity;
-	// reference to the abstract table's data
-	public $uql_query_object;
-	public $uql_filter_engine;
+	public $um_abstract_entity;
+	public $um_query_object;
+	public $um_filter_engine;
 	
 	public function __construct(&$database_handle, &$abstract_entity) {
 		
 		if ($abstract_entity instanceof UQLAbstractEntity)
-			$this->uql_abstract_entity = $abstract_entity;
+			$this->um_abstract_entity = $abstract_entity;
 		else
-			$this->the_uql_error ( 'You must provide a appropriate value for abstract_entity parameter' );
+			UQLBase::underql_error ( 'You must provide a appropriate value for abstract_entity parameter' );
 		
-		$this->uql_query_object = new UQLQuery ( $database_handle );
-		$filter_object = UQLFilter::the_uql_find_filter_object ( $this->uql_abstract_entity->the_uql_get_entity_name () );
-		$this->uql_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
+		$this->um_query_object = new UQLQuery ( $database_handle );
+		$filter_object = UQLFilter::underql_find_filter_object ( $this->um_abstract_entity->underql_get_entity_name () );
+		$this->um_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
 	}
 	
-	protected function the_uql_module_run_output(&$path)
+	protected function underql_module_run_output(&$path)
 	{
 	   /* run modules */
 	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
@@ -62,12 +61,12 @@ class UQLQueryPath extends UQLBase {
 	     }   
 	}
 	
-	public function the_uql_execute_query($query) {
+	public function underql_execute_query($query) {
 		
-		$this->the_uql_module_run_output($this);
-		if ($this->uql_query_object->the_uql_execute_query ( $query )) {
-			/*if ($this->uql_query_object->the_uql_get_count () > 0) {
-				$this->the_uql_get_next ();
+		$this->underql_module_run_output($this);
+		if ($this->um_query_object->underql_execute_query ( $query )) {
+			/*if ($this->um_query_object->underql_get_count () > 0) {
+				$this->underql_get_next ();
 			}*/
 			return true;
 			
@@ -77,43 +76,43 @@ class UQLQueryPath extends UQLBase {
 	
 	}
 	
-	public function the_uql_get_next() {
-		return $this->uql_query_object->the_uql_fetch_row ();
+	public function underql_get_next() {
+		return $this->um_query_object->underql_fetch_row ();
 	}
 	
-	public function the_uql_reset_result()
+	public function underql_reset_result()
 	{
-	   return $this->uql_query_object->the_uql_reset_result();
+	   return $this->um_query_object->underql_reset_result();
 	}
 	
-	public function the_uql_get_count() {
-		return $this->uql_query_object->the_uql_get_count ();
+	public function underql_get_count() {
+		return $this->um_query_object->underql_get_count ();
 	}
 	
-	public function the_uql_get_query_object() {
-		return $this->uql_query_object;
+	public function underql_get_query_object() {
+		return $this->um_query_object;
 	}
 	
-	public function the_uql_get_abstract_entity() {
-		return $this->uql_abstract_entity;
+	public function underql_get_abstract_entity() {
+		return $this->um_abstract_entity;
 	}
 	
 	public function __get($key) {
 		
-		if (! $this->uql_abstract_entity->the_uql_is_field_exist ( $key ))
-			$this->the_uql_error ( "[$key] does not exist in ".$this->uql_abstract_entity->the_uql_get_entity_name());
+		if (! $this->um_abstract_entity->underql_is_field_exist ( $key ))
+			UQLBase::underql_error ( "[$key] does not exist in ".$this->um_abstract_entity->underql_get_entity_name());
 		
-		$local_current_query_fields = $this->uql_query_object->the_uql_get_current_query_fields ();
+		$local_current_query_fields = $this->um_query_object->underql_get_current_query_fields ();
 		if ($local_current_query_fields == null)
-			$this->the_uql_error ( "[$key] does not exist in the current query fields" );
+			UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
 		
 		foreach ( $local_current_query_fields as $local_field_name ) {
 			if (strcmp ( $key, $local_field_name ) == 0) {
-				$local_current_row = $this->uql_query_object->the_uql_get_current_row ();
+				$local_current_row = $this->um_query_object->underql_get_current_row ();
 				if ($local_current_row == null)
 					return null;
 				else {
-					return $this->uql_filter_engine->the_uql_apply_filter ( $key, $local_current_row->$key );
+					return $this->um_filter_engine->underql_apply_filter ( $key, $local_current_row->$key );
 				}
 			}
 		}
@@ -123,8 +122,8 @@ class UQLQueryPath extends UQLBase {
 	
 	public function __destruct() {
 		
-		$this->uql_abstract_entity = null;
-		$this->uql_query_object = null;
+		$this->um_abstract_entity = null;
+		$this->um_query_object = null;
 	
 		//$this->plugin = null;
 	}

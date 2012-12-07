@@ -31,26 +31,26 @@
 
 class UQLFilterEngine extends UQLBase {
 	
-	private $uql_filter_object;
-	private $uql_values_map;
+	private $um_filter_object;
+	private $um_values_map;
 	//current inserted | updated $key => $value pairs
-	private $uql_in_out_flag;
+	private $um_in_out_flag;
 	// specify if the engine for input or output
 	
 
 	public function __construct(&$filter_object, $in_out_flag) {
-		$this->uql_filter_object = $filter_object;
-		$this->uql_values_map = null;
-		$this->uql_in_out_flag = $in_out_flag;
+		$this->um_filter_object = $filter_object;
+		$this->um_values_map = null;
+		$this->um_in_out_flag = $in_out_flag;
 	}
 	
-	public function the_uql_set_values_map(&$values_map) {
-		$this->uql_values_map = $values_map;
+	public function underql_set_values_map(&$values_map) {
+		$this->um_values_map = $values_map;
 	}
 	
-	public function the_uql_apply_filter($field_name, $value) {
-		if ($this->uql_filter_object != null)
-			$filters = $this->uql_filter_object->the_uql_get_filters_by_field_name ( $field_name );
+	public function underql_apply_filter($field_name, $value) {
+		if ($this->um_filter_object != null)
+			$filters = $this->um_filter_object->underql_get_filters_by_field_name ( $field_name );
 		else
 			return $value;
 		
@@ -59,7 +59,7 @@ class UQLFilterEngine extends UQLBase {
 		
 		$tmp_value = $value;
 		
-		foreach ( $filters->the_uql_get_map () as $filter_id => $filter_value ) {
+		foreach ( $filters->underql_get_map () as $filter_id => $filter_value ) {
 			$filter_name = $filter_value ['filter'] [0];
 			$filter_flag = $filter_value ['filter'] [1];
 			// echo $filter_flag;
@@ -70,7 +70,7 @@ class UQLFilterEngine extends UQLBase {
 			else
 				$filter_flag = UQL_FILTER_IN | UQL_FILTER_OUT;
 			
-			if ((! $filter_value ['is_active']) || (($filter_flag != $this->uql_in_out_flag) && ($filter_flag != UQL_FILTER_IN | UQL_FILTER_OUT)))
+			if ((! $filter_value ['is_active']) || (($filter_flag != $this->um_in_out_flag) && ($filter_flag != UQL_FILTER_IN | UQL_FILTER_OUT)))
 				continue;
 			
 			$include_filter_api = 'include_filters';
@@ -91,19 +91,19 @@ class UQLFilterEngine extends UQLBase {
 		return $tmp_value;
 	}
 	
-	public function the_uql_run_engine() {
-		if (! $this->uql_values_map || $this->uql_values_map->the_uql_get_count () == 0)
+	public function underql_run_engine() {
+		if (! $this->um_values_map || $this->um_values_map->underql_get_count () == 0)
 			return null;
 		
-		foreach ( $this->uql_values_map->the_uql_get_map () as $name => $value ) {
-			$this->uql_values_map->the_uql_add_element ( $name, $this->the_uql_apply_filter ( $name, $value ) );
+		foreach ( $this->um_values_map->underql_get_map () as $name => $value ) {
+			$this->um_values_map->underql_add_element ( $name, $this->underql_apply_filter ( $name, $value ) );
 		}
-		return $this->uql_values_map;
+		return $this->um_values_map;
 	}
 	
 	public function __destruct() {
-		$this->uql_values_map = null;
-		$this->uql_filter_object = null;
+		$this->um_values_map = null;
+		$this->um_filter_object = null;
 	}
 
 }

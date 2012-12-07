@@ -31,33 +31,33 @@
 
 class UQLRuleEngine extends UQLBase {
 	
-	private $uql_rule_object;
-	private $uql_values_map;
+	private $um_rule_object;
+	private $um_values_map;
 	//current inserted | updated $key => $value pairs
-	private $uql_false_rule_flag;
+	private $um_false_rule_flag;
 	// true if there is at least one rule failed.
-	private $uql_fail_rules_list;
+	private $um_fail_rules_list;
 	// list of error messages about each field that fail in one or more rules
 	
 
 	public function __construct(&$rule_object, &$values_map) {
 		
-		$this->uql_rule_object = $rule_object;
-		$this->uql_values_map = $values_map;
-		$this->uql_false_rule_flag = false;
-		$this->uql_fail_rules_list = new UQLMap ();
+		$this->um_rule_object = $rule_object;
+		$this->um_values_map = $values_map;
+		$this->um_false_rule_flag = false;
+		$this->um_fail_rules_list = new UQLMap ();
 	}
 	
-	protected function the_uql_apply_rule($field_name, $value) {
+	protected function underql_apply_rule($field_name, $value) {
 		
-		$rules = $this->uql_rule_object->the_uql_get_rules_by_field_name ( $field_name );
+		$rules = $this->um_rule_object->underql_get_rules_by_field_name ( $field_name );
 		
 		$the_results = array ();
 		
 		if ($rules == null)
 			return true;
 		
-		foreach ( $rules->the_uql_get_map () as $rule_id => $rule_value ) {
+		foreach ( $rules->underql_get_map () as $rule_id => $rule_value ) {
 			
 			if (! $rule_value ['is_active'])
 				continue;
@@ -69,9 +69,9 @@ class UQLRuleEngine extends UQLBase {
 			$rule_api_function = sprintf ( UQL_RULE_FUNCTION_NAME, $rule_name );
 			
 			if (! function_exists ( $rule_api_function ))
-				$this->the_uql_error ( $rule_name . ' is not a valid rule' );
+				$this->underql_error ( $rule_name . ' is not a valid rule' );
 			
-			$alias = $this->uql_rule_object->the_uql_get_alias ( $field_name );
+			$alias = $this->um_rule_object->underql_get_alias ( $field_name );
 			
 			if (@count ( $rule_value ['rule'] ) == 1) // the rule has no parameter(s)
 				$result = $rule_api_function ( $field_name, $value, $alias );
@@ -84,7 +84,7 @@ class UQLRuleEngine extends UQLBase {
 			if ($result != UQL_RULE_SUCCESS) {
 				$the_results [$rule_name] = $result;
 				// message
-				$this->uql_false_rule_flag = true;
+				$this->um_false_rule_flag = true;
 			} else
 				$the_results [$rule_name] = $result;
 		
@@ -94,35 +94,35 @@ class UQLRuleEngine extends UQLBase {
 		return $the_results;
 	}
 	
-	public function the_uql_are_rules_passed() {
-		return $this->uql_false_rule_flag == false;
+	public function underql_are_rules_passed() {
+		return $this->um_false_rule_flag == false;
 	}
 	
-	public function the_uql_run_engine() {
+	public function underql_run_engine() {
 		
-		if (! $this->uql_values_map || $this->uql_values_map->the_uql_get_count () == 0)
+		if (! $this->um_values_map || $this->um_values_map->underql_get_count () == 0)
 			return null;
 		
 		$result = true;
 		
-		foreach ( $this->uql_values_map->the_uql_get_map () as $name => $value ) {
+		foreach ( $this->um_values_map->underql_get_map () as $name => $value ) {
 			
-			$result = $this->the_uql_apply_rule ( $name, $value );
+			$result = $this->underql_apply_rule ( $name, $value );
 			
 			if ($result != UQL_RULE_SUCCESS)
-				$this->uql_fail_rules_list->the_uql_add_element ( $name, $result );
+				$this->um_fail_rules_list->underql_add_element ( $name, $result );
 		}
 		
-		if ($this->the_uql_are_rules_passed ())
+		if ($this->underql_are_rules_passed ())
 			return true;
 		
-		$the_map = $this->uql_fail_rules_list->the_uql_get_map ();
+		$the_map = $this->um_fail_rules_list->underql_get_map ();
 		return new UQLRuleMessagesHandler ( $the_map );
 	}
 	
 	public function __destruct() {
-		$this->uql_values_map = null;
-		$this->uql_rule_object = null;
+		$this->um_values_map = null;
+		$this->um_rule_object = null;
 	}
 
 }
