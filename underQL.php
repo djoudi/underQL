@@ -32,6 +32,7 @@
 require_once ('UQL.php');
 require_once ('IUQLModule.php');
 require_once ('UQLBase.php');
+require_once ('UQLModuleEngine.php');
 require_once ('UQLConnection.php');
 require_once ('UQLMap.php');
 require_once ('UQLAbstractEntity.php');

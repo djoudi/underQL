@@ -119,22 +119,6 @@ class UQLChangeQuery extends UQLBase {
 		return $insert_query;
 	}
 	
-	protected function underql_module_run_input($is_insert = true)
-	{
-	   /* run modules */
-	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
-	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
-	     {
-	       $current_vals = $this->um_values_map->underql_get_map();
-	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
-	       {
-	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->in($current_vals,$is_insert);
-	         $this->um_values_map->underql_set_map($current_vals);
-	       }
-	     }   
-	}
-	
 	public function underql_check_rules()
 	{
 	    $rule_object = UQLRule::underql_find_rule_object ( $this->um_abstract_entity->underql_get_entity_name () );
@@ -168,13 +152,17 @@ class UQLChangeQuery extends UQLBase {
 		
 		if ($is_save)
 			{
-			 $this->underql_module_run_input();
+			 $vals = $this->um_values_map->underql_get_map();
+			 UQLModuleEngine::underql_module_run_input($vals);
+			 $this->um_values_map->underql_set_map($vals);
 			 $query = $this->underql_format_insert_query ();
 			
 			}
 		else
 			{
-			  $this->underql_module_run_input(false);
+			  $vals = $this->um_values_map->underql_get_map();
+			  UQLModuleEngine::underql_module_run_input($vals,false);
+			  $this->um_values_map->underql_set_map($vals);
 			  $query = $this->underql_format_update_query ( $extra );
 			}
 		

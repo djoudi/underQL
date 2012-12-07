@@ -5,11 +5,11 @@ include_modules('demo');
 
 $_('users');
 
-$users->name = 'Abdullah';
-$users->email = 'cs.abdullah@hotmail.com';
-$users->description = 'www.abdullaheid.net';
+//$users->name = 'Abdullah';
+//$users->email = 'cs.abdullah@hotmail.com';
+//$users->description = 'www.abdullaheid.net';
 
-$users->_('insert');
+$users->_('select');
 
 $_->_('shutdown');
 ?>

@@ -47,33 +47,13 @@ class UQLQueryPath extends UQLBase {
 		$this->um_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
 	}
 	
-	protected function underql_module_run_output(&$path)
-	{
-	   /* run modules */
-	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
-	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
-	     {
-	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
-	       {
-	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
-	       }
-	     }   
-	}
-	
 	public function underql_execute_query($query) {
 		
-		$this->underql_module_run_output($this);
-		if ($this->um_query_object->underql_execute_query ( $query )) {
-			/*if ($this->um_query_object->underql_get_count () > 0) {
-				$this->underql_get_next ();
-			}*/
+		UQLModuleEngine::underql_module_run_output($this);
+		if ($this->um_query_object->underql_execute_query ( $query ))
 			return true;
-			
-		}
-		
+				
 		return false;
-	
 	}
 	
 	public function underql_get_next() {
