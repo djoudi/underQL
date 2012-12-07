@@ -84,11 +84,12 @@ function _r($entity_name) {
 }
 
 function _m($module_name) {
+
     if(isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]))
      return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
      
     $module_class_name = sprintf(UQL_MODULE_CLASS_NAME,$module_name);
-	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ();
+	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ($module_name,true);
 	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]->init();
 	
 	/* used to shutdown all modules */

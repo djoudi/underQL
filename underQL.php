@@ -33,6 +33,7 @@ require_once ('UQL.php');
 require_once ('IUQLModule.php');
 require_once ('UQLBase.php');
 require_once ('UQLModuleEngine.php');
+require_once ('UQLModule.php');
 require_once ('UQLConnection.php');
 require_once ('UQLMap.php');
 require_once ('UQLAbstractEntity.php');
@@ -133,23 +134,9 @@ class underQL extends UQLBase {
 		$this->underql_load_entity ( $entity_name );
 	}
 	
-	protected function underql_module_shutdown()
-	{
-	   /* run modules */
-	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
-	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
-	     {
-	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
-	       {
-	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]))
-	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->shutdown();   
-	       }
-	     }   
-	}
-	
 	public function underql_shutdown()
 	{
-	    $this->underql_module_shutdown();
+	    UQLModuleEngine::underql_module_shutdown();
 		$this->um_database_handle->underql_close_connection();
 	}
 	
