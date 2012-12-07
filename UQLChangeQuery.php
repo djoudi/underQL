@@ -243,7 +243,8 @@ class UQLChangeQuery extends UQLBase {
 	            $function_name = $params[0];
 	            if(strcmp($function_name,$method_name) == 0)
 	             {
-	               if(!is_array($parameters) || count($parameters) != 1)
+	               $params = array_slice ( $params, 1 );
+	               if(!is_array($params) || count($params) != 1)
 	                $this->the_uql_error("$function_name accept one parameter");
 	        
 	               return $this->the_uql_update_where_n($field_name,$parameters[0]);
