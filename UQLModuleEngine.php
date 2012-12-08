@@ -15,7 +15,8 @@ public static function underql_module_run_input(&$values,$is_insert = true)
 	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
 	       {
 	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)])
-	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isActive())
+	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isActive()
+	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isInput())
 	          $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->in($values,$is_insert);
 	         //$this->um_values_map->underql_set_map($current_vals);
 	       }
@@ -34,7 +35,8 @@ public static function underql_module_run_output(&$path)
 	       foreach($GLOBALS['uql_global_loaded_modules'] as $key => $module_name)
 	       {
 	         if(isset($GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)])
-	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isActive())
+	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isActive()
+	          && $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->isOutput())
 	          {
 	            $GLOBALS[sprintf(UQL_MODULE_OBJECT_SYNTAX,$module_name)]->out($path);
 	            $path->_('reset_result');

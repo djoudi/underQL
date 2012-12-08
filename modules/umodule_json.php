@@ -5,7 +5,6 @@ class umodule_json extends UQLModule implements IUQLModule{
 
  private $json_source;
  
- 
  public function getSource()
  {
    return $this->json_source;
@@ -55,10 +54,12 @@ class umodule_json extends UQLModule implements IUQLModule{
  public function init()
  {
    $this->json_source = "";
+   $this->um_is_input = false;
  }
  
  public function in(&$values,$is_insert = true)
  {
+   // No implementation
  }
  
  public function out(&$path)
