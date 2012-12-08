@@ -65,13 +65,15 @@ class UQLEntity extends UQLBase {
 		$func_name = 'underql_' . $params [0];
 		if (! method_exists ( $this, $func_name ))
 			{
-			   
-			   foreach($this->um_change->underql_get_map_object()->underql_get_map() as $field_name => $value)
-	           {
-	            $update_method_name = 'update_where_'.$field_name;
-	            $delete_method_name = 'delete_where_'.$field_name;
 	            
-	            $function_name = $params[0];
+	     foreach($this->um_abstract_entity->_('get_all_fields') as $field_name => $info_object)
+	          {
+	            $select_method_name            = 'select_where_'.$field_name;
+	            $delete_method_name            = 'delete_where_'.$field_name;
+	            $update_method_name            = 'update_where_'.$field_name;
+	            $update_from_array_method_name = 'update_from_array_where_'.$field_name;
+	            
+	             $function_name = $params[0];
 	            if(strcmp($function_name,$update_method_name) == 0)
 	             {
 	               $params = array_slice ( $params, 1 );
@@ -80,15 +82,34 @@ class UQLEntity extends UQLBase {
 	        
 	               return $this->um_change->underql_update_where_n($field_name,$params[0]);
 	             }
-	             else if(strcmp($function_name,$delete_method_name) == 0)
+	            else if(strcmp($function_name,$delete_method_name) == 0)
 	             {
 	               $params = array_slice ( $params, 1 );
 	               if(!is_array($params) || count($params) != 1)
-	                UQLBase::underql_error("$function_name accept one parameter");
+	                UQLBase::underql_error("$function_name accepts one parameter");
 	        
 	               return $this->um_delete->underql_delete_where_n($field_name,$params[0]);
 	             }
-	            }
+	            else if(strcmp($function_name,$select_method_name) == 0)
+	             {
+	               $params = array_slice ( $params, 1 );
+	               if(is_array($params) && count($params) == 1)
+	                return $this->underql_select_where_n($field_name,$params[0]);
+	               else if(is_array($params) && count($params) == 2)
+	                return $this->underql_select_where_n($field_name,$params[0],$params[1]);
+	                 
+	              UQLBase::underql_error("$function_name accepts one parameter");
+	        
+	             }
+	             else if(strcmp($function_name,$update_from_array_method_name) == 0)
+	             {
+	               $params = array_slice ( $params, 1 );
+	               if(!is_array($params) || count($params) != 2)
+	                UQLBase::underql_error("$function_name accepts two parameters");
+	        
+	               return $this->underql_update_from_array_where_n($params[0],$field_name,$params[1]);
+	             }
+	          } 
 	            
 			  UQLBase::underql_error ( $params [0] . ' is not a valid method' );
 			}
@@ -125,9 +146,19 @@ class UQLEntity extends UQLBase {
 	public function underql_update_from_array($the_array, $extra = '') {
 		return $this->underql_insert_or_update_from_array ( $the_array, $extra, false );
 	}
-	
-	public function underql_update_from_array_where_id($the_array, $id, $id_name = 'id') {
-		return $this->underql_insert_or_update_from_array ( $the_array, "WHERE `$id_name` = $id", false );
+
+	public function underql_update_from_array_where_n($the_array,$field_name,$value)
+	{
+	  $field_object = $this->um_abstract_entity->underql_get_field_object($field_name);
+	  if($field_object != null)
+	  {
+	    if($field_object->numeric)
+	     return $this->underql_insert_or_update_from_array ( $the_array, "WHERE `$field_name` = $value", false );
+	    else
+	     return $this->underql_insert_or_update_from_array ( $the_array, "WHERE `$field_name` = '$value'", false );
+	  }
+	  
+	  return false;
 	}
 	
 	public function underql_update($extra = '') {
@@ -153,8 +184,18 @@ class UQLEntity extends UQLBase {
 		return $this->underql_query ( $query );
 	}
 	
-	public function underql_select_where_id($fields, $id, $id_name = 'id') {
-		return $this->underql_select ( $fields, "WHERE `$id_name` = $id" );
+	public function underql_select_where_n($field_name,$value,$fields = '*')
+	{
+	  $field_object = $this->um_abstract_entity->underql_get_field_object($field_name);
+	  if($field_object != null)
+	  {
+	    if($field_object->numeric)
+	     return $this->underql_select($fields,"WHERE `$field_name` = $value");
+	    else
+	     return $this->underql_select($fields,"WHERE `$field_name` = '$value'"); 
+	  }
+	  
+	  return false;
 	}
 	
 	public function underql_are_rules_passed() {

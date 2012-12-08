@@ -66,6 +66,8 @@ class UQLDeleteQuery extends UQLBase {
 	    else
 	     return $this->underql_delete("WHERE `$field_name` = '$value'"); 
 	  }
+	  
+	  return false;
 	}
 	
 	public function __destruct() {

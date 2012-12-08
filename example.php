@@ -5,8 +5,9 @@ include_modules('json');
 
 $_('users');
 
-$users->_('select');
-
+$r = $users->_('select_where_email','cs.abdullah@hotmail.com','id,name');
+$r->_('get_next');
+echo $r->name;
 echo '<pre>';
 var_dump($json_module->getSource());
 echo '</pre>';

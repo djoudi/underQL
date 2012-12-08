@@ -224,6 +224,13 @@ class UQLChangeQuery extends UQLBase {
 	    else
 	     return $this->underql_update("WHERE `$field_name` = '$value'"); 
 	  }
+	  
+	  return false;
+	}
+	
+	public function underql_get_map_object()
+	{
+	  return $this->um_values_map;
 	}
 	
 	public function __destruct() {
