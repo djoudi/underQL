@@ -30,6 +30,16 @@ class UQLModule extends UQLBase{
   return $this->um_is_active;
  }
  
+ public function useInput($use)
+ {
+   $this->um_is_input = $use;
+ }
+ 
+ public function useOutput($use)
+ {
+   $this->um_is_output = $use;
+ }
+ 
  public function isInput()
  {
   return $this->um_is_input;

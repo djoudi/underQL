@@ -54,7 +54,7 @@ class umodule_json extends UQLModule implements IUQLModule{
  public function init()
  {
    $this->json_source = "";
-   $this->um_is_input = false;
+   $this->useInput(false);
  }
  
  public function in(&$values,$is_insert = true)
