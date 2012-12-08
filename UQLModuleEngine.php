@@ -6,6 +6,9 @@ class UQLModuleEngine extends UQLBase{
 public static function underql_module_run_input(&$values,$is_insert = true)
 	{
 	   /* run modules */
+	    if(!$values || !is_array($values) || @count($values) == 0)
+	     return;
+	     
 	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
 	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
 	     {
@@ -22,6 +25,9 @@ public static function underql_module_run_input(&$values,$is_insert = true)
 public static function underql_module_run_output(&$path)
 	{
 	   /* run modules */
+	    if($path instanceof UQLQueryPath && $path->_('get_count') == 0)
+	     return;
+	     
 	    if(isset($GLOBALS['uql_global_loaded_modules']) &&
 	     @count($GLOBALS['uql_global_loaded_modules']) != 0)
 	     {
