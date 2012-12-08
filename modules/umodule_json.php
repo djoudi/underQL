@@ -68,7 +68,7 @@ class umodule_json extends UQLModule implements IUQLModule{
    $this->json_source  = '{"'.$e.'" :['."\n";
    $fields_count = $path->_('get_count');
    
-   while($path->_('get_next'))
+   while($path->_('fetch'))
    {
      $this->json_source .= $this->formatJSONRow($path);
      $fields_count--;

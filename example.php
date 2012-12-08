@@ -5,9 +5,11 @@ include_modules('json');
 
 $_('users');
 
-$r = $users->_('select_where_email','cs.abdullah@hotmail.com','id,name');
-$r->_('get_next');
-echo $r->name;
+$a ['name'] = 'Fahad';
+
+$users->_('delete_where_name','Fahad');
+
+
 echo '<pre>';
 var_dump($json_module->getSource());
 echo '</pre>';

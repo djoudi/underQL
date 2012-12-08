@@ -59,11 +59,11 @@ class UQLQueryPath extends UQLBase {
 		return false;
 	}
 	
-	public function underql_get_next() {
+	public function underql_fetch() {
 		return $this->um_query_object->underql_fetch_row ();
 	}
 	
-	public function underql_reset_result()
+	public function underql_reset()
 	{
 	   return $this->um_query_object->underql_reset_result();
 	}

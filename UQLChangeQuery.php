@@ -228,11 +228,6 @@ class UQLChangeQuery extends UQLBase {
 	  return false;
 	}
 	
-	public function underql_get_map_object()
-	{
-	  return $this->um_values_map;
-	}
-	
 	public function __destruct() {
 		$this->um_query = null;
 		$this->um_abstract_entity = null;
