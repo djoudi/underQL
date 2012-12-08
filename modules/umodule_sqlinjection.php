@@ -1,8 +1,7 @@
 <?php 
 
 
-
-class umodule_sqlinection extends UQLModule implements IUQLModule {
+class umodule_sqlinjection extends UQLModule implements IUQLModule {
 
     public function init() {
 
@@ -11,8 +10,10 @@ class umodule_sqlinection extends UQLModule implements IUQLModule {
 
     public function in(&$values,$is_insert = true) {
 
-        for($i = 0; $i < @count($values); $i++)
-          $values[$i] = @mysql_real_escape_string($values[$i]);
+        foreach($values as $field_name => $val)
+          $values[$field_name] = mysql_real_escape_string($val);
+
+       
     }
 
     public function out(&$path) {
@@ -22,7 +23,7 @@ class umodule_sqlinection extends UQLModule implements IUQLModule {
     }
 
     public function shutdown() {
-        
+        // No implementation
     }
 }
 

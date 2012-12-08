@@ -1,14 +1,13 @@
 <?php ini_set('display_errors',1);
 
 require_once('underQL.php');
-include_modules('json');
+
+include_modules('sqlinjection');
 
 $_('users');
 
-
-$r = $users->_('select_where_id',10138);
-$r->_('fetch');
-echo $r->name;
+$users->name = "Abdullah'";
+$users->_('insert');
 
 $_->_('shutdown');
 ?>
