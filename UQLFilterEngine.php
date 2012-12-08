@@ -30,81 +30,81 @@
  *****************************************************************************************/
 
 class UQLFilterEngine extends UQLBase {
-	
-	private $um_filter_object;
-	private $um_values_map;
-	//current inserted | updated $key => $value pairs
-	private $um_in_out_flag;
-	// specify if the engine for input or output
-	
 
-	public function __construct(&$filter_object, $in_out_flag) {
-		$this->um_filter_object = $filter_object;
-		$this->um_values_map = null;
-		$this->um_in_out_flag = $in_out_flag;
-	}
-	
-	public function underql_set_values_map(&$values_map) {
-		$this->um_values_map = $values_map;
-	}
-	
-	public function underql_apply_filter($field_name, $value) {
-		if ($this->um_filter_object != null)
-			$filters = $this->um_filter_object->underql_get_filters_by_field_name ( $field_name );
-		else
-			return $value;
-		
-		if ($filters == null)
-			return $value;
-		
-		$tmp_value = $value;
-		
-		foreach ( $filters->underql_get_map () as $filter_id => $filter_value ) {
-			$filter_name = $filter_value ['filter'] [0];
-			$filter_flag = $filter_value ['filter'] [1];
-			// echo $filter_flag;
-			if (strcmp ( strtolower ( $filter_flag ), 'in' ) == 0)
-				$filter_flag = UQL_FILTER_IN;
-			else if (strcmp ( strtolower ( $filter_flag ), 'out' ) == 0)
-				$filter_flag = UQL_FILTER_OUT;
-			else
-				$filter_flag = UQL_FILTER_IN | UQL_FILTER_OUT;
-			
-			if ((! $filter_value ['is_active']) || (($filter_flag != $this->um_in_out_flag) && ($filter_flag != UQL_FILTER_IN | UQL_FILTER_OUT)))
-				continue;
-			
-			$include_filter_api = 'include_filters';
-			$include_filter_api ( $filter_name );
-			
-			$filter_api_function = sprintf ( UQL_FILTER_FUNCTION_NAME, $filter_name );
-			
-			if (! function_exists ( $filter_api_function ))
-				die ( $filter_name . ' is not a valid filter' );
-			
-			if (@count ( $filter_value ['filter'] ) == 2) // the filter has no parameter(s)
-				$tmp_value = $filter_api_function ( $field_name, $tmp_value, $filter_flag );
-			else {
-				$params = array_slice ( $filter_value ['filter'], 2 );
-				$tmp_value = $filter_api_function ( $field_name, $tmp_value, $filter_flag, $params );
-			}
-		}
-		return $tmp_value;
-	}
-	
-	public function underql_run_engine() {
-		if (! $this->um_values_map || $this->um_values_map->underql_get_count () == 0)
-			return null;
-		
-		foreach ( $this->um_values_map->underql_get_map () as $name => $value ) {
-			$this->um_values_map->underql_add_element ( $name, $this->underql_apply_filter ( $name, $value ) );
-		}
-		return $this->um_values_map;
-	}
-	
-	public function __destruct() {
-		$this->um_values_map = null;
-		$this->um_filter_object = null;
-	}
+    private $um_filter_object;
+    private $um_values_map;
+    //current inserted | updated $key => $value pairs
+    private $um_in_out_flag;
+    // specify if the engine for input or output
+
+
+    public function __construct(&$filter_object, $in_out_flag) {
+        $this->um_filter_object = $filter_object;
+        $this->um_values_map = null;
+        $this->um_in_out_flag = $in_out_flag;
+    }
+
+    public function underql_set_values_map(&$values_map) {
+        $this->um_values_map = $values_map;
+    }
+
+    public function underql_apply_filter($field_name, $value) {
+        if ($this->um_filter_object != null)
+            $filters = $this->um_filter_object->underql_get_filters_by_field_name ( $field_name );
+        else
+            return $value;
+
+        if ($filters == null)
+            return $value;
+
+        $tmp_value = $value;
+
+        foreach ( $filters->underql_get_map () as $filter_id => $filter_value ) {
+            $filter_name = $filter_value ['filter'] [0];
+            $filter_flag = $filter_value ['filter'] [1];
+            // echo $filter_flag;
+            if (strcmp ( strtolower ( $filter_flag ), 'in' ) == 0)
+                $filter_flag = UQL_FILTER_IN;
+            else if (strcmp ( strtolower ( $filter_flag ), 'out' ) == 0)
+                $filter_flag = UQL_FILTER_OUT;
+            else
+                $filter_flag = UQL_FILTER_IN | UQL_FILTER_OUT;
+
+            if ((! $filter_value ['is_active']) || (($filter_flag != $this->um_in_out_flag) && ($filter_flag != UQL_FILTER_IN | UQL_FILTER_OUT)))
+                continue;
+
+            $include_filter_api = 'include_filters';
+            $include_filter_api ( $filter_name );
+
+            $filter_api_function = sprintf ( UQL_FILTER_FUNCTION_NAME, $filter_name );
+
+            if (! function_exists ( $filter_api_function ))
+                die ( $filter_name . ' is not a valid filter' );
+
+            if (@count ( $filter_value ['filter'] ) == 2) // the filter has no parameter(s)
+                $tmp_value = $filter_api_function ( $field_name, $tmp_value, $filter_flag );
+            else {
+                $params = array_slice ( $filter_value ['filter'], 2 );
+                $tmp_value = $filter_api_function ( $field_name, $tmp_value, $filter_flag, $params );
+            }
+        }
+        return $tmp_value;
+    }
+
+    public function underql_run_engine() {
+        if (! $this->um_values_map || $this->um_values_map->underql_get_count () == 0)
+            return null;
+
+        foreach ( $this->um_values_map->underql_get_map () as $name => $value ) {
+            $this->um_values_map->underql_add_element ( $name, $this->underql_apply_filter ( $name, $value ) );
+        }
+        return $this->um_values_map;
+    }
+
+    public function __destruct() {
+        $this->um_values_map = null;
+        $this->um_filter_object = null;
+    }
 
 }
 ?>

@@ -30,31 +30,31 @@
  *****************************************************************************************/
 
 class UQLRuleMessagesHandler extends UQLBase {
-	
-	private $um_messages;
-	
-	public function __construct(&$the_msgs_list) {
-		if (! $the_msgs_list)
-			$this->um_messages = array ();
-		else
-			$this->um_messages = $the_msgs_list;
-	}
-	
-	public function in($field_name) {
-		return isset ( $this->um_messages [$field_name] );
-	}
-	
-	public function at($field_name, $rule_name) {
-		return isset ( $this->um_messages [$field_name] [$rule_name] );
-	}
-	
-	public function get($field_name, $rule_name) {
-		return $this->um_messages [$field_name] [$rule_name];
-	}
-	
-	public function __destruct() {
-		$this->um_messages = null;
-	}
+
+    private $um_messages;
+
+    public function __construct(&$the_msgs_list) {
+        if (! $the_msgs_list)
+            $this->um_messages = array ();
+        else
+            $this->um_messages = $the_msgs_list;
+    }
+
+    public function in($field_name) {
+        return isset ( $this->um_messages [$field_name] );
+    }
+
+    public function at($field_name, $rule_name) {
+        return isset ( $this->um_messages [$field_name] [$rule_name] );
+    }
+
+    public function get($field_name, $rule_name) {
+        return $this->um_messages [$field_name] [$rule_name];
+    }
+
+    public function __destruct() {
+        $this->um_messages = null;
+    }
 
 }
 ?>

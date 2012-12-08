@@ -30,101 +30,96 @@
  *****************************************************************************************/
 
 class UQLQueryPath extends UQLBase {
-	
-	public $um_abstract_entity;
-	public $um_query_object;
-	public $um_filter_engine;
-	
-	public function __construct(&$database_handle, &$abstract_entity) {
-		
-		if ($abstract_entity instanceof UQLAbstractEntity)
-			$this->um_abstract_entity = $abstract_entity;
-		else
-			UQLBase::underql_error ( 'You must provide a appropriate value for abstract_entity parameter' );
-		
-		$this->um_query_object = new UQLQuery ( $database_handle );
-		$filter_object = UQLFilter::underql_find_filter_object ( $this->um_abstract_entity->underql_get_entity_name () );
-		$this->um_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
-	}
-	
-	public function underql_execute_query($query) {
-		
-		if ($this->um_query_object->underql_execute_query ( $query ))
-			{
-			 UQLModuleEngine::underql_module_run_output($this);
-			// $this->underql_reset_result();
-			 return true;
-			}
-				
-		return false;
-	}
-	
-	public function underql_fetch() {
-		return $this->um_query_object->underql_fetch_row ();
-	}
-	
-	public function underql_reset()
-	{
-	   return $this->um_query_object->underql_reset_result();
-	}
-	
-	public function underql_count() {
-		return $this->um_query_object->underql_get_count ();
-	}
-	
-	public function underql_get_query_object() {
-		return $this->um_query_object;
-	}
-	
-	public function underql_get_abstract_entity() {
-		return $this->um_abstract_entity;
-	}
-	
-	public function underql_fields()
-	{
-	  return $this->um_query_object->underql_get_current_query_fields ();
-	}
-	
-	public function underql_field_info($field_name)
-	{
-	  return $this->um_abstract_entity->underql_get_field_object($field_name);
-	}
-	
-	public function underql_table_name()
-	{
-	  return $this->um_abstract_entity->underql_get_entity_name();
-	}
-	
-	public function __get($key) {
-		
-		if (! $this->um_abstract_entity->underql_is_field_exist ( $key ))
-			UQLBase::underql_error ( "[$key] does not exist in ".$this->um_abstract_entity->underql_get_entity_name());
-		
-		$current_query_fields = $this->underql_fields();//$this->um_query_object->underql_get_current_query_fields ();
-		if ($current_query_fields == null)
-			UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
-		
-		foreach ( $current_query_fields as $field_name ) {
-			if (strcmp ( $key, $field_name ) == 0) {
-				$current_row = $this->um_query_object->underql_get_current_row ();
-				if ($current_row == null)
-					return null;
-				else {
-					return $this->um_filter_engine->underql_apply_filter ( $key, $current_row->$key );
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	public function __destruct() {
-		
-		$this->um_abstract_entity = null;
-		$this->um_query_object = null;
-	
-		//$this->plugin = null;
-	}
+
+    public $um_abstract_entity;
+    public $um_query_object;
+    public $um_filter_engine;
+
+    public function __construct(&$database_handle, &$abstract_entity) {
+
+        if ($abstract_entity instanceof UQLAbstractEntity)
+            $this->um_abstract_entity = $abstract_entity;
+        else
+            UQLBase::underql_error ( 'You must provide a appropriate value for abstract_entity parameter' );
+
+        $this->um_query_object = new UQLQuery ( $database_handle );
+        $filter_object = UQLFilter::underql_find_filter_object ( $this->um_abstract_entity->underql_get_entity_name () );
+        $this->um_filter_engine = new UQLFilterEngine ( $filter_object, UQL_FILTER_OUT );
+    }
+
+    public function underql_execute_query($query) {
+
+        if ($this->um_query_object->underql_execute_query ( $query )) {
+            UQLModuleEngine::underql_module_run_output($this);
+            // $this->underql_reset();
+            return true;
+        }
+
+        return false;
+    }
+
+    public function underql_fetch() {
+        return $this->um_query_object->underql_fetch_row ();
+    }
+
+    public function underql_reset() {
+        return $this->um_query_object->underql_reset_result();
+    }
+
+    public function underql_count() {
+        return $this->um_query_object->underql_get_count ();
+    }
+
+    public function underql_query_object() {
+        return $this->um_query_object;
+    }
+
+    public function underql_abstract_entity() {
+        return $this->um_abstract_entity;
+    }
+
+    public function underql_fields() {
+        return $this->um_query_object->underql_get_current_query_fields ();
+    }
+
+    public function underql_field_info($field_name) {
+        return $this->um_abstract_entity->underql_get_field_object($field_name);
+    }
+
+    public function underql_entity_name() {
+        return $this->um_abstract_entity->underql_get_entity_name();
+    }
+
+    public function __get($key) {
+
+        if (! $this->um_abstract_entity->underql_is_field_exist ( $key ))
+            UQLBase::underql_error ( "[$key] does not exist in ".$this->um_abstract_entity->underql_get_entity_name());
+
+        $current_query_fields = $this->underql_fields();//$this->um_query_object->underql_get_current_query_fields ();
+        if ($current_query_fields == null)
+            UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
+
+        foreach ( $current_query_fields as $field_name ) {
+            if (strcmp ( $key, $field_name ) == 0) {
+                $current_row = $this->um_query_object->underql_get_current_row ();
+                if ($current_row == null)
+                    return null;
+                else {
+                    return $this->um_filter_engine->underql_apply_filter ( $key, $current_row->$key );
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function __destruct() {
+
+        $this->um_abstract_entity = null;
+        $this->um_query_object = null;
+
+        //$this->plugin = null;
+    }
 
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
- 
+
 /****************************************************************************************
  * Copyright (c) 2012, Abdullah E. Almehmadi - www.abdullaheid.net                      *
  * All rights reserved.                                                                 *
@@ -30,76 +30,75 @@
  *****************************************************************************************/
 
 class UQLMap extends UQLBase {
-	
-	private $um_map_list;
-	private $um_elements_count;
-	
-	public function __construct() {
-		$this->um_map_list = array ();
-		$this->um_elements_count = 0;
-	}
-	
-	public function underql_add_element($key, $value) {
-		
-		if ($this->underql_find_element ( $key ) == null)
-			$this->um_elements_count ++;
-		
-		$this->um_map_list [$key] = $value;
-	}
-	
-	public function underql_find_element($key) {
-		if ($this->underql_is_element_exist ( $key ))
-			return $this->um_map_list [$key];
-		
-		return null;
-	}
-	
-	public function underql_is_element_exist($key) {
-		if ($this->um_elements_count <= 0)
-			return false;
-		
-		if (@array_key_exists ( $key, $this->um_map_list ))
-			return true;
-		
-		return false;
-	}
-	
-	public function underql_get_count() {
-		return count ( $this->um_map_list );
-	}
-	
-	public function underql_remove_element($key) {
-		
-		if ($this->underql_is_element_exist ( $key )) {
-			unset ( $this->um_map_list [$key] );
-			$this->um_elements_count --;
-		}
-	}
-	
-	public function underql_is_empty() {
-		return $this->um_elements_count == 0;
-	}
-	
-	public function underql_map_callback($callback) {
-		if (! $this->underql_is_empty ())
-			return array_map ( $callback, $this->map_list );
-	}
-	
-	public function underql_get_map() {
-		return $this->um_map_list;
-	}
-	
-	public function underql_set_map($the_map)
-	{
-	  if(is_array($the_map))
-	   $this->um_map_list = $the_map;
-	}
-	
-	public function __destruct() {
-		
-		$this->um_map_list = null;
-		$this->um_elements_count = 0;
-	}
+
+    private $um_map_list;
+    private $um_elements_count;
+
+    public function __construct() {
+        $this->um_map_list = array ();
+        $this->um_elements_count = 0;
+    }
+
+    public function underql_add_element($key, $value) {
+
+        if ($this->underql_find_element ( $key ) == null)
+            $this->um_elements_count ++;
+
+        $this->um_map_list [$key] = $value;
+    }
+
+    public function underql_find_element($key) {
+        if ($this->underql_is_element_exist ( $key ))
+            return $this->um_map_list [$key];
+
+        return null;
+    }
+
+    public function underql_is_element_exist($key) {
+        if ($this->um_elements_count <= 0)
+            return false;
+
+        if (@array_key_exists ( $key, $this->um_map_list ))
+            return true;
+
+        return false;
+    }
+
+    public function underql_get_count() {
+        return count ( $this->um_map_list );
+    }
+
+    public function underql_remove_element($key) {
+
+        if ($this->underql_is_element_exist ( $key )) {
+            unset ( $this->um_map_list [$key] );
+            $this->um_elements_count --;
+        }
+    }
+
+    public function underql_is_empty() {
+        return $this->um_elements_count == 0;
+    }
+
+    public function underql_map_callback($callback) {
+        if (! $this->underql_is_empty ())
+            return array_map ( $callback, $this->map_list );
+    }
+
+    public function underql_get_map() {
+        return $this->um_map_list;
+    }
+
+    public function underql_set_map($the_map) {
+        if(is_array($the_map))
+            $this->um_map_list = $the_map;
+    }
+
+    public function __destruct() {
+
+        $this->um_map_list = null;
+        $this->um_elements_count = 0;
+    }
 
 }
 ?>

@@ -30,71 +30,68 @@
  *****************************************************************************************/
 
 function include_filters() {
-	$params = func_get_args ();
-	
-	if (func_num_args () == 0)
-		UQLBase::underql_error ( 'You must pass one filter at least to include_filters' );
-	
-	foreach ( $params as $key => $filter )
-		require_once (__DIR__ . '/' . UQL_DIR_FILTER . UQL_DIR_FILTER_API . 'ufilter_' . $filter . '.php');
+    $params = func_get_args ();
+
+    if (func_num_args () == 0)
+        UQLBase::underql_error ( 'You must pass one filter at least to include_filters' );
+
+    foreach ( $params as $key => $filter )
+        require_once (__DIR__ . '/' . UQL_DIR_FILTER . UQL_DIR_FILTER_API . 'ufilter_' . $filter . '.php');
 }
 
 function include_rules() {
-	$params = func_get_args ();
-	
-	if (func_num_args () == 0)
-		UQLBase::underql_error ( 'You must pass one rule at least to include_rules' );
-	
-	foreach ( $params as $key => $rule )
-		require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'urule_' . $rule . '.php');
+    $params = func_get_args ();
+
+    if (func_num_args () == 0)
+        UQLBase::underql_error ( 'You must pass one rule at least to include_rules' );
+
+    foreach ( $params as $key => $rule )
+        require_once (__DIR__ . '/' . UQL_DIR_RULE . UQL_DIR_RULE_API . 'urule_' . $rule . '.php');
 }
 
-function include_modules()
-{
-  $params = func_get_args ();
-	
-	if (func_num_args () == 0)
-		UQLBase::underql_error ( 'You must pass one module at least to include_modules' );
-	
-	foreach ( $params as $key => $module_name )
-		{
-		if(!isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]))
-         {
-		  require_once (__DIR__ . '/' . UQL_DIR_MODULE . 'umodule_' . $module_name . '.php');
-		  _m($module_name);
-		 }
-		}
+function include_modules() {
+    $params = func_get_args ();
+
+    if (func_num_args () == 0)
+        UQLBase::underql_error ( 'You must pass one module at least to include_modules' );
+
+    foreach ( $params as $key => $module_name ) {
+        if(!isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )])) {
+            require_once (__DIR__ . '/' . UQL_DIR_MODULE . 'umodule_' . $module_name . '.php');
+            _m($module_name);
+        }
+    }
 }
 
 function _f($entity_name) {
-	
-	if(isset($GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )]))
-	 return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
-	 
-	$GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )] = new UQLFilter ( $entity_name );
-	return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
+
+    if(isset($GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )]))
+        return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
+
+    $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )] = new UQLFilter ( $entity_name );
+    return $GLOBALS [sprintf ( UQL_FILTER_OBJECT_SYNTAX, $entity_name )];
 }
 
 function _r($entity_name) {
-	if(isset($GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )]))
-	 return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
-	 
-	$GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )] = new UQLRule ( $entity_name );
-	return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
+    if(isset($GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )]))
+        return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
+
+    $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )] = new UQLRule ( $entity_name );
+    return $GLOBALS [sprintf ( UQL_RULE_OBJECT_SYNTAX, $entity_name )];
 }
 
 function _m($module_name) {
 
     if(isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]))
-     return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
-     
+        return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
+
     $module_class_name = sprintf(UQL_MODULE_CLASS_NAME,$module_name);
-	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ($module_name,true);
-	$GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]->init();
-	
-	/* used to shutdown all modules */
-	$GLOBALS ['uql_global_loaded_modules'][] = $module_name;
-	
-	return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
+    $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )] = new $module_class_name ($module_name,true);
+    $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )]->init();
+
+    /* used to shutdown all modules */
+    $GLOBALS ['uql_global_loaded_modules'][] = $module_name;
+
+    return $GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )];
 }
 ?>

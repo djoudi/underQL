@@ -30,74 +30,74 @@
  *****************************************************************************************/
 
 class UQLAbstractEntity extends UQLBase {
-	
-	private $um_entity_name;
-	private $um_fields;
-	private $um_fields_count;
-	
-	public function __construct($entity_name, &$database_handle) {
-		
-		$this->um_entity_name = null;
-		$this->um_fields = null;
-		$this->um_fields_count = 0;
-		
-		$this->underql_set_entity_name ( $entity_name, $database_handle );
-	}
-	
-	public function underql_set_entity_name($entity_name, &$database_handle) {
-	
-		if (($database_handle instanceof UQLConnection)) {
-			$this->um_entity_name = $entity_name;
-			$string_query = sprintf ( "SHOW COLUMNS FROM `%s`", $this->um_entity_name );
-			$query_result = mysql_query ( $string_query );
-			if ($query_result) {
-				$this->um_fields_count = mysql_num_rows ( $query_result );
-				@mysql_free_result ( $query_result );
-				
-				$fields_list = mysql_list_fields ( $database_handle->underql_get_database_name (), $this->um_entity_name );
-				$this->um_fields = array ();
-				
-				$i = 0;
-				while ( $i < $this->um_fields_count ) {
-					$field = mysql_fetch_field ( $fields_list );
-					$this->um_fields [$field->name] = $field;
-					$i++;
-				}
-				
-				@mysql_free_result ( $fields_list );
-			} else {
-				UQLBase::underql_error( mysql_error() );
-			}
-		}
-	}
-	
-	public function underql_get_entity_name() {
-		return $this->um_entity_name;
-	}
-	
-	public function underql_is_field_exist($name) {
-		return (($this->um_fields != null) && (array_key_exists ( $name, $this->um_fields )));
-	}
-	
-	public function underql_get_field_object($name) {
-		if ($this->underql_is_field_exist ( $name ))
-			return $this->um_fields [$name];
-		return null;
-	}
-	
-	public function underql_get_all_fields() {
-		return $this->um_fields;
-	}
-	
-	public function underql_get_fields_count() {
-		return $this->um_fields_count;
-	}
-	
-	public function __destruct() {
-		$this->um_entity_name = null;
-		$this->um_fields = null;
-		$this->um_fields_count = 0;
-	}
+
+    private $um_entity_name;
+    private $um_fields;
+    private $um_fields_count;
+
+    public function __construct($entity_name, &$database_handle) {
+
+        $this->um_entity_name = null;
+        $this->um_fields = null;
+        $this->um_fields_count = 0;
+
+        $this->underql_set_entity_name ( $entity_name, $database_handle );
+    }
+
+    public function underql_set_entity_name($entity_name, &$database_handle) {
+
+        if (($database_handle instanceof UQLConnection)) {
+            $this->um_entity_name = $entity_name;
+            $string_query = sprintf ( "SHOW COLUMNS FROM `%s`", $this->um_entity_name );
+            $query_result = mysql_query ( $string_query );
+            if ($query_result) {
+                $this->um_fields_count = mysql_num_rows ( $query_result );
+                @mysql_free_result ( $query_result );
+
+                $fields_list = mysql_list_fields ( $database_handle->underql_get_database_name (), $this->um_entity_name );
+                $this->um_fields = array ();
+
+                $i = 0;
+                while ( $i < $this->um_fields_count ) {
+                    $field = mysql_fetch_field ( $fields_list );
+                    $this->um_fields [$field->name] = $field;
+                    $i++;
+                }
+
+                @mysql_free_result ( $fields_list );
+            } else {
+                UQLBase::underql_error( mysql_error() );
+            }
+        }
+    }
+
+    public function underql_get_entity_name() {
+        return $this->um_entity_name;
+    }
+
+    public function underql_is_field_exist($name) {
+        return (($this->um_fields != null) && (array_key_exists ( $name, $this->um_fields )));
+    }
+
+    public function underql_get_field_object($name) {
+        if ($this->underql_is_field_exist ( $name ))
+            return $this->um_fields [$name];
+        return null;
+    }
+
+    public function underql_get_all_fields() {
+        return $this->um_fields;
+    }
+
+    public function underql_get_fields_count() {
+        return $this->um_fields_count;
+    }
+
+    public function __destruct() {
+        $this->um_entity_name = null;
+        $this->um_fields = null;
+        $this->um_fields_count = 0;
+    }
 
 }
 ?>

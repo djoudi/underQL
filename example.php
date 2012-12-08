@@ -7,12 +7,8 @@ $_('users');
 
 
 $r = $users->_('select_where_id',10138);
-
+$r->_('fetch');
 echo $r->name;
-
-echo '<pre>';
-var_dump($json_module->getSource());
-echo '</pre>';
 
 $_->_('shutdown');
 ?>

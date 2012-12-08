@@ -30,28 +30,27 @@
  *****************************************************************************************/
 
 class UQLBase {
-	
-	public static function underql_error($message) {
-		die ( '<h3><code><b style = "color:#FF0000">UnderQL Error: </b>' . $message . '</h3> <br />' );
-	}
-	
-	public static function underql_warning($message)
-	{
-	  	echo '<h3><code><b style = "color:#0000FF">UnderQL Warning: </b>' . $message . '</h3> <br />';
-	}
-	
-	public function _() {
-		
-		$params_count = func_num_args ();
-		if ($params_count < 1)
-			UQLBase::underql_error ( '_ method accepts one parameter at least' );
-		
-		$params = func_get_args ();
-		$func_name = 'underql_' . $params [0];
-		if (! method_exists ( $this, $func_name ))
-			UQLBase::underql_error ( $params [0] . ' is not a valid method' );
-		$params = array_slice ( $params, 1 );
-		return call_user_func_array ( array ($this, $func_name ), $params );
-	}
+
+    public static function underql_error($message) {
+        die ( '<h3><code><b style = "color:#FF0000">UnderQL Error: </b>' . $message . '</h3> <br />' );
+    }
+
+    public static function underql_warning($message) {
+        echo '<h3><code><b style = "color:#0000FF">UnderQL Warning: </b>' . $message . '</h3> <br />';
+    }
+
+    public function _() {
+
+        $params_count = func_num_args ();
+        if ($params_count < 1)
+            UQLBase::underql_error ( '_ method accepts one parameter at least' );
+
+        $params = func_get_args ();
+        $func_name = 'underql_' . $params [0];
+        if (! method_exists ( $this, $func_name ))
+            UQLBase::underql_error ( $params [0] . ' is not a valid method' );
+        $params = array_slice ( $params, 1 );
+        return call_user_func_array ( array ($this, $func_name ), $params );
+    }
 }
 ?>
