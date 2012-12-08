@@ -5,10 +5,10 @@ include_modules('json');
 
 $_('users');
 
-$a ['name'] = 'Fahad';
 
-$users->_('delete_where_name','Fahad');
+$r = $users->_('select_where_id',10138);
 
+echo $r->name;
 
 echo '<pre>';
 var_dump($json_module->getSource());

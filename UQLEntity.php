@@ -190,9 +190,15 @@ class UQLEntity extends UQLBase {
 	  if($field_object != null)
 	  {
 	    if($field_object->numeric)
-	     return $this->underql_select($fields,"WHERE `$field_name` = $value");
+	     $path =  $this->underql_select($fields,"WHERE `$field_name` = $value");
 	    else
-	     return $this->underql_select($fields,"WHERE `$field_name` = '$value'"); 
+	     $path = $this->underql_select($fields,"WHERE `$field_name` = '$value'"); 
+	     
+	    
+	    if($path && ($field_object->primary_key || $field_object->unique_key))
+	     $path->_('fetch');
+	     
+	    return $path;
 	  }
 	  
 	  return false;
