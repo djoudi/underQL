@@ -14,9 +14,9 @@ class umodule_json extends UQLModule implements IUQLModule{
  private function formatJSONField($field,$value,$is_string)
  {
    if($is_string)
-    $json_f = sprintf('%s: "%s"',$field,$value);
+    $json_f = sprintf('"%s": "%s"',$field,$value);
    else
-     $json_f = sprintf('%s: %s',$field,$value);
+     $json_f = sprintf('"%s": %s',$field,$value);
      
    return $json_f;
  }
@@ -30,7 +30,7 @@ class umodule_json extends UQLModule implements IUQLModule{
    if(!$fields || $fields_count == 0)
     return "";
     
-    $json_r = 'row:[ ';
+    $json_r = '{ ';
     $abstract_entity = $path->_('get_abstract_entity');
     
     if(!$abstract_entity)
@@ -40,14 +40,14 @@ class umodule_json extends UQLModule implements IUQLModule{
     {
       $field_object = $abstract_entity->_('get_field_object',$fields[$i]);
       if($field_object->numeric)
-        $json_r .= formatJSONField($fields[$i],$path->$fields[$i],false);
+        $json_r .= $this->formatJSONField($fields[$i],$path->$fields[$i],false);
       else
-        $json_r .= formatJSONField($fields[$i],$path->$fields[$i],true);
+        $json_r .= $this->formatJSONField($fields[$i],$path->$fields[$i],true);
         
       if(($i + 1) != $fields_count) $json_r .= ',';
     }
     
-    $json_r .= ' ]';
+    $json_r .= ' }'."\n";
     
     return $json_r;
  }
@@ -63,17 +63,23 @@ class umodule_json extends UQLModule implements IUQLModule{
  
  public function out(&$path)
  { 
- 
-   $this->json_source  = '{entity : ';
+   $e = $path->_('get_abstract_entity')->_('get_entity_name');
+   $this->json_source  = '{"'.$e.'" :['."\n";
+   $fields_count = $path->_('get_count');
    
    while($path->_('get_next'))
-    $this->json_source .= $this->formatJSONRow($path);
+   {
+     $this->json_source .= $this->formatJSONRow($path);
+     $fields_count--;
+     if($fields_count > 0) $this->json_source .= ',';
+   }
     
-   $this->json_source .= '}';
+   $this->json_source .= ']}';
  }
  
  public function shutdown()
  {
+   $this->json_source = null;
  }
 }
 
