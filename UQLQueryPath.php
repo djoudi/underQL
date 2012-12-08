@@ -68,7 +68,7 @@ class UQLQueryPath extends UQLBase {
 	   return $this->um_query_object->underql_reset_result();
 	}
 	
-	public function underql_get_count() {
+	public function underql_count() {
 		return $this->um_query_object->underql_get_count ();
 	}
 	
@@ -80,9 +80,19 @@ class UQLQueryPath extends UQLBase {
 		return $this->um_abstract_entity;
 	}
 	
-	public function underql_get_current_query_fields()
+	public function underql_fields()
 	{
 	  return $this->um_query_object->underql_get_current_query_fields ();
+	}
+	
+	public function underql_field_info($field_name)
+	{
+	  return $this->um_abstract_entity->underql_get_field_object($field_name);
+	}
+	
+	public function underql_table_name()
+	{
+	  return $this->um_abstract_entity->underql_get_entity_name();
 	}
 	
 	public function __get($key) {
@@ -90,7 +100,7 @@ class UQLQueryPath extends UQLBase {
 		if (! $this->um_abstract_entity->underql_is_field_exist ( $key ))
 			UQLBase::underql_error ( "[$key] does not exist in ".$this->um_abstract_entity->underql_get_entity_name());
 		
-		$current_query_fields = $this->underql_get_current_query_fields();//$this->um_query_object->underql_get_current_query_fields ();
+		$current_query_fields = $this->underql_fields();//$this->um_query_object->underql_get_current_query_fields ();
 		if ($current_query_fields == null)
 			UQLBase::underql_error ( "[$key] does not exist in the current query fields" );
 		

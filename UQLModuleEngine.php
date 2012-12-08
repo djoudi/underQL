@@ -26,7 +26,7 @@ public static function underql_module_run_input(&$values,$is_insert = true)
 public static function underql_module_run_output(&$path)
 	{
 	   /* run modules */
-	    if(!$path || ($path instanceof UQLQueryPath && $path->_('get_count') == 0))
+	    if(!$path || ($path instanceof UQLQueryPath && $path->_('count') == 0))
 	     return;
 	     
 	    if(isset($GLOBALS['uql_global_loaded_modules']) &&

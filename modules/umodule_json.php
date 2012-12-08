@@ -24,20 +24,16 @@ class umodule_json extends UQLModule implements IUQLModule{
  {
    if(!$path) return "";
    
-   $fields = $path->_('get_current_query_fields');
+   $fields = $path->_('fields');
    $fields_count = @count($fields);
    if(!$fields || $fields_count == 0)
     return "";
     
     $json_r = '{ ';
-    $abstract_entity = $path->_('get_abstract_entity');
-    
-    if(!$abstract_entity)
-     return "";
      
     for($i = 0; $i < $fields_count; $i++)
     {
-      $field_object = $abstract_entity->_('get_field_object',$fields[$i]);
+      $field_object = $path->_('field_info',$fields[$i]);
       if($field_object->numeric)
         $json_r .= $this->formatJSONField($fields[$i],$path->$fields[$i],false);
       else
@@ -64,9 +60,9 @@ class umodule_json extends UQLModule implements IUQLModule{
  
  public function out(&$path)
  { 
-   $e = $path->_('get_abstract_entity')->_('get_entity_name');
+   $e = $path->_('table_name');
    $this->json_source  = '{"'.$e.'" :['."\n";
-   $fields_count = $path->_('get_count');
+   $fields_count = $path->_('count');
    
    while($path->_('fetch'))
    {
