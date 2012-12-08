@@ -140,7 +140,7 @@ class UQLEntity extends UQLBase {
         return $this->underql_insert_or_update_from_array ( $the_array, $extra, false );
     }
 
-    protected function underql_update_from_array_where_n($the_array,$field_name,$value) {
+    public function underql_update_from_array_where_n($the_array,$field_name,$value) {
         $field_object = $this->um_abstract_entity->underql_get_field_object($field_name);
         if($field_object != null) {
             if($field_object->numeric)
