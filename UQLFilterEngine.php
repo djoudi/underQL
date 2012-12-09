@@ -70,7 +70,7 @@ class UQLFilterEngine extends UQLBase {
             else
                 $filter_flag = UQL_FILTER_IN | UQL_FILTER_OUT;
 
-            if ((! $filter_value ['is_active']) || (($filter_flag != $this->um_in_out_flag) && ($filter_flag != UQL_FILTER_IN | UQL_FILTER_OUT)))
+            if ((! $filter_value ['is_active']) || (($filter_flag != $this->um_in_out_flag) &&($filter_flag != (UQL_FILTER_IN | UQL_FILTER_OUT))))
                 continue;
 
             $include_filter_api = 'include_filters';

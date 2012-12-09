@@ -2,26 +2,12 @@
 
 require_once('underQL.php');
 
-include_modules('template');
 
+_f('users')->email('md5');
 $_('users');
 
-$temp =<<<TMP
-
-<div>
-<strong>id</strong> : #id# <br />
-<strong>Name</strong> : #name# <br />
-<sup>Email</sup> : #email# <br />
-<sub>Description</sub> : #description#
-</div>
-
-TMP;
-
-$template_module->setTemplateFromString($temp);
-
-$p = $users->_('select');
-
-echo $template_module->getResult();
+$users->email = 'cs.abdullah@hotmail.com';
+$users->_('insert');
 
 $_->_('shutdown');
 
