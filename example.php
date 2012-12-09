@@ -2,13 +2,15 @@
 
 require_once('underQL.php');
 
-include_modules('json','sqlinjection');
+include_modules('template');
 
 $_('users');
 
-//$template_module->setDelemiter('#','#');
-//$users->name = "Abdullah'";
-//$users->email = 'cs@code--.com';
+$temp =<<<TMP
+<h1>Hi</h1>
+<p>underQL is here</p><br />
+TMP;
+
 $p = $users->_('select');
 
 $_->_('shutdown');

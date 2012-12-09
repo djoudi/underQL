@@ -44,15 +44,24 @@ class umodule_template extends UQLModule implements IUQLModule {
 
     public function out(&$path) {
 
+        $temp_result = '';
         if($path->_('count') != 0)
         {
             $fields = $path->_('fields');
             $this->template_result = $this->template_source;
-            for($i = 0; $i < @count($fields); $i++)
-            {
+           while($path->_('fetch'))
+           {
+             for($i = 0; $i < @count($fields); $i++)
+             {
                 $target_value = $this->left_delimiter.$fields[$i].$this->right_delimiter;
-                $this->template_result = str_replace($target_value,$fields[$i],$this->template_result);
-            }
+                $this->template_result = str_replace($target_value,$path->$fields[$i],$this->template_result);
+             }
+
+             $temp_result .= $this->template_result;
+             $this->template_result = $this->template_source;
+           }
+
+            $this->template_result = $temp_result;
         }
     }
 
