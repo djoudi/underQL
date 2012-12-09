@@ -121,6 +121,7 @@ class UQLRule extends UQLBase {
     public function underql_add_alias($key, $value) {
 
         $this->um_alises_map->underql_add_element ( $key, $value );
+        return $this;
     }
 
     public function underql_get_alias($key) {

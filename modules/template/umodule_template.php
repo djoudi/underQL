@@ -45,7 +45,7 @@ class umodule_template extends UQLModule implements IUQLModule {
     public function out(&$path) {
 
         $temp_result = '';
-        if($path->_('count') != 0)
+        if($path->_('count') != 0 && !empty($this->template_source))
         {
            $fields = $path->_('fields');
            $this->template_result = $this->template_source;
