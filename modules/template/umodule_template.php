@@ -9,7 +9,7 @@ class umodule_template extends UQLModule implements IUQLModule {
 
     public function init() {
 
-        $this->left_delimiter = '#';
+        $this->left_delimiter  = '#';
         $this->right_delimiter = '#';
         $this->template_source = '';
         $this->template_result = '';
@@ -57,7 +57,12 @@ class umodule_template extends UQLModule implements IUQLModule {
     }
 
     public function shutdown() {
- 
+        
+        $this->left_delimiter  = null;
+        $this->right_delimiter = null;
+        $this->template_source = null;
+        $this->template_result = null;
+
     }
 }
 
