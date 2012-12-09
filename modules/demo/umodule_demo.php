@@ -1,7 +1,5 @@
 <?php 
 
-
-
 class umodule_demo extends UQLModule implements IUQLModule {
 
     public function init() {

@@ -57,7 +57,7 @@ function include_modules() {
 
     foreach ( $params as $key => $module_name ) {
         if(!isset($GLOBALS [sprintf ( UQL_MODULE_OBJECT_SYNTAX, $module_name )])) {
-            require_once (__DIR__ . '/' . UQL_DIR_MODULE . 'umodule_' . $module_name . '.php');
+            require_once (__DIR__ . '/' . UQL_DIR_MODULE .$module_name.'/'. 'umodule_' . $module_name . '.php');
             _m($module_name);
         }
     }

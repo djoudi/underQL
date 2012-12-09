@@ -6,12 +6,12 @@ include_modules('json','sqlinjection');
 
 $_('users');
 
+//$template_module->setDelemiter('#','#');
 //$users->name = "Abdullah'";
 //$users->email = 'cs@code--.com';
-$users->_('select');
+$p = $users->_('select');
 
-echo '<pre>';
-var_dump($json_module->toObject());
-echo '</pre>';
 $_->_('shutdown');
+
+
 ?>
