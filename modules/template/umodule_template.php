@@ -35,7 +35,7 @@ class umodule_template extends UQLModule implements IUQLModule {
     
     public function getResult()
     {
-        $this->template_result;
+        return $this->template_result;
     }
 
     public function in(&$values,$is_insert = true) {
@@ -47,12 +47,12 @@ class umodule_template extends UQLModule implements IUQLModule {
         $temp_result = '';
         if($path->_('count') != 0)
         {
-            $fields = $path->_('fields');
-            $this->template_result = $this->template_source;
+           $fields = $path->_('fields');
+           $this->template_result = $this->template_source;
            while($path->_('fetch'))
            {
              for($i = 0; $i < @count($fields); $i++)
-             {
+             {  
                 $target_value = $this->left_delimiter.$fields[$i].$this->right_delimiter;
                 $this->template_result = str_replace($target_value,$path->$fields[$i],$this->template_result);
              }
