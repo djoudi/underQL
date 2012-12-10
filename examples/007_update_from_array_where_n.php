@@ -26,4 +26,6 @@ $result = $users->_('update_from_array_where_name',$the_array,'Abdullah');
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 ?>

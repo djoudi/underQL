@@ -26,4 +26,6 @@ $result = $users->_('update_where_name','Abdullah');
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 ?>

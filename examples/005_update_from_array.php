@@ -19,6 +19,8 @@ $result = $users->_('update_from_array',$the_array);
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 //  You can use it as :
 //   $users->_('update_from_array',$the_array,"put extra sql here like where");
 //   $users->_('update_from_array',$the_array,"WHERE $id = 10");

@@ -18,4 +18,5 @@ $result = $users->_('insert'); // execute insert command
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
 ?>

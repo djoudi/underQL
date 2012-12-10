@@ -18,4 +18,6 @@ $result = $users->_('insert_from_array',$the_array); // execute insert command
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 ?>

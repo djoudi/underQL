@@ -14,4 +14,6 @@ $result = $users->_('insert_from_array',$_POST); // you can use $_GET or $_REQUE
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 ?>

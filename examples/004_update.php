@@ -16,6 +16,8 @@ $result = $users->_('update'); // this will update ALL emails and descriptions t
 
 // $result will be TRUE or FALSE
 
+$_->_('shutdown');
+
 // or you can use it as :
 //   $users->_('update',"put extra sql here like where");
 //   $users->_('update',"WHERE $id = 10");
