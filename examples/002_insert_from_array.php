@@ -14,6 +14,8 @@ $the_array['description'] = 'Programmer';
 
 $_('users'); // $_('table_name') this will create a new object named $table_name
 
-$users->_('insert_from_array',$the_array); // execute insert command
+$result = $users->_('insert_from_array',$the_array); // execute insert command
+
+// $result will be TRUE or FALSE
 
 ?>

@@ -14,6 +14,8 @@ $users->name = 'Abdullah';
 $users->email = 'cs.abdullah@hotmail.com';
 $users->description = 'Programmer';
 
-$users->_('insert'); // execute insert command
+$result = $users->_('insert'); // execute insert command
+
+// $result will be TRUE or FALSE
 
 ?>
